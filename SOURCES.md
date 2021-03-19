@@ -12,3 +12,5 @@ These PRs came from RobinPerris' Repo
    - Theme System from solalem:theme_support
 2. #40 https://github.com/RobinPerris/DarkUI/pull/40
    - Fixed DarkComboBox disabled text color from janrobas:master
+3. #41 https://github.com/RobinPerris/DarkUI/pull/41
+   - Fixed the display of the selected item in the combobox when changing its visibility from ricardodalarme:FixedComboBox
