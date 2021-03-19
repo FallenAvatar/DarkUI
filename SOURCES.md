@@ -16,3 +16,5 @@ These PRs came from RobinPerris' Repo
    - Fixed the display of the selected item in the combobox when changing its visibility from ricardodalarme:FixedComboBox
 4. #48 https://github.com/RobinPerris/DarkUI/pull/48
    - Fix Issue #47 from cronoxyd:master
+5. #52 https://github.com/RobinPerris/DarkUI/pull/52
+   - DarkTreeView rendering optimization from Quobi:patch-2
