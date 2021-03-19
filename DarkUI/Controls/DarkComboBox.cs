@@ -118,7 +118,7 @@ namespace DarkUI.Controls
             {
                 var rect = new Rectangle(0, 0, ClientSize.Width, ClientSize.Height);
 
-                var textColor = Enabled ? ThemeProvider.Theme.Colors.LightText : ThemeProvider.Theme.Colors.Colors.DisabledText;
+                var textColor = Enabled ? ThemeProvider.Theme.Colors.LightText : ThemeProvider.Theme.Colors.DisabledText;
                 var borderColor = ThemeProvider.Theme.Colors.GreySelection;
                 var fillColor = ThemeProvider.Theme.Colors.LightBackground;
 
