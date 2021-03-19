@@ -235,6 +235,6 @@ namespace Example
             return null;
         }
 
-        #endregion
-    }
+		#endregion
+	}
 }
