@@ -14,3 +14,5 @@ These PRs came from RobinPerris' Repo
    - Fixed DarkComboBox disabled text color from janrobas:master
 3. #41 https://github.com/RobinPerris/DarkUI/pull/41
    - Fixed the display of the selected item in the combobox when changing its visibility from ricardodalarme:FixedComboBox
+4. #48 https://github.com/RobinPerris/DarkUI/pull/48
+   - Fix Issue #47 from cronoxyd:master
