@@ -1,107 +1,97 @@
 ﻿using DarkUI.Controls;
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DarkUI.Docking
-{
-    internal class DarkDockTabArea
-    {
-        #region Field Region
+namespace DarkUI.Docking {
+	internal class DarkDockTabArea {
+		#region Field Region
 
-        private Dictionary<DarkDockContent, DarkDockTab> _tabs = new Dictionary<DarkDockContent, DarkDockTab>();
+		private Dictionary<DarkDockContent, DarkDockTab> _tabs = new Dictionary<DarkDockContent, DarkDockTab>();
 
-        private List<ToolStripMenuItem> _menuItems = new List<ToolStripMenuItem>();
-        private DarkContextMenu _tabMenu = new DarkContextMenu();
+		private List<ToolStripMenuItem> _menuItems = new List<ToolStripMenuItem>();
+		private DarkContextMenu _tabMenu = new DarkContextMenu();
 
-        #endregion
+		#endregion
 
-        #region Property Region
+		#region Property Region
 
-        public DarkDockArea DockArea { get; private set; }
+		public DarkDockArea DockArea { get; private set; }
 
-        public Rectangle ClientRectangle { get; set; }
+		public Rectangle ClientRectangle { get; set; }
 
-        public Rectangle DropdownRectangle { get; set; }
+		public Rectangle DropdownRectangle { get; set; }
 
-        public bool DropdownHot { get; set; }
+		public bool DropdownHot { get; set; }
 
-        public int Offset { get; set; }
+		public int Offset { get; set; }
 
-        public int TotalTabSize { get; set; }
+		public int TotalTabSize { get; set; }
 
-        public bool Visible { get; set; }
+		public bool Visible { get; set; }
 
-        public DarkDockTab ClickedCloseButton { get; set; }
+		public DarkDockTab ClickedCloseButton { get; set; }
 
-        #endregion
-        
-        #region Constructor Region
+		#endregion
 
-        public DarkDockTabArea(DarkDockArea dockArea)
-        {
-            DockArea = dockArea;
-        }
+		#region Constructor Region
 
-        #endregion
+		public DarkDockTabArea(DarkDockArea dockArea) {
+			DockArea = dockArea;
+		}
 
-        #region Method Region
+		#endregion
 
-        public void ShowMenu(Control control, Point location)
-        {
-            _tabMenu.Show(control, location);
-        }
+		#region Method Region
 
-        public void AddMenuItem(ToolStripMenuItem menuItem)
-        {
-            _menuItems.Add(menuItem);
-            RebuildMenu();
-        }
+		public void ShowMenu(Control control, Point location) {
+			_tabMenu.Show(control, location);
+		}
 
-        public void RemoveMenuItem(ToolStripMenuItem menuItem)
-        {
-            _menuItems.Remove(menuItem);
-            RebuildMenu();
-        }
+		public void AddMenuItem(ToolStripMenuItem menuItem) {
+			_menuItems.Add(menuItem);
+			RebuildMenu();
+		}
 
-        public ToolStripMenuItem GetMenuItem(DarkDockContent content)
-        {
-            ToolStripMenuItem menuItem = null;
-            foreach (ToolStripMenuItem item in _menuItems)
-            {
-                var menuContent = item.Tag as DarkDockContent;
-                if (menuContent == null)
-                    continue;
+		public void RemoveMenuItem(ToolStripMenuItem menuItem) {
+			_menuItems.Remove(menuItem);
+			RebuildMenu();
+		}
 
-                if (menuContent == content)
-                    menuItem = item;
-            }
+		public ToolStripMenuItem GetMenuItem(DarkDockContent content) {
+			ToolStripMenuItem menuItem = null;
+			foreach( ToolStripMenuItem item in _menuItems ) {
+				var menuContent = item.Tag as DarkDockContent;
+				if( menuContent == null )
+					continue;
 
-            return menuItem;
-        }
+				if( menuContent == content )
+					menuItem = item;
+			}
 
-        public void RebuildMenu()
-        {
-            _tabMenu.Items.Clear();
+			return menuItem;
+		}
 
-            var orderedItems = new List<ToolStripMenuItem>();
+		public void RebuildMenu() {
+			_tabMenu.Items.Clear();
 
-            var index = 0;
-            for (var i = 0; i < _menuItems.Count; i++)
-            {
-                foreach (var item in _menuItems)
-                {
-                    var content = (DarkDockContent)item.Tag;
-                    if (content.Order == index)
-                        orderedItems.Add(item);
-                }
-                index++;
-            }
+			var orderedItems = new List<ToolStripMenuItem>();
 
-            foreach (var item in orderedItems)
-                _tabMenu.Items.Add(item);
-        }
+			var index = 0;
+			for( var i = 0; i < _menuItems.Count; i++ ) {
+				foreach( var item in _menuItems ) {
+					var content = (DarkDockContent)item.Tag;
+					if( content.Order == index )
+						orderedItems.Add(item);
+				}
+				index++;
+			}
 
-        #endregion
-    }
+			foreach( var item in orderedItems )
+				_tabMenu.Items.Add(item);
+		}
+
+		#endregion
+	}
 }

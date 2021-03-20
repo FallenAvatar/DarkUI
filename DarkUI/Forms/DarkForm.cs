@@ -1,62 +1,56 @@
 ﻿using DarkUI.Config;
+
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace DarkUI.Forms
-{
-    public class DarkForm : Form
-    {
-        #region Field Region
+namespace DarkUI.Forms {
+	public class DarkForm : Form {
+		#region Field Region
 
-        private bool _flatBorder;
+		private bool _flatBorder;
 
-        #endregion
+		#endregion
 
-        #region Property Region
+		#region Property Region
 
-        [Category("Appearance")]
-        [Description("Determines whether a single pixel border should be rendered around the form.")]
-        [DefaultValue(false)]
-        public bool FlatBorder
-        {
-            get { return _flatBorder; }
-            set
-            {
-                _flatBorder = value;
-                Invalidate();
-            }
-        }
+		[Category("Appearance")]
+		[Description("Determines whether a single pixel border should be rendered around the form.")]
+		[DefaultValue(false)]
+		public bool FlatBorder {
+			get { return _flatBorder; }
+			set {
+				_flatBorder = value;
+				Invalidate();
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region Constructor Region
+		#region Constructor Region
 
-        public DarkForm()
-        {
-            BackColor = ThemeProvider.Theme.Colors.GreyBackground;
-        }
+		public DarkForm() {
+			BackColor = ThemeProvider.Theme.Colors.GreyBackground;
+		}
 
-        #endregion
+		#endregion
 
-        #region Paint Region
+		#region Paint Region
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            base.OnPaintBackground(e);
+		protected override void OnPaintBackground(PaintEventArgs e) {
+			base.OnPaintBackground(e);
 
-            if (!_flatBorder)
-                return;
+			if( !_flatBorder )
+				return;
 
-            var g = e.Graphics;
+			var g = e.Graphics;
 
-            using (var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder))
-            {
-                var modRect = new Rectangle(ClientRectangle.Location, new Size(ClientRectangle.Width - 1, ClientRectangle.Height - 1));
-                g.DrawRectangle(p, modRect);
-            }
-        }
+			using( var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder) ) {
+				var modRect = new Rectangle(ClientRectangle.Location, new Size(ClientRectangle.Width - 1, ClientRectangle.Height - 1));
+				g.DrawRectangle(p, modRect);
+			}
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

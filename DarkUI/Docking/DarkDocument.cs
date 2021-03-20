@@ -1,30 +1,27 @@
 ﻿using DarkUI.Config;
+
 using System.ComponentModel;
 
-namespace DarkUI.Docking
-{
-    [ToolboxItem(false)]
-    public class DarkDocument : DarkDockContent
-    {
-        #region Property Region
+namespace DarkUI.Docking {
+	[ToolboxItem(false)]
+	public class DarkDocument : DarkDockContent {
+		#region Property Region
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DarkDockArea DefaultDockArea
-        {
-            get { return base.DefaultDockArea; }
-        }
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new DarkDockArea DefaultDockArea {
+			get { return base.DefaultDockArea; }
+		}
 
-        #endregion
+		#endregion
 
-        #region Constructor Region
+		#region Constructor Region
 
-        public DarkDocument()
-        {
-            BackColor = ThemeProvider.Theme.Colors.GreyBackground;
-            base.DefaultDockArea = DarkDockArea.Document;
-        }
+		public DarkDocument() {
+			BackColor = ThemeProvider.Theme.Colors.GreyBackground;
+			base.DefaultDockArea = DarkDockArea.Document;
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

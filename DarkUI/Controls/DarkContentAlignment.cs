@@ -1,9 +1,7 @@
-﻿namespace DarkUI.Controls
-{
-    public enum DarkContentAlignment
-    {
-        Center,
-        Left,
-        Right
-    }
+﻿namespace DarkUI.Controls {
+	public enum DarkContentAlignment {
+		Center,
+		Left,
+		Right
+	}
 }

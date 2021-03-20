@@ -1,10 +1,8 @@
-﻿namespace DarkUI.Docking
-{
-    public enum DarkSplitterType
-    {
-        Left,
-        Right,
-        Top,
-        Bottom
-    }
+﻿namespace DarkUI.Docking {
+	public enum DarkSplitterType {
+		Left,
+		Right,
+		Top,
+		Bottom
+	}
 }

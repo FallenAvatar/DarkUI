@@ -1,14 +1,11 @@
 ﻿using System;
 
-namespace DarkUI.Docking
-{
-    public class DockContentEventArgs : EventArgs
-    {
-        public DarkDockContent Content { get; private set; }
+namespace DarkUI.Docking {
+	public class DockContentEventArgs : EventArgs {
+		public DarkDockContent Content { get; private set; }
 
-        public DockContentEventArgs(DarkDockContent content)
-        {
-            Content = content;
-        }
-    }
+		public DockContentEventArgs(DarkDockContent content) {
+			Content = content;
+		}
+	}
 }

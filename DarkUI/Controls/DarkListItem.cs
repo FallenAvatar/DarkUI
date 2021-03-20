@@ -1,63 +1,58 @@
 ﻿using DarkUI.Config;
+
 using System;
 using System.Drawing;
 
-namespace DarkUI.Controls
-{
-    public class DarkListItem
-    {
-        #region Event Region
+namespace DarkUI.Controls {
+	public class DarkListItem {
+		#region Event Region
 
-        public event EventHandler TextChanged;
+		public event EventHandler TextChanged;
 
-        #endregion
+		#endregion
 
-        #region Field Region
+		#region Field Region
 
-        private string _text;
+		private string _text;
 
-        #endregion
+		#endregion
 
-        #region Property Region
+		#region Property Region
 
-        public string Text
-        {
-            get { return _text; }
-            set
-            {
-                _text = value;
+		public string Text {
+			get { return _text; }
+			set {
+				_text = value;
 
-                if (TextChanged != null)
-                    TextChanged(this, new EventArgs());
-            }
-        }
+				if( TextChanged != null )
+					TextChanged(this, new EventArgs());
+			}
+		}
 
-        public Rectangle Area { get; set; }
+		public Rectangle Area { get; set; }
 
-        //public Color TextColor { get; set; }
+		//public Color TextColor { get; set; }
 
-        public FontStyle FontStyle { get; set; }
+		public FontStyle FontStyle { get; set; }
 
-        public Bitmap Icon { get; set; }
+		public Bitmap Icon { get; set; }
 
-        public object Tag { get; set; }
+		public object Tag { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Constructor Region
+		#region Constructor Region
 
-        public DarkListItem()
-        {
-            //TextColor = ThemeProvider.Theme.Colors.LightText;
-            FontStyle = FontStyle.Regular;
-        }
+		public DarkListItem() {
+			//TextColor = ThemeProvider.Theme.Colors.LightText;
+			FontStyle = FontStyle.Regular;
+		}
 
-        public DarkListItem(string text)
-            : this()
-        {
-            Text = text;
-        }
+		public DarkListItem(string text)
+			: this() {
+			Text = text;
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

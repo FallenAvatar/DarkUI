@@ -1,22 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace DarkUI.Docking
-{
-    public class DockPanelState
-    {
-        #region Property Region
+namespace DarkUI.Docking {
+	public class DockPanelState {
+		#region Property Region
 
-        public List<DockRegionState> Regions { get; set; }
+		public List<DockRegionState> Regions { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Constructor Region
+		#region Constructor Region
 
-        public DockPanelState()
-        {
-            Regions = new List<DockRegionState>();
-        }
+		public DockPanelState() {
+			Regions = new List<DockRegionState>();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

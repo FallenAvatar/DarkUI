@@ -1,8 +1,6 @@
-﻿namespace DarkUI.Controls
-{
-    public enum DarkButtonStyle
-    {
-        Normal,
-        Flat
-    }
+﻿namespace DarkUI.Controls {
+	public enum DarkButtonStyle {
+		Normal,
+		Flat
+	}
 }

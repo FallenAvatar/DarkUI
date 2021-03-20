@@ -18,3 +18,6 @@ These PRs came from RobinPerris' Repo
    - Fix Issue #47 from cronoxyd:master
 5. #52 https://github.com/RobinPerris/DarkUI/pull/52
    - DarkTreeView rendering optimization from Quobi:patch-2
+
+# Future changes
+With the exception of the above references, all future changes should be tracked correctly in git

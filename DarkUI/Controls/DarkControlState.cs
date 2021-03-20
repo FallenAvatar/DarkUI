@@ -1,9 +1,7 @@
-﻿namespace DarkUI.Controls
-{
-    public enum DarkControlState
-    {
-        Normal,
-        Hover,
-        Pressed
-    }
+﻿namespace DarkUI.Controls {
+	public enum DarkControlState {
+		Normal,
+		Hover,
+		Pressed
+	}
 }
