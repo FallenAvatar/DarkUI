@@ -33,11 +33,11 @@ namespace DarkUI.Controls {
 				// Prevent flickering, only if our assembly has reflection permission
 				Type type = Controls[0].GetType();
 				BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
-				MethodInfo method = type.GetMethod("SetStyle", flags);
+				MethodInfo? method = type.GetMethod("SetStyle", flags);
 
 				if( method != null ) {
 					object[] param = { ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer, true };
-					method.Invoke(Controls[0], param);
+					_ = method.Invoke(Controls[0], param);
 				}
 			} catch( SecurityException ) {
 				// Don't do anything, we are running in a trusted contex
@@ -83,7 +83,7 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		private void DarkNumericUpDown_Paint(object sender, PaintEventArgs e) {
+		private void DarkNumericUpDown_Paint(object? sender, PaintEventArgs e) {
 			var g = e.Graphics;
 			var rect = e.ClipRectangle;
 

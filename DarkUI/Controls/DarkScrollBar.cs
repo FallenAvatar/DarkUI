@@ -10,7 +10,7 @@ namespace DarkUI.Controls {
 	public class DarkScrollBar : Control {
 		#region Event Region
 
-		public event EventHandler<ScrollValueEventArgs> ValueChanged;
+		public event EventHandler<ScrollValueEventArgs>? ValueChanged;
 
 		#endregion
 
@@ -263,7 +263,7 @@ namespace DarkUI.Controls {
 
 			if( _isScrolling ) {
 				if( e.Button != MouseButtons.Left ) {
-					OnMouseUp(null);
+					OnMouseUp(e);
 					return;
 				}
 
@@ -295,7 +295,7 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		private void ScrollTimerTick(object sender, EventArgs e) {
+		private void ScrollTimerTick(object? sender, EventArgs e) {
 			if( !_upArrowClicked && !_downArrowClicked ) {
 				_scrollTimer.Enabled = false;
 				return;

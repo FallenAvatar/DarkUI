@@ -12,7 +12,7 @@ namespace DarkUI.Win32 {
 				if( hControlUnderMouse == m.HWnd )
 					return false;
 
-				Native.SendMessage(hControlUnderMouse, (uint)m.Msg, m.WParam, m.LParam);
+				_ = Native.SendMessage(hControlUnderMouse, (uint)m.Msg, m.WParam, m.LParam);
 				return true;
 			}
 

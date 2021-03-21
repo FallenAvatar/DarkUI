@@ -12,6 +12,8 @@
 		<PackageLicenseExpression>MIT License</PackageLicenseExpression>
 		<Configurations>Debug;Release</Configurations>
 		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Nullable>enable</Nullable>
+		<LangVersion>9.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

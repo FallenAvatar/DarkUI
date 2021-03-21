@@ -6,7 +6,7 @@ namespace DarkUI.Docking {
 
 		public List<string> Contents { get; set; }
 
-		public string VisibleContent { get; set; }
+		public string? VisibleContent { get; set; }
 
 		#endregion
 

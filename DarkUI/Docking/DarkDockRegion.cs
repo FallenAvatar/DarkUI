@@ -14,8 +14,8 @@ namespace DarkUI.Docking {
 
 		private List<DarkDockGroup> _groups;
 
-		private Form _parentForm;
-		private DarkDockSplitter _splitter;
+		private Form? _parentForm;
+		private DarkDockSplitter? _splitter;
 
 		#endregion
 
@@ -25,7 +25,7 @@ namespace DarkUI.Docking {
 
 		public DarkDockArea DockArea { get; private set; }
 
-		public DarkDockContent ActiveDocument {
+		public DarkDockContent? ActiveDocument {
 			get {
 				if( DockArea != DarkDockArea.Document || _groups.Count == 0 )
 					return null;
@@ -61,7 +61,7 @@ namespace DarkUI.Docking {
 			AddContent(dockContent, null);
 		}
 
-		internal void AddContent(DarkDockContent dockContent, DarkDockGroup dockGroup) {
+		internal void AddContent(DarkDockContent dockContent, DarkDockGroup? dockGroup) {
 			// If no existing group is specified then create a new one
 			if( dockGroup == null ) {
 				// If this is the document region, then default to first group if it exists
@@ -105,12 +105,12 @@ namespace DarkUI.Docking {
 			dockContent.DockRegion = null;
 
 			var group = dockContent.DockGroup;
-			group.RemoveContent(dockContent);
+			group?.RemoveContent(dockContent);
 
 			dockContent.DockArea = DarkDockArea.None;
 
 			// If that was the final content in the group then remove the group
-			if( group.ContentCount == 0 )
+			if( group?.ContentCount == 0 )
 				RemoveGroup(group);
 
 			// If we just removed the final group, and this isn't the document region, then hide
@@ -165,7 +165,7 @@ namespace DarkUI.Docking {
 		private void RemoveGroup(DarkDockGroup group) {
 			var lastOrder = group.Order;
 
-			_groups.Remove(group);
+			_ = _groups.Remove(group);
 			Controls.Remove(group);
 
 			foreach( var otherGroup in _groups ) {
@@ -264,7 +264,7 @@ namespace DarkUI.Docking {
 
 		private void CreateSplitter() {
 			if( _splitter != null && DockPanel.Splitters.Contains(_splitter) )
-				DockPanel.Splitters.Remove(_splitter);
+				_ = DockPanel.Splitters.Remove(_splitter);
 
 			switch( DockArea ) {
 			case DarkDockArea.Left:
@@ -284,8 +284,8 @@ namespace DarkUI.Docking {
 		}
 
 		private void RemoveSplitter() {
-			if( DockPanel.Splitters.Contains(_splitter) )
-				DockPanel.Splitters.Remove(_splitter);
+			if( _splitter != null && DockPanel.Splitters.Contains(_splitter) )
+				_ = DockPanel.Splitters.Remove(_splitter);
 		}
 
 		#endregion
@@ -305,7 +305,7 @@ namespace DarkUI.Docking {
 			SizeGroups();
 		}
 
-		private void ParentForm_ResizeEnd(object sender, EventArgs e) {
+		private void ParentForm_ResizeEnd(object? sender, EventArgs e) {
 			if( _splitter != null )
 				_splitter.UpdateBounds();
 		}

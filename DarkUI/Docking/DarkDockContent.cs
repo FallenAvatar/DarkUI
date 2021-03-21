@@ -8,14 +8,14 @@ namespace DarkUI.Docking {
 	public class DarkDockContent : UserControl {
 		#region Event Handler Region
 
-		public event EventHandler DockTextChanged;
+		public event EventHandler? DockTextChanged;
 
 		#endregion
 
 		#region Field Region
 
-		private string _dockText;
-		private Image _icon;
+		private string? _dockText;
+		private Image? _icon;
 
 		#endregion
 
@@ -23,15 +23,14 @@ namespace DarkUI.Docking {
 
 		[Category("Appearance")]
 		[Description("Determines the text that will appear in the content tabs and headers.")]
-		public string DockText {
+		public string? DockText {
 			get { return _dockText; }
 			set {
 				var oldText = _dockText;
 
 				_dockText = value;
 
-				if( DockTextChanged != null )
-					DockTextChanged(this, null);
+				DockTextChanged?.Invoke(this, EventArgs.Empty);
 
 				Invalidate();
 			}
@@ -39,7 +38,7 @@ namespace DarkUI.Docking {
 
 		[Category("Appearance")]
 		[Description("Determines the icon that will appear in the content tabs and headers.")]
-		public Image Icon {
+		public Image? Icon {
 			get { return _icon; }
 			set {
 				_icon = value;
@@ -54,19 +53,19 @@ namespace DarkUI.Docking {
 
 		[Category("Behavior")]
 		[Description("Determines the key used by this content in the dock serialization.")]
-		public string SerializationKey { get; set; }
+		public string? SerializationKey { get; set; }
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public DarkDockPanel DockPanel { get; internal set; }
+		public DarkDockPanel? DockPanel { get; internal set; }
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public DarkDockRegion DockRegion { get; internal set; }
+		public DarkDockRegion? DockRegion { get; internal set; }
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public DarkDockGroup DockGroup { get; internal set; }
+		public DarkDockGroup? DockGroup { get; internal set; }
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -74,7 +73,7 @@ namespace DarkUI.Docking {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public int Order { get; set; }
+		public int? Order { get; set; }
 
 		#endregion
 

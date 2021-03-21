@@ -24,7 +24,7 @@ namespace DarkUI.Controls {
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public new ComboBoxStyle DropDownStyle { get; set; }
 
-		private Bitmap _buffer;
+		private Bitmap? _buffer;
 
 		public DarkComboBox() : base() {
 			SetStyle(ControlStyles.OptimizedDoubleBuffer |
@@ -159,7 +159,7 @@ namespace DarkUI.Controls {
 				PaintCombobox();
 
 			var g = e.Graphics;
-			g.DrawImageUnscaled(_buffer, Point.Empty);
+			g.DrawImageUnscaled(_buffer!, Point.Empty);
 		}
 
 		protected override void OnDrawItem(DrawItemEventArgs e) {

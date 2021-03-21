@@ -1,6 +1,6 @@
 ﻿namespace DarkUI.Config {
 	public class ThemeProvider {
-		private static ITheme theme;
+		private static ITheme? theme;
 		public static ITheme Theme {
 			get {
 				if( theme == null )

@@ -13,7 +13,7 @@ namespace DarkUI.Controls {
 	public class DarkDropdownList : Control {
 		#region Event Region
 
-		public event EventHandler SelectedItemChanged;
+		public event EventHandler? SelectedItemChanged;
 
 		#endregion
 
@@ -22,7 +22,7 @@ namespace DarkUI.Controls {
 		private DarkControlState _controlState = DarkControlState.Normal;
 
 		private ObservableCollection<DarkDropdownItem> _items = new ObservableCollection<DarkDropdownItem>();
-		private DarkDropdownItem _selectedItem;
+		private DarkDropdownItem? _selectedItem;
 
 		private DarkContextMenu _menu = new DarkContextMenu();
 		private bool _menuOpen = false;
@@ -48,7 +48,7 @@ namespace DarkUI.Controls {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public DarkDropdownItem SelectedItem {
+		public DarkDropdownItem? SelectedItem {
 			get { return _selectedItem; }
 			set {
 				_selectedItem = value;
@@ -131,7 +131,7 @@ namespace DarkUI.Controls {
 
 		#region Method Region
 
-		private ToolStripMenuItem GetMenuItem(DarkDropdownItem item) {
+		private ToolStripMenuItem? GetMenuItem(DarkDropdownItem item) {
 			foreach( ToolStripMenuItem menuItem in _menu.Items ) {
 				if( (DarkDropdownItem)menuItem.Tag == item )
 					return menuItem;
@@ -167,7 +167,7 @@ namespace DarkUI.Controls {
 
 			if( SelectedItem != null ) {
 				var selectedItem = GetMenuItem(SelectedItem);
-				selectedItem.Select();
+				selectedItem?.Select();
 			}
 		}
 
@@ -199,9 +199,9 @@ namespace DarkUI.Controls {
 
 		#region Event Handler Region
 
-		private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-			if( e.Action == NotifyCollectionChangedAction.Add ) {
-				foreach( DarkDropdownItem item in e.NewItems ) {
+		private void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+			if( e?.Action == NotifyCollectionChangedAction.Add ) {
+				foreach( DarkDropdownItem item in (IEnumerable<DarkDropdownItem>?)e?.NewItems ?? Enumerable.Empty<DarkDropdownItem>() ) {
 					var menuItem = new ToolStripMenuItem(item.Text) {
 						Image = item.Icon,
 						AutoSize = false,
@@ -211,7 +211,7 @@ namespace DarkUI.Controls {
 						TextAlign = ContentAlignment.MiddleLeft
 					};
 
-					_menu.Items.Add(menuItem);
+					_ = _menu.Items.Add(menuItem);
 					menuItem.Click += Item_Select;
 
 					if( SelectedItem == null )
@@ -219,8 +219,8 @@ namespace DarkUI.Controls {
 				}
 			}
 
-			if( e.Action == NotifyCollectionChangedAction.Remove ) {
-				foreach( DarkDropdownItem item in e.OldItems ) {
+			if( e?.Action == NotifyCollectionChangedAction.Remove ) {
+				foreach( DarkDropdownItem item in (IEnumerable<DarkDropdownItem>?)e?.OldItems ?? Enumerable.Empty<DarkDropdownItem>() ) {
 					foreach( ToolStripMenuItem menuItem in _menu.Items ) {
 						if( (DarkDropdownItem)menuItem.Tag == item )
 							_menu.Items.Remove(menuItem);
@@ -228,7 +228,7 @@ namespace DarkUI.Controls {
 				}
 			}
 
-			if( e.Action == NotifyCollectionChangedAction.Reset ) {
+			if( e?.Action == NotifyCollectionChangedAction.Reset ) {
 				_menu.Items.Clear();
 				SelectedItem = null;
 			}
@@ -236,7 +236,7 @@ namespace DarkUI.Controls {
 			ResizeMenu();
 		}
 
-		private void Item_Select(object sender, EventArgs e) {
+		private void Item_Select(object? sender, EventArgs e) {
 			var menuItem = sender as ToolStripMenuItem;
 			if( menuItem == null )
 				return;
@@ -246,7 +246,7 @@ namespace DarkUI.Controls {
 				SelectedItem = dropdownItem;
 		}
 
-		private void DarkDropdownList_SelectedItemChanged(object sender, EventArgs e) {
+		private void DarkDropdownList_SelectedItemChanged(object? sender, EventArgs e) {
 			foreach( ToolStripMenuItem item in _menu.Items ) {
 				if( (DarkDropdownItem)item.Tag == SelectedItem ) {
 					item.BackColor = ThemeProvider.Theme.Colors.DarkBlueBackground;
@@ -330,7 +330,7 @@ namespace DarkUI.Controls {
 				ShowMenu();
 		}
 
-		private void Menu_Closed(object sender, ToolStripDropDownClosedEventArgs e) {
+		private void Menu_Closed(object? sender, ToolStripDropDownClosedEventArgs e) {
 			_menuOpen = false;
 
 			if( !ClientRectangle.Contains(MousePosition) )
@@ -401,7 +401,7 @@ namespace DarkUI.Controls {
 				var hasIcon = SelectedItem.Icon != null;
 
 				if( hasIcon ) {
-					g.DrawImageUnscaled(SelectedItem.Icon, new Point(ClientRectangle.Left + 5, ClientRectangle.Top + (ClientRectangle.Height / 2) - (_iconSize / 2)));
+					g.DrawImageUnscaled(SelectedItem.Icon!, new Point(ClientRectangle.Left + 5, ClientRectangle.Top + (ClientRectangle.Height / 2) - (_iconSize / 2)));
 				}
 
 				// Draw Text

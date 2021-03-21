@@ -63,13 +63,15 @@ namespace DarkUI.Forms {
 
 		#region Constructor Region
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 		public DarkDialog() {
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 			InitializeComponent();
 
 			_buttons = new List<DarkButton>
 				{
-					btnAbort, btnRetry, btnIgnore, btnOk,
-					btnCancel, btnClose, btnYes, btnNo
+					btnAbort!, btnRetry!, btnIgnore!, btnOk!,
+					btnCancel!, btnClose!, btnYes!, btnNo!
 				};
 		}
 

@@ -2,28 +2,29 @@
 
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace DarkUI.Controls {
 	public class DarkTreeNode {
 		#region Event Region
 
-		public event EventHandler<ObservableListModified<DarkTreeNode>> ItemsAdded;
-		public event EventHandler<ObservableListModified<DarkTreeNode>> ItemsRemoved;
+		public event EventHandler<ObservableListModified<DarkTreeNode>>? ItemsAdded;
+		public event EventHandler<ObservableListModified<DarkTreeNode>>? ItemsRemoved;
 
-		public event EventHandler TextChanged;
-		public event EventHandler NodeExpanded;
-		public event EventHandler NodeCollapsed;
+		public event EventHandler? TextChanged;
+		public event EventHandler? NodeExpanded;
+		public event EventHandler? NodeCollapsed;
 
 		#endregion
 
 		#region Field Region
 
-		private string _text;
+		private string? _text;
 		private bool _isRoot;
-		private DarkTreeView _parentTree;
-		private DarkTreeNode _parentNode;
+		private DarkTreeView? _parentTree;
+		private DarkTreeNode? _parentNode;
 
-		private ObservableList<DarkTreeNode> _nodes;
+		private ObservableList<DarkTreeNode>? _nodes;
 
 		private bool _expanded;
 
@@ -31,7 +32,7 @@ namespace DarkUI.Controls {
 
 		#region Property Region
 
-		public string Text {
+		public string? Text {
 			get { return _text; }
 			set {
 				if( _text == value )
@@ -53,9 +54,9 @@ namespace DarkUI.Controls {
 
 		public bool ExpandAreaHot { get; set; }
 
-		public Bitmap Icon { get; set; }
+		public Bitmap? Icon { get; set; }
 
-		public Bitmap ExpandedIcon { get; set; }
+		public Bitmap? ExpandedIcon { get; set; }
 
 		public bool Expanded {
 			get { return _expanded; }
@@ -63,22 +64,20 @@ namespace DarkUI.Controls {
 				if( _expanded == value )
 					return;
 
-				if( value == true && Nodes.Count == 0 )
+				if( value == true && Nodes?.Count == 0 )
 					return;
 
 				_expanded = value;
 
 				if( _expanded ) {
-					if( NodeExpanded != null )
-						NodeExpanded(this, null);
+					NodeExpanded?.Invoke(this, EventArgs.Empty);
 				} else {
-					if( NodeCollapsed != null )
-						NodeCollapsed(this, null);
+					NodeCollapsed?.Invoke(this, EventArgs.Empty);
 				}
 			}
 		}
 
-		public ObservableList<DarkTreeNode> Nodes {
+		public ObservableList<DarkTreeNode>? Nodes {
 			get { return _nodes; }
 			set {
 				if( _nodes != null ) {
@@ -88,8 +87,10 @@ namespace DarkUI.Controls {
 
 				_nodes = value;
 
-				_nodes.ItemsAdded += Nodes_ItemsAdded;
-				_nodes.ItemsRemoved += Nodes_ItemsRemoved;
+				if( _nodes != null ) {
+					_nodes.ItemsAdded += Nodes_ItemsAdded;
+					_nodes.ItemsRemoved += Nodes_ItemsRemoved;
+				}
 			}
 		}
 
@@ -98,7 +99,7 @@ namespace DarkUI.Controls {
 			set { _isRoot = value; }
 		}
 
-		public DarkTreeView ParentTree {
+		public DarkTreeView? ParentTree {
 			get { return _parentTree; }
 			set {
 				if( _parentTree == value )
@@ -106,23 +107,23 @@ namespace DarkUI.Controls {
 
 				_parentTree = value;
 
-				foreach( var node in Nodes )
+				foreach( var node in Nodes ?? Enumerable.Empty<DarkTreeNode>() )
 					node.ParentTree = _parentTree;
 			}
 		}
 
-		public DarkTreeNode ParentNode {
+		public DarkTreeNode? ParentNode {
 			get { return _parentNode; }
 			set { _parentNode = value; }
 		}
 
 		public bool Odd { get; set; }
 
-		public object NodeType { get; set; }
+		public object? NodeType { get; set; }
 
-		public object Tag { get; set; }
+		public object? Tag { get; set; }
 
-		public string FullPath {
+		public string? FullPath {
 			get {
 				var parent = ParentNode;
 				var path = Text;
@@ -136,9 +137,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		public DarkTreeNode PrevVisibleNode { get; set; }
+		public DarkTreeNode? PrevVisibleNode { get; set; }
 
-		public DarkTreeNode NextVisibleNode { get; set; }
+		public DarkTreeNode? NextVisibleNode { get; set; }
 
 		public int VisibleIndex { get; set; }
 
@@ -173,9 +174,9 @@ namespace DarkUI.Controls {
 
 		public void Remove() {
 			if( ParentNode != null )
-				ParentNode.Nodes.Remove(this);
+				ParentNode.Nodes?.Remove(this);
 			else
-				ParentTree.Nodes.Remove(this);
+				ParentTree?.Nodes?.Remove(this);
 		}
 
 		public void EnsureVisible() {
@@ -194,34 +195,31 @@ namespace DarkUI.Controls {
 		private void OnTextChanged() {
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null ) {
 				if( ParentNode != null )
-					ParentNode.Nodes.Sort(ParentTree.TreeViewNodeSorter);
+					ParentNode.Nodes?.Sort(ParentTree.TreeViewNodeSorter);
 				else
 					ParentTree.Nodes.Sort(ParentTree.TreeViewNodeSorter);
 			}
 
-			if( TextChanged != null )
-				TextChanged(this, null);
+			TextChanged?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void Nodes_ItemsAdded(object sender, ObservableListModified<DarkTreeNode> e) {
+		private void Nodes_ItemsAdded(object? sender, ObservableListModified<DarkTreeNode> e) {
 			foreach( var node in e.Items ) {
 				node.ParentNode = this;
 				node.ParentTree = ParentTree;
 			}
 
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null )
-				Nodes.Sort(ParentTree.TreeViewNodeSorter);
+				Nodes?.Sort(ParentTree.TreeViewNodeSorter);
 
-			if( ItemsAdded != null )
-				ItemsAdded(this, e);
+			ItemsAdded?.Invoke(this, e);
 		}
 
-		private void Nodes_ItemsRemoved(object sender, ObservableListModified<DarkTreeNode> e) {
-			if( Nodes.Count == 0 )
+		private void Nodes_ItemsRemoved(object? sender, ObservableListModified<DarkTreeNode> e) {
+			if( Nodes?.Count == 0 )
 				Expanded = false;
 
-			if( ItemsRemoved != null )
-				ItemsRemoved(this, e);
+			ItemsRemoved?.Invoke(this, e);
 		}
 
 		#endregion

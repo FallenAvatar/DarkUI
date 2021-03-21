@@ -5,9 +5,9 @@ namespace DarkUI.Controls {
 	public class DarkDropdownItem {
 		#region Property Region
 
-		public string Text { get; set; }
+		public string? Text { get; set; }
 
-		public Bitmap Icon { get; set; }
+		public Bitmap? Icon { get; set; }
 
 		#endregion
 

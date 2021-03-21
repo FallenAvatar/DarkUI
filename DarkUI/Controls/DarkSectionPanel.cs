@@ -8,7 +8,7 @@ namespace DarkUI.Controls {
 	public class DarkSectionPanel : Panel {
 		#region Field Region
 
-		private string _sectionHeader;
+		private string? _sectionHeader;
 
 		#endregion
 
@@ -22,7 +22,7 @@ namespace DarkUI.Controls {
 
 		[Category("Appearance")]
 		[Description("The section header text associated with this control.")]
-		public string SectionHeader {
+		public string? SectionHeader {
 			get { return _sectionHeader; }
 			set {
 				_sectionHeader = value;
@@ -62,7 +62,7 @@ namespace DarkUI.Controls {
 			base.OnMouseDown(e);
 
 			if( Controls.Count > 0 )
-				Controls[0].Focus();
+				_ = Controls[0].Focus();
 		}
 
 		#endregion

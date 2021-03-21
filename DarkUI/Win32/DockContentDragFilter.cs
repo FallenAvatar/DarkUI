@@ -10,15 +10,15 @@ namespace DarkUI.Win32 {
 	public class DockContentDragFilter : IMessageFilter {
 		#region Field Region
 
-		private DarkDockPanel _dockPanel;
+		private readonly DarkDockPanel _dockPanel;
 
-		private DarkDockContent _dragContent;
+		private DarkDockContent? _dragContent;
 
-		private DarkTranslucentForm _highlightForm;
+		private readonly DarkTranslucentForm _highlightForm;
 
 		private bool _isDragging = false;
-		private DarkDockRegion _targetRegion;
-		private DarkDockGroup _targetGroup;
+		private DarkDockRegion? _targetRegion;
+		private DarkDockGroup? _targetGroup;
 		private DockInsertType _insertType = DockInsertType.None;
 
 		private Dictionary<DarkDockRegion, DockDropArea> _regionDropAreas = new Dictionary<DarkDockRegion, DockDropArea>();
@@ -40,7 +40,7 @@ namespace DarkUI.Win32 {
 
 		public bool PreFilterMessage(ref Message m) {
 			// Exit out early if we're not dragging any content
-			if( !_isDragging )
+			if( !_isDragging || _dragContent == null )
 				return false;
 
 			// We only care about mouse events
@@ -139,6 +139,9 @@ namespace DarkUI.Win32 {
 		}
 
 		private void HandleDrag() {
+			if( _dragContent == null )
+				return;
+
 			var location = Cursor.Position;
 
 			_insertType = DockInsertType.None;

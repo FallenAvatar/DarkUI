@@ -13,7 +13,7 @@ namespace DarkUI.Win32 {
 		private Timer _dragTimer;
 		private bool _isDragging;
 		private Point _initialContact;
-		private DarkDockSplitter _activeSplitter;
+		private DarkDockSplitter? _activeSplitter;
 
 		#endregion
 
@@ -51,7 +51,7 @@ namespace DarkUI.Win32 {
 				return false;
 
 			// Force cursor if already dragging.
-			if( _isDragging )
+			if( _isDragging && _activeSplitter != null )
 				Cursor.Current = _activeSplitter.ResizeCursor;
 
 			// Return out early if we're dragging something that's not a splitter.
@@ -96,14 +96,14 @@ namespace DarkUI.Win32 {
 
 		#region Event Handler Region
 
-		private void DragTimer_Tick(object sender, EventArgs e) {
+		private void DragTimer_Tick(object? sender, EventArgs e) {
 			if( _dockPanel.MouseButtonState != MouseButtons.Left ) {
 				StopDrag();
 				return;
 			}
 
 			var difference = new Point(_initialContact.X - Cursor.Position.X, _initialContact.Y - Cursor.Position.Y);
-			_activeSplitter.UpdateOverlay(difference);
+			_activeSplitter?.UpdateOverlay(difference);
 		}
 
 		#endregion
@@ -123,15 +123,15 @@ namespace DarkUI.Win32 {
 
 		private void StopDrag() {
 			_dragTimer.Stop();
-			_activeSplitter.HideOverlay();
+			_activeSplitter?.HideOverlay();
 
 			var difference = new Point(_initialContact.X - Cursor.Position.X, _initialContact.Y - Cursor.Position.Y);
-			_activeSplitter.Move(difference);
+			_activeSplitter?.Move(difference);
 
 			_isDragging = false;
 		}
 
-		private DarkDockSplitter HotSplitter() {
+		private DarkDockSplitter? HotSplitter() {
 			foreach( var splitter in _dockPanel.Splitters ) {
 				if( splitter.Bounds.Contains(Cursor.Position) )
 					return splitter;

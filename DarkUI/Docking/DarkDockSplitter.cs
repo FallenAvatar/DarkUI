@@ -15,7 +15,7 @@ namespace DarkUI.Docking {
 
 		private int _minimum;
 		private int _maximum;
-		private DarkTranslucentForm _overlayForm;
+		private DarkTranslucentForm? _overlayForm;
 
 		#endregion
 
@@ -23,7 +23,7 @@ namespace DarkUI.Docking {
 
 		public Rectangle Bounds { get; set; }
 
-		public Cursor ResizeCursor { get; private set; }
+		public Cursor? ResizeCursor { get; private set; }
 
 		#endregion
 
@@ -58,7 +58,8 @@ namespace DarkUI.Docking {
 		}
 
 		public void HideOverlay() {
-			_overlayForm.Visible = false;
+			if( _overlayForm != null )
+				_overlayForm.Visible = false;
 		}
 
 		public void UpdateOverlay(Point difference) {
@@ -99,7 +100,8 @@ namespace DarkUI.Docking {
 				break;
 			}
 
-			_overlayForm.Bounds = bounds;
+			if( _overlayForm != null )
+				_overlayForm.Bounds = bounds;
 		}
 
 		public void Move(Point difference) {

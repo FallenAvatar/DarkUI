@@ -13,7 +13,7 @@ namespace DarkUI.Controls {
 	public class DarkListView : DarkScrollView {
 		#region Event Region
 
-		public event EventHandler SelectedIndicesChanged;
+		public event EventHandler? SelectedIndicesChanged;
 
 		#endregion
 
@@ -24,7 +24,7 @@ namespace DarkUI.Controls {
 
 		private readonly int _iconSize = 16;
 
-		private ObservableCollection<DarkListItem> _items;
+		private ObservableCollection<DarkListItem>? _items;
 		private List<int> _selectedIndices;
 		private int _anchoredItemStart = -1;
 		private int _anchoredItemEnd = -1;
@@ -35,7 +35,7 @@ namespace DarkUI.Controls {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public ObservableCollection<DarkListItem> Items {
+		public ObservableCollection<DarkListItem>? Items {
 			get { return _items; }
 			set {
 				if( _items != null )
@@ -43,7 +43,8 @@ namespace DarkUI.Controls {
 
 				_items = value;
 
-				_items.CollectionChanged += Items_CollectionChanged;
+				if( _items != null )
+					_items.CollectionChanged += Items_CollectionChanged;
 
 				UpdateListBox();
 			}
@@ -92,7 +93,7 @@ namespace DarkUI.Controls {
 
 		#region Event Handler Region
 
-		private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+		private void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
 			if( e.NewItems != null ) {
 				using( var g = CreateGraphics() ) {
 					// Set the area size of all new items
@@ -103,7 +104,7 @@ namespace DarkUI.Controls {
 				}
 
 				// Find the starting index of the new item list and update anything past that
-				if( e.NewStartingIndex < (Items.Count - 1) ) {
+				if( Items != null && e.NewStartingIndex < (Items.Count - 1) ) {
 					for( var i = e.NewStartingIndex; i <= Items.Count - 1; i++ ) {
 						UpdateItemPosition(Items[i], i);
 					}
@@ -115,27 +116,28 @@ namespace DarkUI.Controls {
 					item.TextChanged -= Item_TextChanged;
 
 				// Find the starting index of the old item list and update anything past that
-				if( e.OldStartingIndex < (Items.Count - 1) ) {
+				if( Items != null && e.OldStartingIndex < (Items.Count - 1) ) {
 					for( var i = e.OldStartingIndex; i <= Items.Count - 1; i++ ) {
 						UpdateItemPosition(Items[i], i);
 					}
 				}
 			}
 
-			if( Items.Count == 0 ) {
+			if( Items?.Count == 0 ) {
 				if( _selectedIndices.Count > 0 ) {
 					_selectedIndices.Clear();
 
 					if( SelectedIndicesChanged != null )
-						SelectedIndicesChanged(this, null);
+						SelectedIndicesChanged(this, EventArgs.Empty);
 				}
 			}
 
 			UpdateContentSize();
 		}
 
-		private void Item_TextChanged(object sender, EventArgs e) {
-			var item = (DarkListItem)sender;
+		private void Item_TextChanged(object? sender, EventArgs e) {
+			if( sender is not DarkListItem item )
+				return;
 
 			UpdateItemSize(item);
 			UpdateContentSize(item);
@@ -145,7 +147,7 @@ namespace DarkUI.Controls {
 		protected override void OnMouseDown(MouseEventArgs e) {
 			base.OnMouseDown(e);
 
-			if( Items.Count == 0 )
+			if( Items?.Count == 0 )
 				return;
 
 			if( e.Button != MouseButtons.Left && e.Button != MouseButtons.Right )
@@ -176,7 +178,7 @@ namespace DarkUI.Controls {
 		protected override void OnKeyDown(KeyEventArgs e) {
 			base.OnKeyDown(e);
 
-			if( Items.Count == 0 )
+			if( Items?.Count == 0 )
 				return;
 
 			if( e.KeyCode != Keys.Down && e.KeyCode != Keys.Up )
@@ -189,7 +191,7 @@ namespace DarkUI.Controls {
 						EnsureVisible();
 					}
 				} else if( e.KeyCode == Keys.Down ) {
-					if( _anchoredItemEnd + 1 <= Items.Count - 1 ) {
+					if( _anchoredItemEnd + 1 <= Items?.Count - 1 ) {
 						SelectAnchoredRange(_anchoredItemEnd + 1);
 					}
 				}
@@ -198,7 +200,7 @@ namespace DarkUI.Controls {
 					if( _anchoredItemEnd - 1 >= 0 )
 						SelectItem(_anchoredItemEnd - 1);
 				} else if( e.KeyCode == Keys.Down ) {
-					if( _anchoredItemEnd + 1 <= Items.Count - 1 )
+					if( _anchoredItemEnd + 1 <= Items?.Count - 1 )
 						SelectItem(_anchoredItemEnd + 1);
 				}
 			}
@@ -211,18 +213,17 @@ namespace DarkUI.Controls {
 		#region Method Region
 
 		public int GetItemIndex(DarkListItem item) {
-			return Items.IndexOf(item);
+			return Items?.IndexOf(item) ?? -1;
 		}
 
 		public void SelectItem(int index) {
-			if( index < 0 || index > Items.Count - 1 )
+			if( index < 0 || index > Items?.Count - 1 )
 				throw new IndexOutOfRangeException($"Value '{index}' is outside of valid range.");
 
 			_selectedIndices.Clear();
 			_selectedIndices.Add(index);
 
-			if( SelectedIndicesChanged != null )
-				SelectedIndicesChanged(this, null);
+			SelectedIndicesChanged?.Invoke(this, EventArgs.Empty);
 
 			_anchoredItemStart = index;
 			_anchoredItemEnd = index;
@@ -236,24 +237,23 @@ namespace DarkUI.Controls {
 			var list = indexes.ToList();
 
 			foreach( var index in list ) {
-				if( index < 0 || index > Items.Count - 1 )
+				if( index < 0 || index > Items?.Count - 1 )
 					throw new IndexOutOfRangeException($"Value '{index}' is outside of valid range.");
 
 				_selectedIndices.Add(index);
 			}
 
-			if( SelectedIndicesChanged != null )
-				SelectedIndicesChanged(this, null);
+			SelectedIndicesChanged?.Invoke(this, EventArgs.Empty);
 
-			_anchoredItemStart = list[list.Count - 1];
-			_anchoredItemEnd = list[list.Count - 1];
+			_anchoredItemStart = list[^1];
+			_anchoredItemEnd = list[^1];
 
 			Invalidate();
 		}
 
 		public void ToggleItem(int index) {
 			if( _selectedIndices.Contains(index) ) {
-				_selectedIndices.Remove(index);
+				_ = _selectedIndices.Remove(index);
 
 				// If we just removed both the anchor start AND end then reset them
 				if( _anchoredItemStart == index && _anchoredItemEnd == index ) {
@@ -291,8 +291,7 @@ namespace DarkUI.Controls {
 				_anchoredItemEnd = index;
 			}
 
-			if( SelectedIndicesChanged != null )
-				SelectedIndicesChanged(this, null);
+			SelectedIndicesChanged?.Invoke(this, EventArgs.Empty);
 
 			Invalidate();
 		}
@@ -311,8 +310,7 @@ namespace DarkUI.Controls {
 					_selectedIndices.Add(i);
 			}
 
-			if( SelectedIndicesChanged != null )
-				SelectedIndicesChanged(this, null);
+			SelectedIndicesChanged?.Invoke(this, EventArgs.Empty);
 
 			Invalidate();
 		}
@@ -323,8 +321,8 @@ namespace DarkUI.Controls {
 		}
 
 		private void UpdateListBox() {
-			using( var g = CreateGraphics() ) {
-				for( var i = 0; i <= Items.Count - 1; i++ ) {
+			if( Items != null ) {
+				using var g = CreateGraphics(); for( var i = 0; i <= Items.Count - 1; i++ ) {
 					var item = Items[i];
 					UpdateItemSize(item, g);
 					UpdateItemPosition(item, i);
@@ -335,9 +333,7 @@ namespace DarkUI.Controls {
 		}
 
 		private void UpdateItemSize(DarkListItem item) {
-			using( var g = CreateGraphics() ) {
-				UpdateItemSize(item, g);
-			}
+			using var g = CreateGraphics(); UpdateItemSize(item, g);
 		}
 
 		private void UpdateItemSize(DarkListItem item, Graphics g) {
@@ -357,13 +353,13 @@ namespace DarkUI.Controls {
 		private void UpdateContentSize() {
 			var highestWidth = 0;
 
-			foreach( var item in Items ) {
+			foreach( var item in Items ?? Enumerable.Empty<DarkListItem>() ) {
 				if( item.Area.Right + 1 > highestWidth )
 					highestWidth = item.Area.Right + 1;
 			}
 
 			var width = highestWidth;
-			var height = Items.Count * ItemHeight;
+			var height = (Items?.Count ?? 0) * ItemHeight;
 
 			if( ContentSize.Width != width || ContentSize.Height != height ) {
 				ContentSize = new Size(width, height);
@@ -413,7 +409,7 @@ namespace DarkUI.Controls {
 
 			var bottom = ((Viewport.Top + Viewport.Height) / ItemHeight) + 1;
 
-			if( bottom > Items.Count )
+			if( bottom > Items?.Count )
 				bottom = Items.Count;
 
 			var result = Enumerable.Range(top, bottom - top);
@@ -421,6 +417,9 @@ namespace DarkUI.Controls {
 		}
 
 		private IEnumerable<DarkListItem> ItemsInView() {
+			if( Items == null )
+				return Enumerable.Empty<DarkListItem>();
+
 			var indexes = ItemIndexesInView();
 			var result = indexes.Select(index => Items[index]).ToList();
 			return result;
@@ -461,8 +460,8 @@ namespace DarkUI.Controls {
                 }*/
 
 				// Icon
-				if( ShowIcons && Items[i].Icon != null ) {
-					g.DrawImageUnscaled(Items[i].Icon, new Point(rect.Left + 5, rect.Top + (rect.Height / 2) - (_iconSize / 2)));
+				if( ShowIcons && Items?[i].Icon != null ) {
+					g.DrawImageUnscaled(Items[i].Icon!, new Point(rect.Left + 5, rect.Top + (rect.Height / 2) - (_iconSize / 2)));
 				}
 
 				// Text
@@ -472,14 +471,14 @@ namespace DarkUI.Controls {
 						LineAlignment = StringAlignment.Center
 					};
 
-					var modFont = new Font(Font, Items[i].FontStyle);
+					var modFont = new Font(Font, Items?[i].FontStyle ?? FontStyle.Regular);
 
 					var modRect = new Rectangle(rect.Left + 2, rect.Top, rect.Width, rect.Height);
 
 					if( ShowIcons )
 						modRect.X += _iconSize + 8;
 
-					g.DrawString(Items[i].Text, modFont, b, modRect, stringFormat);
+					g.DrawString(Items?[i].Text ?? "", modFont, b, modRect, stringFormat);
 				}
 			}
 		}

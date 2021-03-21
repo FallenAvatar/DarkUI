@@ -12,13 +12,13 @@ namespace DarkUI.Docking {
 	public class DarkDockGroup : Panel {
 		#region Field Region
 
-		private List<DarkDockContent> _contents = new List<DarkDockContent>();
+		private readonly List<DarkDockContent> _contents = new List<DarkDockContent>();
 
-		private Dictionary<DarkDockContent, DarkDockTab> _tabs = new Dictionary<DarkDockContent, DarkDockTab>();
+		private readonly Dictionary<DarkDockContent, DarkDockTab> _tabs = new Dictionary<DarkDockContent, DarkDockTab>();
 
-		private DarkDockTabArea _tabArea;
+		private readonly DarkDockTabArea _tabArea;
 
-		private DarkDockTab _dragTab = null;
+		private DarkDockTab? _dragTab = null;
 
 		#endregion
 
@@ -30,7 +30,7 @@ namespace DarkUI.Docking {
 
 		public DarkDockArea DockArea { get; private set; }
 
-		public DarkDockContent VisibleContent { get; private set; }
+		public DarkDockContent? VisibleContent { get; private set; }
 
 		public int Order { get; set; }
 
@@ -70,7 +70,7 @@ namespace DarkUI.Docking {
 				var order = -1;
 				foreach( var otherContent in _contents ) {
 					if( otherContent.Order >= order )
-						order = otherContent.Order + 1;
+						order = (otherContent.Order ?? 0) + 1;
 				}
 
 				dockContent.Order = order;
@@ -104,10 +104,10 @@ namespace DarkUI.Docking {
 
 			var order = dockContent.Order;
 
-			_contents.Remove(dockContent);
+			_ = _contents.Remove(dockContent);
 			Controls.Remove(dockContent);
 
-			foreach( var otherContent in _contents ) {
+			foreach( var otherContent in _contents ?? Enumerable.Empty<DarkDockContent>() ) {
 				if( otherContent.Order > order )
 					otherContent.Order--;
 			}
@@ -115,12 +115,12 @@ namespace DarkUI.Docking {
 			dockContent.DockTextChanged -= DockContent_DockTextChanged;
 
 			if( _tabs.ContainsKey(dockContent) )
-				_tabs.Remove(dockContent);
+				_ = _tabs.Remove(dockContent);
 
 			if( VisibleContent == dockContent ) {
 				VisibleContent = null;
 
-				if( _contents.Count > 0 ) {
+				if( _contents?.Count > 0 ) {
 					var newContent = _contents[0];
 					newContent.Visible = true;
 					VisibleContent = newContent;
@@ -513,7 +513,7 @@ namespace DarkUI.Docking {
 			Invalidate();
 		}
 
-		private void TabMenuItem_Select(object sender, EventArgs e) {
+		private void TabMenuItem_Select(object? sender, EventArgs e) {
 			var menuItem = sender as ToolStripMenuItem;
 			if( menuItem == null )
 				return;
@@ -525,12 +525,12 @@ namespace DarkUI.Docking {
 			DockPanel.ActiveContent = content;
 		}
 
-		private void DockPanel_ActiveContentChanged(object sender, DockContentEventArgs e) {
+		private void DockPanel_ActiveContentChanged(object? sender, DockContentEventArgs e) {
 			if( !_contents.Contains(e.Content) )
 				return;
 
 			if( e.Content == VisibleContent ) {
-				VisibleContent.Focus();
+				_ = VisibleContent.Focus();
 				return;
 			}
 
@@ -539,13 +539,13 @@ namespace DarkUI.Docking {
 			foreach( var content in _contents )
 				content.Visible = content == VisibleContent;
 
-			VisibleContent.Focus();
+			_ = VisibleContent.Focus();
 
 			EnsureVisible();
 			Invalidate();
 		}
 
-		private void DockContent_DockTextChanged(object sender, EventArgs e) {
+		private void DockContent_DockTextChanged(object? sender, EventArgs e) {
 			BuildTabs();
 		}
 

@@ -93,7 +93,7 @@ namespace DarkUI.Docking {
 				}
 
 				if( _shouldDrag ) {
-					DockPanel.DragContent(this);
+					DockPanel?.DragContent(this);
 					return;
 				}
 			}

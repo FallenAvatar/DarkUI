@@ -12,8 +12,8 @@ namespace DarkUI.Collections {
 
 		#region Event Region
 
-		public event EventHandler<ObservableListModified<T>> ItemsAdded;
-		public event EventHandler<ObservableListModified<T>> ItemsRemoved;
+		public event EventHandler<ObservableListModified<T>>? ItemsAdded;
+		public event EventHandler<ObservableListModified<T>>? ItemsRemoved;
 
 		#endregion
 
@@ -65,10 +65,8 @@ namespace DarkUI.Collections {
 		}
 
 		public new void Remove(T item) {
-			base.Remove(item);
-
-			if( ItemsRemoved != null )
-				ItemsRemoved(this, new ObservableListModified<T>(new List<T> { item }));
+			if( base.Remove(item) )
+				ItemsRemoved?.Invoke(this, new ObservableListModified<T>(new List<T> { item }));
 		}
 
 		public new void Clear() {
@@ -76,7 +74,7 @@ namespace DarkUI.Collections {
 			base.Clear();
 
 			if( removed.Items.Count() > 0 && ItemsRemoved != null )
-				ItemsRemoved(this, removed);
+				ItemsRemoved?.Invoke(this, removed);
 		}
 
 		#endregion

@@ -9,7 +9,7 @@ namespace DarkUI.Forms {
 	public partial class DarkMessageBox : DarkDialog {
 		#region Field Region
 
-		private string _message;
+		private string? _message;
 		private int _maximumWidth = 350;
 
 		#endregion
@@ -34,7 +34,7 @@ namespace DarkUI.Forms {
 			InitializeComponent();
 		}
 
-		public DarkMessageBox(string message, string title, DarkMessageBoxIcon icon, DarkDialogButton buttons)
+		public DarkMessageBox(string message, string? title, DarkMessageBoxIcon icon, DarkDialogButton buttons)
 			: this() {
 			Text = title;
 			_message = message;

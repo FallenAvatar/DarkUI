@@ -7,14 +7,14 @@ namespace DarkUI.Extensions {
 			var last = items.LastOrDefault();
 			if( last == null )
 				return false;
-			return item.Equals(last);
+			return item?.Equals(last) ?? false;
 		}
 
 		internal static bool IsFirst<T>(this IEnumerable<T> items, T item) {
 			var first = items.FirstOrDefault();
 			if( first == null )
 				return false;
-			return item.Equals(first);
+			return item?.Equals(first) ?? false;
 		}
 
 		internal static bool IsFirstOrLast<T>(this IEnumerable<T> items, T item) {

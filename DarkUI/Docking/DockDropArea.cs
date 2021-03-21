@@ -10,9 +10,9 @@ namespace DarkUI.Docking {
 
 		internal Rectangle HighlightArea { get; private set; }
 
-		internal DarkDockRegion DockRegion { get; private set; }
+		internal DarkDockRegion? DockRegion { get; private set; }
 
-		internal DarkDockGroup DockGroup { get; private set; }
+		internal DarkDockGroup? DockGroup { get; private set; }
 
 		internal DockInsertType InsertType { get; private set; }
 
@@ -48,7 +48,7 @@ namespace DarkUI.Docking {
 		}
 
 		private void BuildRegionAreas() {
-			switch( DockRegion.DockArea ) {
+			switch( DockRegion?.DockArea ) {
 			case DarkDockArea.Left:
 
 				var leftRect = new Rectangle {
@@ -109,10 +109,10 @@ namespace DarkUI.Docking {
 			switch( InsertType ) {
 			case DockInsertType.None:
 				var dropRect = new Rectangle {
-					X = DockGroup.PointToScreen(Point.Empty).X,
-					Y = DockGroup.PointToScreen(Point.Empty).Y,
-					Width = DockGroup.Width,
-					Height = DockGroup.Height
+					X = DockGroup?.PointToScreen(Point.Empty).X ?? 0,
+					Y = DockGroup?.PointToScreen(Point.Empty).Y ?? 0,
+					Width = DockGroup?.Width ?? 0,
+					Height = DockGroup?.Height ?? 0
 				};
 
 				DropArea = dropRect;
@@ -121,10 +121,10 @@ namespace DarkUI.Docking {
 				break;
 
 			case DockInsertType.Before:
-				var beforeDropWidth = DockGroup.Width;
-				var beforeDropHeight = DockGroup.Height;
+				var beforeDropWidth = DockGroup?.Width ?? 0;
+				var beforeDropHeight = DockGroup?.Height ?? 0;
 
-				switch( DockGroup.DockArea ) {
+				switch( DockGroup?.DockArea ) {
 				case DarkDockArea.Left:
 				case DarkDockArea.Right:
 					beforeDropHeight = DockGroup.Height / 4;
@@ -136,8 +136,8 @@ namespace DarkUI.Docking {
 				}
 
 				var beforeDropRect = new Rectangle {
-					X = DockGroup.PointToScreen(Point.Empty).X,
-					Y = DockGroup.PointToScreen(Point.Empty).Y,
+					X = DockGroup?.PointToScreen(Point.Empty).X ?? 0,
+					Y = DockGroup?.PointToScreen(Point.Empty).Y ?? 0,
 					Width = beforeDropWidth,
 					Height = beforeDropHeight
 				};
@@ -148,12 +148,12 @@ namespace DarkUI.Docking {
 				break;
 
 			case DockInsertType.After:
-				var afterDropX = DockGroup.PointToScreen(Point.Empty).X;
-				var afterDropY = DockGroup.PointToScreen(Point.Empty).Y;
-				var afterDropWidth = DockGroup.Width;
-				var afterDropHeight = DockGroup.Height;
+				var afterDropX = DockGroup?.PointToScreen(Point.Empty).X ?? 0;
+				var afterDropY = DockGroup?.PointToScreen(Point.Empty).Y ?? 0;
+				var afterDropWidth = DockGroup?.Width ?? 0;
+				var afterDropHeight = DockGroup?.Height ?? 0;
 
-				switch( DockGroup.DockArea ) {
+				switch( DockGroup?.DockArea ) {
 				case DarkDockArea.Left:
 				case DarkDockArea.Right:
 					afterDropHeight = DockGroup.Height / 4;

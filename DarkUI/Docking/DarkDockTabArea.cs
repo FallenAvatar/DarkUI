@@ -31,7 +31,7 @@ namespace DarkUI.Docking {
 
 		public bool Visible { get; set; }
 
-		public DarkDockTab ClickedCloseButton { get; set; }
+		public DarkDockTab? ClickedCloseButton { get; set; }
 
 		#endregion
 
@@ -55,12 +55,12 @@ namespace DarkUI.Docking {
 		}
 
 		public void RemoveMenuItem(ToolStripMenuItem menuItem) {
-			_menuItems.Remove(menuItem);
+			_ = _menuItems.Remove(menuItem);
 			RebuildMenu();
 		}
 
-		public ToolStripMenuItem GetMenuItem(DarkDockContent content) {
-			ToolStripMenuItem menuItem = null;
+		public ToolStripMenuItem? GetMenuItem(DarkDockContent content) {
+			ToolStripMenuItem? menuItem = null;
 			foreach( ToolStripMenuItem item in _menuItems ) {
 				var menuContent = item.Tag as DarkDockContent;
 				if( menuContent == null )
@@ -89,7 +89,7 @@ namespace DarkUI.Docking {
 			}
 
 			foreach( var item in orderedItems )
-				_tabMenu.Items.Add(item);
+				_ = _tabMenu.Items.Add(item);
 		}
 
 		#endregion

@@ -9,8 +9,8 @@ namespace DarkUI.Controls {
 	public abstract class DarkScrollBase : Control {
 		#region Event Region
 
-		public event EventHandler ViewportChanged;
-		public event EventHandler ContentSizeChanged;
+		public event EventHandler? ViewportChanged;
+		public event EventHandler? ContentSizeChanged;
 
 		#endregion
 
@@ -44,7 +44,7 @@ namespace DarkUI.Controls {
 				_viewport = value;
 
 				if( ViewportChanged != null )
-					ViewportChanged(this, null);
+					ViewportChanged(this, EventArgs.Empty);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace DarkUI.Controls {
 				UpdateScrollBars();
 
 				if( ContentSizeChanged != null )
-					ContentSizeChanged(this, null);
+					ContentSizeChanged(this, EventArgs.Empty);
 			}
 		}
 
@@ -318,7 +318,7 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		private void DragTimer_Tick(object sender, EventArgs e) {
+		private void DragTimer_Tick(object? sender, EventArgs e) {
 			var pos = PointToClient(MousePosition);
 
 			var right = ClientRectangle.Right;
