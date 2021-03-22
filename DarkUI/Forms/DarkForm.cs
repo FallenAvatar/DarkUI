@@ -45,10 +45,9 @@ namespace DarkUI.Forms {
 
 			var g = e.Graphics;
 
-			using( var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder) ) {
-				var modRect = new Rectangle(ClientRectangle.Location, new Size(ClientRectangle.Width - 1, ClientRectangle.Height - 1));
-				g.DrawRectangle(p, modRect);
-			}
+			using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
+			var modRect = new Rectangle(ClientRectangle.Location, new Size(ClientRectangle.Width - 1, ClientRectangle.Height - 1));
+			g.DrawRectangle(p, modRect);
 		}
 
 		#endregion

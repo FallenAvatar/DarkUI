@@ -8,9 +8,9 @@ namespace DarkUI.Win32 {
 	public class DockResizeFilter : IMessageFilter {
 		#region Field Region
 
-		private DarkDockPanel _dockPanel;
+		private readonly DarkDockPanel _dockPanel;
 
-		private Timer _dragTimer;
+		private readonly Timer _dragTimer;
 		private bool _isDragging;
 		private Point _initialContact;
 		private DarkDockSplitter? _activeSplitter;
@@ -22,8 +22,9 @@ namespace DarkUI.Win32 {
 		public DockResizeFilter(DarkDockPanel dockPanel) {
 			_dockPanel = dockPanel;
 
-			_dragTimer = new Timer();
-			_dragTimer.Interval = 1;
+			_dragTimer = new Timer {
+				Interval = 1
+			};
 			_dragTimer.Tick += DragTimer_Tick;
 		}
 

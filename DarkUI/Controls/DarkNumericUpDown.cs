@@ -126,10 +126,9 @@ namespace DarkUI.Controls {
 			if( Focused && TabStop )
 				borderColor = ThemeProvider.Theme.Colors.BlueHighlight;
 
-			using( var p = new Pen(borderColor, 1) ) {
-				var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
-				g.DrawRectangle(p, modRect);
-			}
+			using var p = new Pen(borderColor, 1);
+			var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
+			g.DrawRectangle(p, modRect);
 		}
 	}
 }

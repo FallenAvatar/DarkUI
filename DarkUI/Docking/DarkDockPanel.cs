@@ -19,8 +19,8 @@ namespace DarkUI.Docking {
 
 		#region Field Region
 
-		private List<DarkDockContent> _contents;
-		private Dictionary<DarkDockArea, DarkDockRegion> _regions;
+		private readonly List<DarkDockContent> _contents;
+		private readonly Dictionary<DarkDockArea, DarkDockRegion> _regions;
 
 		private DarkDockContent? _activeContent;
 		private bool _switchingContent = false;
@@ -143,8 +143,7 @@ namespace DarkUI.Docking {
 			var region = _regions[dockContent.DockArea];
 			region.AddContent(dockContent, dockGroup);
 
-			if( ContentAdded != null )
-				ContentAdded(this, new DockContentEventArgs(dockContent));
+			ContentAdded?.Invoke(this, new DockContentEventArgs(dockContent));
 
 			dockContent.Select();
 		}
@@ -259,7 +258,7 @@ namespace DarkUI.Docking {
 			return state;
 		}
 
-		public void RestoreDockPanelState(DockPanelState state, Func<string, DarkDockContent> getContentBySerializationKey) {
+		public void RestoreDockPanelState(DockPanelState state, Func<string, DarkDockContent?> getContentBySerializationKey) {
 			foreach( var region in state.Regions ) {
 				switch( region.Area ) {
 				case DarkDockArea.Left:

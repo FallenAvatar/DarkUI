@@ -27,7 +27,7 @@ namespace DarkUI.Controls {
 		private Point _offsetMousePosition;
 
 		private int _maxDragChange = 0;
-		private Timer _dragTimer;
+		private readonly Timer _dragTimer;
 
 		private bool _hideScrollBars = true;
 
@@ -43,8 +43,7 @@ namespace DarkUI.Controls {
 			private set {
 				_viewport = value;
 
-				if( ViewportChanged != null )
-					ViewportChanged(this, EventArgs.Empty);
+				ViewportChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
@@ -56,8 +55,7 @@ namespace DarkUI.Controls {
 				_contentSize = value;
 				UpdateScrollBars();
 
-				if( ContentSizeChanged != null )
-					ContentSizeChanged(this, EventArgs.Empty);
+				ContentSizeChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
@@ -113,8 +111,9 @@ namespace DarkUI.Controls {
 			_vScrollBar.MouseDown += delegate { Select(); };
 			_hScrollBar.MouseDown += delegate { Select(); };
 
-			_dragTimer = new Timer();
-			_dragTimer.Interval = 1;
+			_dragTimer = new Timer {
+				Interval = 1
+			};
 			_dragTimer.Tick += DragTimer_Tick;
 		}
 
@@ -338,7 +337,7 @@ namespace DarkUI.Controls {
 					if( MaxDragChange > 0 && difference > MaxDragChange )
 						difference = MaxDragChange;
 
-					_vScrollBar.Value = _vScrollBar.Value - difference;
+					_vScrollBar.Value -= difference;
 				}
 
 				// Scroll down
@@ -348,7 +347,7 @@ namespace DarkUI.Controls {
 					if( MaxDragChange > 0 && difference > MaxDragChange )
 						difference = MaxDragChange;
 
-					_vScrollBar.Value = _vScrollBar.Value + difference;
+					_vScrollBar.Value += difference;
 				}
 			}
 
@@ -360,7 +359,7 @@ namespace DarkUI.Controls {
 					if( MaxDragChange > 0 && difference > MaxDragChange )
 						difference = MaxDragChange;
 
-					_hScrollBar.Value = _hScrollBar.Value - difference;
+					_hScrollBar.Value -= difference;
 				}
 
 				// Scroll right
@@ -370,7 +369,7 @@ namespace DarkUI.Controls {
 					if( MaxDragChange > 0 && difference > MaxDragChange )
 						difference = MaxDragChange;
 
-					_hScrollBar.Value = _hScrollBar.Value + difference;
+					_hScrollBar.Value += difference;
 				}
 			}
 		}

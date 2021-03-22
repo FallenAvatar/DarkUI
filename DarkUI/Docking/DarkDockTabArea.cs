@@ -8,10 +8,10 @@ namespace DarkUI.Docking {
 	internal class DarkDockTabArea {
 		#region Field Region
 
-		private Dictionary<DarkDockContent, DarkDockTab> _tabs = new Dictionary<DarkDockContent, DarkDockTab>();
+		private readonly Dictionary<DarkDockContent, DarkDockTab> _tabs = new();
 
-		private List<ToolStripMenuItem> _menuItems = new List<ToolStripMenuItem>();
-		private DarkContextMenu _tabMenu = new DarkContextMenu();
+		private readonly List<ToolStripMenuItem> _menuItems = new();
+		private readonly DarkContextMenu _tabMenu = new();
 
 		#endregion
 
@@ -60,17 +60,15 @@ namespace DarkUI.Docking {
 		}
 
 		public ToolStripMenuItem? GetMenuItem(DarkDockContent content) {
-			ToolStripMenuItem? menuItem = null;
 			foreach( ToolStripMenuItem item in _menuItems ) {
-				var menuContent = item.Tag as DarkDockContent;
-				if( menuContent == null )
+				if( item.Tag is not DarkDockContent menuContent )
 					continue;
 
 				if( menuContent == content )
-					menuItem = item;
+					return item;
 			}
 
-			return menuItem;
+			return null;
 		}
 
 		public void RebuildMenu() {

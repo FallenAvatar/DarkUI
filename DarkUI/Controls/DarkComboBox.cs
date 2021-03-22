@@ -108,49 +108,48 @@ namespace DarkUI.Controls {
 			if( _buffer == null )
 				_buffer = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
 
-			using( var g = Graphics.FromImage(_buffer) ) {
-				var rect = new Rectangle(0, 0, ClientSize.Width, ClientSize.Height);
+			using var g = Graphics.FromImage(_buffer);
+			var rect = new Rectangle(0, 0, ClientSize.Width, ClientSize.Height);
 
-				var textColor = Enabled ? ThemeProvider.Theme.Colors.LightText : ThemeProvider.Theme.Colors.DisabledText;
-				var borderColor = ThemeProvider.Theme.Colors.GreySelection;
-				var fillColor = ThemeProvider.Theme.Colors.LightBackground;
+			var textColor = Enabled ? ThemeProvider.Theme.Colors.LightText : ThemeProvider.Theme.Colors.DisabledText;
+			var borderColor = ThemeProvider.Theme.Colors.GreySelection;
+			var fillColor = ThemeProvider.Theme.Colors.LightBackground;
 
-				if( Focused && TabStop )
-					borderColor = ThemeProvider.Theme.Colors.BlueHighlight;
+			if( Focused && TabStop )
+				borderColor = ThemeProvider.Theme.Colors.BlueHighlight;
 
-				using( var b = new SolidBrush(fillColor) ) {
-					g.FillRectangle(b, rect);
-				}
+			using( var b = new SolidBrush(fillColor) ) {
+				g.FillRectangle(b, rect);
+			}
 
-				using( var p = new Pen(borderColor, 1) ) {
-					var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
-					g.DrawRectangle(p, modRect);
-				}
+			using( var p = new Pen(borderColor, 1) ) {
+				var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
+				g.DrawRectangle(p, modRect);
+			}
 
-				var icon = ScrollIcons.scrollbar_arrow_hot;
-				g.DrawImageUnscaled(icon,
-									rect.Right - icon.Width - (ThemeProvider.Theme.Sizes.Padding / 2),
-									(rect.Height / 2) - (icon.Height / 2));
+			var icon = ScrollIcons.scrollbar_arrow_hot;
+			g.DrawImageUnscaled(icon,
+								rect.Right - icon.Width - (ThemeProvider.Theme.Sizes.Padding / 2),
+								(rect.Height / 2) - (icon.Height / 2));
 
-				var text = SelectedItem != null ? SelectedItem.ToString() : Text;
+			var text = SelectedItem != null ? SelectedItem.ToString() : Text;
 
-				using( var b = new SolidBrush(textColor) ) {
-					var padding = 2;
+			using( var b = new SolidBrush(textColor) ) {
+				var padding = 2;
 
-					var modRect = new Rectangle(rect.Left + padding,
-												rect.Top + padding,
-												rect.Width - icon.Width - (ThemeProvider.Theme.Sizes.Padding / 2) - (padding * 2),
-												rect.Height - (padding * 2));
+				var modRect = new Rectangle(rect.Left + padding,
+											rect.Top + padding,
+											rect.Width - icon.Width - (ThemeProvider.Theme.Sizes.Padding / 2) - (padding * 2),
+											rect.Height - (padding * 2));
 
-					var stringFormat = new StringFormat {
-						LineAlignment = StringAlignment.Center,
-						Alignment = StringAlignment.Near,
-						FormatFlags = StringFormatFlags.NoWrap,
-						Trimming = StringTrimming.EllipsisCharacter
-					};
+				var stringFormat = new StringFormat {
+					LineAlignment = StringAlignment.Center,
+					Alignment = StringAlignment.Near,
+					FormatFlags = StringFormatFlags.NoWrap,
+					Trimming = StringTrimming.EllipsisCharacter
+				};
 
-					g.DrawString(text, Font, b, modRect, stringFormat);
-				}
+				g.DrawString(text, Font, b, modRect, stringFormat);
 			}
 		}
 
@@ -181,23 +180,22 @@ namespace DarkUI.Controls {
 			if( e.Index >= 0 && e.Index < Items.Count ) {
 				var text = Items[e.Index].ToString();
 
-				using( var b = new SolidBrush(textColor) ) {
-					var padding = 2;
+				using var b = new SolidBrush(textColor);
+				var padding = 2;
 
-					var modRect = new Rectangle(rect.Left + padding,
-						rect.Top + padding,
-						rect.Width - (padding * 2),
-						rect.Height - (padding * 2));
+				var modRect = new Rectangle(rect.Left + padding,
+					rect.Top + padding,
+					rect.Width - (padding * 2),
+					rect.Height - (padding * 2));
 
-					var stringFormat = new StringFormat {
-						LineAlignment = StringAlignment.Center,
-						Alignment = StringAlignment.Near,
-						FormatFlags = StringFormatFlags.NoWrap,
-						Trimming = StringTrimming.EllipsisCharacter
-					};
+				var stringFormat = new StringFormat {
+					LineAlignment = StringAlignment.Center,
+					Alignment = StringAlignment.Near,
+					FormatFlags = StringFormatFlags.NoWrap,
+					Trimming = StringTrimming.EllipsisCharacter
+				};
 
-					g.DrawString(text, Font, b, modRect, stringFormat);
-				}
+				g.DrawString(text, Font, b, modRect, stringFormat);
 			}
 		}
 	}

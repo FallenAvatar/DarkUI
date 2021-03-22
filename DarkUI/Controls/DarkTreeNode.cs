@@ -24,7 +24,7 @@ namespace DarkUI.Controls {
 		private DarkTreeView? _parentTree;
 		private DarkTreeNode? _parentNode;
 
-		private ObservableList<DarkTreeNode>? _nodes;
+		private ObservableList<DarkTreeNode> _nodes;
 
 		private bool _expanded;
 
@@ -77,17 +77,17 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		public ObservableList<DarkTreeNode>? Nodes {
+		public ObservableList<DarkTreeNode> Nodes {
 			get { return _nodes; }
 			set {
-				if( _nodes != null ) {
+				if( _nodes.Count > 0 ) {
 					_nodes.ItemsAdded -= Nodes_ItemsAdded;
 					_nodes.ItemsRemoved -= Nodes_ItemsRemoved;
 				}
 
 				_nodes = value;
 
-				if( _nodes != null ) {
+				if( _nodes.Count > 0 ) {
 					_nodes.ItemsAdded += Nodes_ItemsAdded;
 					_nodes.ItemsRemoved += Nodes_ItemsRemoved;
 				}
@@ -160,7 +160,7 @@ namespace DarkUI.Controls {
 		#region Constructor Region
 
 		public DarkTreeNode() {
-			Nodes = new ObservableList<DarkTreeNode>();
+			_nodes = new ObservableList<DarkTreeNode>();
 		}
 
 		public DarkTreeNode(string text)
@@ -195,7 +195,7 @@ namespace DarkUI.Controls {
 		private void OnTextChanged() {
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null ) {
 				if( ParentNode != null )
-					ParentNode.Nodes?.Sort(ParentTree.TreeViewNodeSorter);
+					ParentNode.Nodes.Sort(ParentTree.TreeViewNodeSorter);
 				else
 					ParentTree.Nodes.Sort(ParentTree.TreeViewNodeSorter);
 			}
@@ -210,13 +210,13 @@ namespace DarkUI.Controls {
 			}
 
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null )
-				Nodes?.Sort(ParentTree.TreeViewNodeSorter);
+				Nodes.Sort(ParentTree.TreeViewNodeSorter);
 
 			ItemsAdded?.Invoke(this, e);
 		}
 
 		private void Nodes_ItemsRemoved(object? sender, ObservableListModified<DarkTreeNode> e) {
-			if( Nodes?.Count == 0 )
+			if( Nodes.Count == 0 )
 				Expanded = false;
 
 			ItemsRemoved?.Invoke(this, e);

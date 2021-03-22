@@ -51,8 +51,7 @@ namespace DarkUI.Collections {
 		public new void Add(T item) {
 			base.Add(item);
 
-			if( ItemsAdded != null )
-				ItemsAdded(this, new ObservableListModified<T>(new List<T> { item }));
+			ItemsAdded?.Invoke(this, new ObservableListModified<T>(new List<T> { item }));
 		}
 
 		public new void AddRange(IEnumerable<T> collection) {
@@ -60,8 +59,7 @@ namespace DarkUI.Collections {
 
 			base.AddRange(list);
 
-			if( ItemsAdded != null )
-				ItemsAdded(this, new ObservableListModified<T>(list));
+			ItemsAdded?.Invoke(this, new ObservableListModified<T>(list));
 		}
 
 		public new void Remove(T item) {
@@ -70,10 +68,10 @@ namespace DarkUI.Collections {
 		}
 
 		public new void Clear() {
-			ObservableListModified<T> removed = new ObservableListModified<T>(this.ToList<T>());
+			ObservableListModified<T> removed = new(this.ToList<T>());
 			base.Clear();
 
-			if( removed.Items.Count() > 0 && ItemsRemoved != null )
+			if( removed.Items.Any() )
 				ItemsRemoved?.Invoke(this, removed);
 		}
 

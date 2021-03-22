@@ -43,7 +43,7 @@ namespace DarkUI.Controls {
 		private int _initialValue;
 		private Point _initialContact;
 
-		private Timer _scrollTimer;
+		private readonly Timer _scrollTimer;
 
 		#endregion
 
@@ -80,8 +80,7 @@ namespace DarkUI.Controls {
 
 				UpdateThumb(true);
 
-				if( ValueChanged != null )
-					ValueChanged(this, new ScrollValueEventArgs(Value));
+				ValueChanged?.Invoke(this, new ScrollValueEventArgs(Value));
 			}
 		}
 
@@ -139,8 +138,9 @@ namespace DarkUI.Controls {
 
 			SetStyle(ControlStyles.Selectable, false);
 
-			_scrollTimer = new Timer();
-			_scrollTimer.Interval = 1;
+			_scrollTimer = new Timer {
+				Interval = 1
+			};
 			_scrollTimer.Tick += ScrollTimerTick;
 		}
 
@@ -470,9 +470,8 @@ namespace DarkUI.Controls {
 				if( _isScrolling )
 					scrollColor = ThemeProvider.Theme.Colors.ActiveControl;
 
-				using( var b = new SolidBrush(scrollColor) ) {
-					g.FillRectangle(b, _thumbArea);
-				}
+				using var b = new SolidBrush(scrollColor);
+				g.FillRectangle(b, _thumbArea);
 			}
 		}
 

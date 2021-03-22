@@ -12,7 +12,7 @@ namespace DarkUI.Docking {
 	public class DarkDockRegion : Panel {
 		#region Field Region
 
-		private List<DarkDockGroup> _groups;
+		private readonly List<DarkDockGroup> _groups;
 
 		private Form? _parentForm;
 		private DarkDockSplitter? _splitter;
@@ -175,21 +175,11 @@ namespace DarkUI.Docking {
 		}
 
 		private void PositionGroups() {
-			DockStyle dockStyle;
-
-			switch( DockArea ) {
-			default:
-			case DarkDockArea.Document:
-				dockStyle = DockStyle.Fill;
-				break;
-			case DarkDockArea.Left:
-			case DarkDockArea.Right:
-				dockStyle = DockStyle.Top;
-				break;
-			case DarkDockArea.Bottom:
-				dockStyle = DockStyle.Left;
-				break;
-			}
+			var dockStyle = DockArea switch {
+				DarkDockArea.Left or DarkDockArea.Right => DockStyle.Top,
+				DarkDockArea.Bottom => DockStyle.Left,
+				_ => DockStyle.Fill,
+			};
 
 			if( _groups.Count == 1 ) {
 				_groups[0].Dock = DockStyle.Fill;
@@ -335,24 +325,21 @@ namespace DarkUI.Docking {
 				return;
 
 			// Fill body
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground) ) {
-				g.FillRectangle(b, ClientRectangle);
-			}
+			using var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground);
+			g.FillRectangle(b, ClientRectangle);
 
 			// Draw border
-			using( var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder) ) {
-				// Top border
-				if( DockArea == DarkDockArea.Document )
-					g.DrawLine(p, ClientRectangle.Left, 0, ClientRectangle.Right, 0);
+			using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
+			if( DockArea == DarkDockArea.Document )
+				g.DrawLine(p, ClientRectangle.Left, 0, ClientRectangle.Right, 0);
 
-				// Left border
-				if( DockArea == DarkDockArea.Right )
-					g.DrawLine(p, ClientRectangle.Left, 0, ClientRectangle.Left, ClientRectangle.Height);
+			// Left border
+			if( DockArea == DarkDockArea.Right )
+				g.DrawLine(p, ClientRectangle.Left, 0, ClientRectangle.Left, ClientRectangle.Height);
 
-				// Right border
-				if( DockArea == DarkDockArea.Left )
-					g.DrawLine(p, ClientRectangle.Right - 1, 0, ClientRectangle.Right - 1, ClientRectangle.Height);
-			}
+			// Right border
+			if( DockArea == DarkDockArea.Left )
+				g.DrawLine(p, ClientRectangle.Right - 1, 0, ClientRectangle.Right - 1, ClientRectangle.Height);
 		}
 
 		#endregion

@@ -17,7 +17,7 @@ namespace DarkUI.Controls {
 		private bool _isDefault;
 		private bool _spacePressed;
 
-		private int _padding = ThemeProvider.Theme.Sizes.Padding / 2;
+		private readonly int _padding = ThemeProvider.Theme.Sizes.Padding / 2;
 		private int _imagePadding = 5; // ThemeProvider.Theme.Sizes.Padding / 2
 
 		#endregion
@@ -311,11 +311,10 @@ namespace DarkUI.Controls {
 			}
 
 			if( ButtonStyle == DarkButtonStyle.Normal ) {
-				using( var p = new Pen(borderColor, 1) ) {
-					var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
+				using var p = new Pen(borderColor, 1);
+				var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
 
-					g.DrawRectangle(p, modRect);
-				}
+				g.DrawRectangle(p, modRect);
 			}
 
 			var textOffsetX = 0;
@@ -330,18 +329,18 @@ namespace DarkUI.Controls {
 				switch( TextImageRelation ) {
 				case TextImageRelation.ImageAboveText:
 					textOffsetY = (Image.Size.Height / 2) + (ImagePadding / 2);
-					y = y - ((int)(stringSize.Height / 2) + (ImagePadding / 2));
+					y -= ((int)(stringSize.Height / 2) + (ImagePadding / 2));
 					break;
 				case TextImageRelation.TextAboveImage:
 					textOffsetY = ((Image.Size.Height / 2) + (ImagePadding / 2)) * -1;
-					y = y + ((int)(stringSize.Height / 2) + (ImagePadding / 2));
+					y += ((int)(stringSize.Height / 2) + (ImagePadding / 2));
 					break;
 				case TextImageRelation.ImageBeforeText:
 					textOffsetX = Image.Size.Width + (ImagePadding * 2);
 					x = ImagePadding;
 					break;
 				case TextImageRelation.TextBeforeImage:
-					x = x + (int)stringSize.Width;
+					x += (int)stringSize.Width;
 					break;
 				}
 

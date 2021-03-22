@@ -280,10 +280,9 @@ namespace DarkUI.Controls {
 			}
 
 			if( Checked ) {
-				using( var b = new SolidBrush(fillColor) ) {
-					Rectangle boxRect = new Rectangle(2, (rect.Height / 2) - ((size - 4) / 2), size - 3, size - 3);
-					g.FillRectangle(b, boxRect);
-				}
+				using var b = new SolidBrush(fillColor);
+				var boxRect = new Rectangle(2, (rect.Height / 2) - ((size - 4) / 2), size - 3, size - 3);
+				g.FillRectangle(b, boxRect);
 			}
 
 			using( var b = new SolidBrush(textColor) ) {

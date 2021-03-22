@@ -34,10 +34,9 @@ namespace DarkUI.Renderers {
 			var g = e.Graphics;
 
 			if( e.ToolStrip.GetType() == typeof(ToolStripOverflow) ) {
-				using( var p = new Pen(ThemeProvider.Theme.Colors.GreyBackground) ) {
-					var rect = new Rectangle(e.AffectedBounds.Left, e.AffectedBounds.Top, e.AffectedBounds.Width - 1, e.AffectedBounds.Height - 1);
-					g.DrawRectangle(p, rect);
-				}
+				using var p = new Pen(ThemeProvider.Theme.Colors.GreyBackground);
+				var rect = new Rectangle(e.AffectedBounds.Left, e.AffectedBounds.Top, e.AffectedBounds.Width - 1, e.AffectedBounds.Height - 1);
+				g.DrawRectangle(p, rect);
 			}
 		}
 
@@ -52,25 +51,22 @@ namespace DarkUI.Renderers {
 			var rect = new Rectangle(0, 1, e.Item.Width, e.Item.Height - 2);
 
 			if( e.Item.Selected || e.Item.Pressed ) {
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreySelection) ) {
-					g.FillRectangle(b, rect);
-				}
+				using var b = new SolidBrush(ThemeProvider.Theme.Colors.GreySelection);
+				g.FillRectangle(b, rect);
 			}
 
 			if( e.Item.GetType() == typeof(ToolStripButton) ) {
 				var castItem = (ToolStripButton)e.Item;
 
 				if( castItem.Checked ) {
-					using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreySelection) ) {
-						g.FillRectangle(b, rect);
-					}
+					using var b = new SolidBrush(ThemeProvider.Theme.Colors.GreySelection);
+					g.FillRectangle(b, rect);
 				}
 
 				if( castItem.Checked && castItem.Selected ) {
 					var modRect = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height - 1);
-					using( var p = new Pen(ThemeProvider.Theme.Colors.GreyHighlight) ) {
-						g.DrawRectangle(p, modRect);
-					}
+					using var p = new Pen(ThemeProvider.Theme.Colors.GreyHighlight);
+					g.DrawRectangle(p, modRect);
 				}
 			}
 		}
@@ -81,9 +77,8 @@ namespace DarkUI.Renderers {
 			var rect = new Rectangle(0, 1, e.Item.Width, e.Item.Height - 2);
 
 			if( e.Item.Selected || e.Item.Pressed ) {
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreySelection) ) {
-					g.FillRectangle(b, rect);
-				}
+				using var b = new SolidBrush(ThemeProvider.Theme.Colors.GreySelection);
+				g.FillRectangle(b, rect);
 			}
 		}
 
@@ -93,9 +88,8 @@ namespace DarkUI.Renderers {
 
 			var g = e.Graphics;
 
-			using( var img = MenuIcons.grip.SetColor(ThemeProvider.Theme.Colors.LightBorder) ) {
-				g.DrawImageUnscaled(img, new Point(e.AffectedBounds.Left, e.AffectedBounds.Top));
-			}
+			using var img = MenuIcons.grip.SetColor(ThemeProvider.Theme.Colors.LightBorder);
+			g.DrawImageUnscaled(img, new Point(e.AffectedBounds.Left, e.AffectedBounds.Top));
 		}
 
 		protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e) {
@@ -109,13 +103,11 @@ namespace DarkUI.Renderers {
 
 			var rect = new Rectangle(3, 3, 2, e.Item.Height - 4);
 
-			using( var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder) ) {
-				g.DrawLine(p, rect.Left, rect.Top, rect.Left, rect.Height);
-			}
+			using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
+			g.DrawLine(p, rect.Left, rect.Top, rect.Left, rect.Height);
 
-			using( var p = new Pen(ThemeProvider.Theme.Colors.LightBorder) ) {
-				g.DrawLine(p, rect.Left + 1, rect.Top, rect.Left + 1, rect.Height);
-			}
+			using var p2 = new Pen(ThemeProvider.Theme.Colors.LightBorder);
+			g.DrawLine(p2, rect.Left + 1, rect.Top, rect.Left + 1, rect.Height);
 		}
 
 		protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e) {

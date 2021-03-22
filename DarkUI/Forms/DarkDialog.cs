@@ -9,7 +9,7 @@ namespace DarkUI.Forms {
 		#region Field Region
 
 		private DarkDialogButton _dialogButtons = DarkDialogButton.Ok;
-		private List<DarkButton> _buttons;
+		private readonly List<DarkButton> _buttons;
 
 		#endregion
 

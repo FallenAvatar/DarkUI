@@ -9,7 +9,7 @@ namespace DarkUI.Forms {
 	public partial class DarkMessageBox : DarkDialog {
 		#region Field Region
 
-		private string? _message;
+		private readonly string _message;
 		private int _maximumWidth = 350;
 
 		#endregion
@@ -32,9 +32,11 @@ namespace DarkUI.Forms {
 
 		public DarkMessageBox() {
 			InitializeComponent();
+
+			_message = "Message goes here";
 		}
 
-		public DarkMessageBox(string message, string? title, DarkMessageBoxIcon icon, DarkDialogButton buttons)
+		public DarkMessageBox(string message, string title, DarkMessageBoxIcon icon, DarkDialogButton buttons)
 			: this() {
 			Text = title;
 			_message = message;
@@ -44,7 +46,7 @@ namespace DarkUI.Forms {
 		}
 
 		public DarkMessageBox(string message)
-			: this(message, null, DarkMessageBoxIcon.None, DarkDialogButton.Ok) { }
+			: this(message, "Title goes here", DarkMessageBoxIcon.None, DarkDialogButton.Ok) { }
 
 		public DarkMessageBox(string message, string title)
 			: this(message, title, DarkMessageBoxIcon.None, DarkDialogButton.Ok) { }
@@ -72,10 +74,8 @@ namespace DarkUI.Forms {
 		}
 
 		private static DialogResult ShowDialog(string message, string caption, DarkMessageBoxIcon icon, DarkDialogButton buttons) {
-			using( var dlg = new DarkMessageBox(message, caption, icon, buttons) ) {
-				var result = dlg.ShowDialog();
-				return result;
-			}
+			using var dlg = new DarkMessageBox(message, caption, icon, buttons);
+			return dlg.ShowDialog();
 		}
 
 		#endregion

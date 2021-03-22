@@ -21,8 +21,8 @@ namespace DarkUI.Win32 {
 		private DarkDockGroup? _targetGroup;
 		private DockInsertType _insertType = DockInsertType.None;
 
-		private Dictionary<DarkDockRegion, DockDropArea> _regionDropAreas = new Dictionary<DarkDockRegion, DockDropArea>();
-		private Dictionary<DarkDockGroup, DockDropCollection> _groupDropAreas = new Dictionary<DarkDockGroup, DockDropCollection>();
+		private Dictionary<DarkDockRegion, DockDropArea> _regionDropAreas = new();
+		private Dictionary<DarkDockGroup, DockDropCollection> _groupDropAreas = new();
 
 		#endregion
 
@@ -168,10 +168,10 @@ namespace DarkUI.Win32 {
 				if( collection.DropArea.DockGroup == _dragContent.DockGroup )
 					sameGroup = true;
 
-				if( collection.DropArea.DockGroup.DockRegion == _dragContent.DockRegion )
+				if( collection.DropArea.DockGroup?.DockRegion == _dragContent.DockRegion )
 					sameRegion = true;
 
-				if( _dragContent.DockGroup.ContentCount > 1 )
+				if( _dragContent.DockGroup?.ContentCount > 1 )
 					groupHasOtherContent = true;
 
 				// If we're hovering over the group itself, only allow inserting before/after if multiple content is tabbed.
@@ -182,10 +182,10 @@ namespace DarkUI.Win32 {
 					// Inserting before/after other content might cause the content to be dropped on to its own location.
 					// Check if the group above/below the hovered group contains our drag content.
 					if( sameRegion && !groupHasOtherContent ) {
-						if( collection.InsertBeforeArea.DockGroup.Order == _dragContent.DockGroup.Order + 1 )
+						if( collection.InsertBeforeArea.DockGroup?.Order == _dragContent.DockGroup?.Order + 1 )
 							skipBefore = true;
 
-						if( collection.InsertAfterArea.DockGroup.Order == _dragContent.DockGroup.Order - 1 )
+						if( collection.InsertAfterArea.DockGroup?.Order == _dragContent.DockGroup?.Order - 1 )
 							skipAfter = true;
 					}
 

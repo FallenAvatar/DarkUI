@@ -1,7 +1,7 @@
 ﻿using DarkUI.Config;
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -21,10 +21,10 @@ namespace DarkUI.Controls {
 
 		private DarkControlState _controlState = DarkControlState.Normal;
 
-		private ObservableCollection<DarkDropdownItem> _items = new ObservableCollection<DarkDropdownItem>();
+		private readonly ObservableCollection<DarkDropdownItem> _items = new();
 		private DarkDropdownItem? _selectedItem;
 
-		private DarkContextMenu _menu = new DarkContextMenu();
+		private readonly DarkContextMenu _menu = new();
 		private bool _menuOpen = false;
 
 		private bool _showBorder = true;
@@ -200,8 +200,8 @@ namespace DarkUI.Controls {
 		#region Event Handler Region
 
 		private void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
-			if( e?.Action == NotifyCollectionChangedAction.Add ) {
-				foreach( DarkDropdownItem item in (IEnumerable<DarkDropdownItem>?)e?.NewItems ?? Enumerable.Empty<DarkDropdownItem>() ) {
+			if( e?.Action == NotifyCollectionChangedAction.Add && e?.NewItems != null ) {
+				foreach( DarkDropdownItem item in e.NewItems ) {
 					var menuItem = new ToolStripMenuItem(item.Text) {
 						Image = item.Icon,
 						AutoSize = false,
@@ -219,8 +219,8 @@ namespace DarkUI.Controls {
 				}
 			}
 
-			if( e?.Action == NotifyCollectionChangedAction.Remove ) {
-				foreach( DarkDropdownItem item in (IEnumerable<DarkDropdownItem>?)e?.OldItems ?? Enumerable.Empty<DarkDropdownItem>() ) {
+			if( e?.Action == NotifyCollectionChangedAction.Remove && e?.OldItems != null ) {
+				foreach( DarkDropdownItem item in e.OldItems ) {
 					foreach( ToolStripMenuItem menuItem in _menu.Items ) {
 						if( (DarkDropdownItem)menuItem.Tag == item )
 							_menu.Items.Remove(menuItem);
@@ -237,8 +237,7 @@ namespace DarkUI.Controls {
 		}
 
 		private void Item_Select(object? sender, EventArgs e) {
-			var menuItem = sender as ToolStripMenuItem;
-			if( menuItem == null )
+			if( sender is not ToolStripMenuItem menuItem )
 				return;
 
 			var dropdownItem = (DarkDropdownItem)menuItem.Tag;
@@ -354,10 +353,9 @@ namespace DarkUI.Controls {
 			// Draw normal state
 			if( ControlState == DarkControlState.Normal ) {
 				if( ShowBorder ) {
-					using( var p = new Pen(ThemeProvider.Theme.Colors.LightBorder, 1) ) {
-						var modRect = new Rectangle(ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
-						g.DrawRectangle(p, modRect);
-					}
+					using var p = new Pen(ThemeProvider.Theme.Colors.LightBorder, 1);
+					var modRect = new Rectangle(ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+					g.DrawRectangle(p, modRect);
 				}
 			}
 
@@ -372,10 +370,9 @@ namespace DarkUI.Controls {
 					g.FillRectangle(b, arrowRect);
 				}
 
-				using( var p = new Pen(ThemeProvider.Theme.Colors.BlueSelection, 1) ) {
-					var modRect = new Rectangle(ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1 - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Height - 1);
-					g.DrawRectangle(p, modRect);
-				}
+				using var p = new Pen(ThemeProvider.Theme.Colors.BlueSelection, 1);
+				var modRect = new Rectangle(ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1 - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Height - 1);
+				g.DrawRectangle(p, modRect);
 			}
 
 			// Draw pressed state
@@ -405,21 +402,20 @@ namespace DarkUI.Controls {
 				}
 
 				// Draw Text
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.LightText) ) {
-					var stringFormat = new StringFormat {
-						Alignment = StringAlignment.Near,
-						LineAlignment = StringAlignment.Center
-					};
+				using var b = new SolidBrush(ThemeProvider.Theme.Colors.LightText);
+				var stringFormat = new StringFormat {
+					Alignment = StringAlignment.Near,
+					LineAlignment = StringAlignment.Center
+				};
 
-					var rect = new Rectangle(ClientRectangle.Left + 2, ClientRectangle.Top, ClientRectangle.Width - 16, ClientRectangle.Height);
+				var rect = new Rectangle(ClientRectangle.Left + 2, ClientRectangle.Top, ClientRectangle.Width - 16, ClientRectangle.Height);
 
-					if( hasIcon ) {
-						rect.X += _iconSize + 7;
-						rect.Width -= _iconSize + 7;
-					}
-
-					g.DrawString(SelectedItem.Text, Font, b, rect, stringFormat);
+				if( hasIcon ) {
+					rect.X += _iconSize + 7;
+					rect.Width -= _iconSize + 7;
 				}
+
+				g.DrawString(SelectedItem.Text, Font, b, rect, stringFormat);
 			}
 		}
 

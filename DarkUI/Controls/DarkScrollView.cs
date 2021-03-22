@@ -36,12 +36,10 @@ namespace DarkUI.Controls {
 
 			// Draw the bit where the scrollbars meet
 			if( _vScrollBar.Visible && _hScrollBar.Visible ) {
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground) ) {
-					var rect = new Rectangle(_hScrollBar.Right, _vScrollBar.Bottom, _vScrollBar.Width,
-											 _hScrollBar.Height);
+				using var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground);
+				var rect = new Rectangle(_hScrollBar.Right, _vScrollBar.Bottom, _vScrollBar.Width, _hScrollBar.Height);
 
-					g.FillRectangle(b, rect);
-				}
+				g.FillRectangle(b, rect);
 			}
 		}
 

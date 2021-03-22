@@ -34,7 +34,7 @@ namespace DarkUI.Controls {
 		private int _indent = 20;
 
 		private ObservableList<DarkTreeNode> _nodes;
-		private ObservableCollection<DarkTreeNode> _selectedNodes;
+		private readonly ObservableCollection<DarkTreeNode> _selectedNodes;
 
 		private DarkTreeNode? _anchoredNodeStart;
 		private DarkTreeNode? _anchoredNodeEnd;
@@ -415,7 +415,7 @@ namespace DarkUI.Controls {
 					if( difference > ItemHeight )
 						difference = ItemHeight;
 
-					_vScrollBar.Value = _vScrollBar.Value - difference;
+					_vScrollBar.Value -= difference;
 				}
 
 				// Scroll down
@@ -425,7 +425,7 @@ namespace DarkUI.Controls {
 					if( difference > ItemHeight )
 						difference = ItemHeight;
 
-					_vScrollBar.Value = _vScrollBar.Value + difference;
+					_vScrollBar.Value += difference;
 				}
 			}
 
@@ -437,7 +437,7 @@ namespace DarkUI.Controls {
 					if( difference > ItemHeight )
 						difference = ItemHeight;
 
-					_hScrollBar.Value = _hScrollBar.Value - difference;
+					_hScrollBar.Value -= difference;
 				}
 
 				// Scroll right
@@ -447,7 +447,7 @@ namespace DarkUI.Controls {
 					if( difference > ItemHeight )
 						difference = ItemHeight;
 
-					_hScrollBar.Value = _hScrollBar.Value + difference;
+					_hScrollBar.Value += difference;
 				}
 			}
 		}
@@ -738,8 +738,8 @@ namespace DarkUI.Controls {
 				_selectedNodes.Add(node);
 
 			if( updateAnchors && _selectedNodes.Count > 0 ) {
-				_anchoredNodeStart = _selectedNodes[_selectedNodes.Count - 1];
-				_anchoredNodeEnd = _selectedNodes[_selectedNodes.Count - 1];
+				_anchoredNodeStart = _selectedNodes[^1];
+				_anchoredNodeEnd = _selectedNodes[^1];
 			}
 
 			Invalidate();

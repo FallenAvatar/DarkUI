@@ -25,7 +25,7 @@ namespace DarkUI.Controls {
 		private readonly int _iconSize = 16;
 
 		private ObservableCollection<DarkListItem>? _items;
-		private List<int> _selectedIndices;
+		private readonly List<int> _selectedIndices;
 		private int _anchoredItemStart = -1;
 		private int _anchoredItemEnd = -1;
 
@@ -127,8 +127,7 @@ namespace DarkUI.Controls {
 				if( _selectedIndices.Count > 0 ) {
 					_selectedIndices.Clear();
 
-					if( SelectedIndicesChanged != null )
-						SelectedIndicesChanged(this, EventArgs.Empty);
+					SelectedIndicesChanged?.Invoke(this, EventArgs.Empty);
 				}
 			}
 

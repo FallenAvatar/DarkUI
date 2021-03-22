@@ -12,9 +12,9 @@ namespace DarkUI.Docking {
 	public class DarkDockGroup : Panel {
 		#region Field Region
 
-		private readonly List<DarkDockContent> _contents = new List<DarkDockContent>();
+		private readonly List<DarkDockContent> _contents = new();
 
-		private readonly Dictionary<DarkDockContent, DarkDockTab> _tabs = new Dictionary<DarkDockContent, DarkDockTab>();
+		private readonly Dictionary<DarkDockContent, DarkDockTab> _tabs = new();
 
 		private readonly DarkDockTabArea _tabArea;
 
@@ -90,10 +90,11 @@ namespace DarkUI.Docking {
 				dockContent.Visible = false;
 			}
 
-			var menuItem = new ToolStripMenuItem(dockContent.DockText);
-			menuItem.Tag = dockContent;
+			var menuItem = new ToolStripMenuItem(dockContent.DockText) {
+				Tag = dockContent,
+				Image = dockContent.Icon
+			};
 			menuItem.Click += TabMenuItem_Select;
-			menuItem.Image = dockContent.Icon;
 			_tabArea.AddMenuItem(menuItem);
 
 			UpdateTabArea();
@@ -514,12 +515,10 @@ namespace DarkUI.Docking {
 		}
 
 		private void TabMenuItem_Select(object? sender, EventArgs e) {
-			var menuItem = sender as ToolStripMenuItem;
-			if( menuItem == null )
+			if( sender is not ToolStripMenuItem menuItem )
 				return;
 
-			var content = menuItem.Tag as DarkDockContent;
-			if( content == null )
+			if( menuItem.Tag is not DarkDockContent content )
 				return;
 
 			DockPanel.ActiveContent = content;
@@ -563,15 +562,14 @@ namespace DarkUI.Docking {
 		protected override void OnPaint(PaintEventArgs e) {
 			var g = e.Graphics;
 
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground) ) {
-				g.FillRectangle(b, ClientRectangle);
-			}
+			using var b0 = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground);
+			g.FillRectangle(b0, ClientRectangle);
 
 			if( !_tabArea.Visible )
 				return;
 
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground) ) {
-				g.FillRectangle(b, _tabArea.ClientRectangle);
+			using( var b1 = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground) ) {
+				g.FillRectangle(b1, _tabArea.ClientRectangle);
 			}
 
 			foreach( var tab in _tabs.Values ) {
@@ -585,21 +583,18 @@ namespace DarkUI.Docking {
 				// Color divider
 				var isActiveGroup = DockPanel.ActiveGroup == this;
 				var divColor = isActiveGroup ? ThemeProvider.Theme.Colors.BlueSelection : ThemeProvider.Theme.Colors.GreySelection;
-				using( var b = new SolidBrush(divColor) ) {
-					var divRect = new Rectangle(_tabArea.ClientRectangle.Left, _tabArea.ClientRectangle.Bottom - 2, _tabArea.ClientRectangle.Width, 2);
-					g.FillRectangle(b, divRect);
-				}
+				using var b2 = new SolidBrush(divColor);
+				var divRect = new Rectangle(_tabArea.ClientRectangle.Left, _tabArea.ClientRectangle.Bottom - 2, _tabArea.ClientRectangle.Width, 2);
+				g.FillRectangle(b2, divRect);
 
 				// Content dropdown list
 				var dropdownRect = new Rectangle(_tabArea.DropdownRectangle.Left, _tabArea.DropdownRectangle.Top, _tabArea.DropdownRectangle.Width, _tabArea.DropdownRectangle.Height - 2);
 
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground) ) {
-					g.FillRectangle(b, dropdownRect);
-				}
+				using var b3 = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground);
+				g.FillRectangle(b3, dropdownRect);
 
-				using( var img = DockIcons.arrow ) {
-					g.DrawImageUnscaled(img, dropdownRect.Left + (dropdownRect.Width / 2) - (img.Width / 2), dropdownRect.Top + (dropdownRect.Height / 2) - (img.Height / 2) + 1);
-				}
+				using var img = DockIcons.arrow;
+				g.DrawImageUnscaled(img, dropdownRect.Left + (dropdownRect.Width / 2) - (img.Width / 2), dropdownRect.Top + (dropdownRect.Height / 2) - (img.Height / 2) + 1);
 			}
 		}
 
@@ -617,15 +612,13 @@ namespace DarkUI.Docking {
 			if( tab.Hot && !isVisibleTab )
 				bgColor = ThemeProvider.Theme.Colors.MediumBackground;
 
-			using( var b = new SolidBrush(bgColor) ) {
-				g.FillRectangle(b, tabRect);
-			}
+			using var b = new SolidBrush(bgColor);
+			g.FillRectangle(b, tabRect);
 
 			// Draw separators
 			if( tab.ShowSeparator ) {
-				using( var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder) ) {
-					g.DrawLine(p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom);
-				}
+				using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
+				g.DrawLine(p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom);
 			}
 
 			var xOffset = 0;
@@ -645,10 +638,9 @@ namespace DarkUI.Docking {
 
 			// Draw text
 			var textColor = isVisibleTab ? ThemeProvider.Theme.Colors.LightText : ThemeProvider.Theme.Colors.DisabledText;
-			using( var b = new SolidBrush(textColor) ) {
-				var textRect = new Rectangle(tabRect.Left + 5 + xOffset, tabRect.Top, tabRect.Width - tab.CloseButtonRectangle.Width - 7 - 5 - xOffset, tabRect.Height);
-				g.DrawString(tab.DockContent.DockText, Font, b, textRect, tabTextFormat);
-			}
+			using var b2 = new SolidBrush(textColor);
+			var textRect = new Rectangle(tabRect.Left + 5 + xOffset, tabRect.Top, tabRect.Width - tab.CloseButtonRectangle.Width - 7 - 5 - xOffset, tabRect.Height);
+			g.DrawString(tab.DockContent.DockText, Font, b2, textRect, tabTextFormat);
 
 			// Close button
 			var img = tab.CloseButtonHot ? DockIcons.inactive_close_selected : DockIcons.inactive_close;
@@ -674,15 +666,13 @@ namespace DarkUI.Docking {
 			if( tab.Hot && !isVisibleTab )
 				bgColor = ThemeProvider.Theme.Colors.MediumBackground;
 
-			using( var b = new SolidBrush(bgColor) ) {
-				g.FillRectangle(b, tabRect);
-			}
+			using var b1 = new SolidBrush(bgColor);
+			g.FillRectangle(b1, tabRect);
 
 			// Draw separators
 			if( tab.ShowSeparator ) {
-				using( var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder) ) {
-					g.DrawLine(p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom);
-				}
+				using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
+				g.DrawLine(p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom);
 			}
 
 			var tabTextFormat = new StringFormat {
@@ -693,10 +683,9 @@ namespace DarkUI.Docking {
 			};
 
 			var textColor = isVisibleTab ? ThemeProvider.Theme.Colors.BlueHighlight : ThemeProvider.Theme.Colors.DisabledText;
-			using( var b = new SolidBrush(textColor) ) {
-				var textRect = new Rectangle(tabRect.Left + 5, tabRect.Top, tabRect.Width - 5, tabRect.Height);
-				g.DrawString(tab.DockContent.DockText, Font, b, textRect, tabTextFormat);
-			}
+			using var b2 = new SolidBrush(textColor);
+			var textRect = new Rectangle(tabRect.Left + 5, tabRect.Top, tabRect.Width - 5, tabRect.Height);
+			g.DrawString(tab.DockContent.DockText, Font, b2, textRect, tabTextFormat);
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e) {
