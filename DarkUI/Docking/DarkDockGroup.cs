@@ -130,8 +130,10 @@ namespace DarkUI.Docking {
 
 			var menuItem = _tabArea.GetMenuItem(dockContent);
 
-			menuItem.Click -= TabMenuItem_Select;
-			_tabArea.RemoveMenuItem(menuItem);
+			if( menuItem != null ) {
+				menuItem.Click -= TabMenuItem_Select;
+				_tabArea.RemoveMenuItem(menuItem);
+			}
 
 			UpdateTabArea();
 		}
@@ -146,7 +148,7 @@ namespace DarkUI.Docking {
 			else
 				_tabArea.Visible = (_contents.Count > 1);
 
-			var size = 0;
+			int size;
 
 			switch( DockArea ) {
 			case DarkDockArea.Document:

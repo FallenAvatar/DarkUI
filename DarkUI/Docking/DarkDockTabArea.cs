@@ -8,7 +8,7 @@ namespace DarkUI.Docking {
 	internal class DarkDockTabArea {
 		#region Field Region
 
-		private readonly Dictionary<DarkDockContent, DarkDockTab> _tabs = new();
+		//private readonly Dictionary<DarkDockContent, DarkDockTab> _tabs = new();
 
 		private readonly List<ToolStripMenuItem> _menuItems = new();
 		private readonly DarkContextMenu _tabMenu = new();

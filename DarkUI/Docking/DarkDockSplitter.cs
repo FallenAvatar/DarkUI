@@ -90,7 +90,7 @@ namespace DarkUI.Docking {
 				var bottomY = Math.Max(bounds.Location.Y - difference.Y, _minimum);
 
 				if( _maximum != 0 && bottomY > _maximum )
-					topY = _maximum;
+					bottomY = _maximum;
 
 				bounds.Location = new Point(bounds.Location.X, bottomY);
 				break;

@@ -140,7 +140,7 @@ namespace DarkUI.Forms {
 			SetFlowSize();
 		}
 
-		private void ShowButton(DarkButton button, bool isLast = false) {
+		private static void ShowButton(DarkButton button, bool isLast = false) {
 			button.SendToBack();
 
 			if( !isLast )

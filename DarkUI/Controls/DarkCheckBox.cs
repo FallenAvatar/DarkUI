@@ -43,9 +43,7 @@ namespace DarkUI.Controls {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public new bool FlatAppearance {
-			get { return false; }
-		}
+		public new bool FlatAppearance => false;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -103,15 +101,11 @@ namespace DarkUI.Controls {
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public new bool UseCompatibleTextRendering {
-			get { return false; }
-		}
+		public new bool UseCompatibleTextRendering => false;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public new bool UseVisualStyleBackColor {
-			get { return false; }
-		}
+		public new bool UseVisualStyleBackColor => false;
 
 		#endregion
 

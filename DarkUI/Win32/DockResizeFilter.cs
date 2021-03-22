@@ -150,10 +150,10 @@ namespace DarkUI.Win32 {
 				Cursor.Current = hotSplitter.ResizeCursor;
 		}
 
-		private void ResetCursor() {
-			Cursor.Current = Cursors.Default;
-			CheckCursor();
-		}
+		//private void ResetCursor() {
+		//	Cursor.Current = Cursors.Default;
+		//	CheckCursor();
+		//}
 
 		#endregion
 	}

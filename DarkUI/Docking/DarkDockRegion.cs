@@ -206,7 +206,7 @@ namespace DarkUI.Docking {
 			if( _groups.Count <= 1 )
 				return;
 
-			var size = new Size(0, 0);
+			Size size;
 
 			switch( DockArea ) {
 			default:

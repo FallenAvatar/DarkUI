@@ -85,6 +85,7 @@ namespace DarkUI.Docking {
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public List<DarkDockSplitter> Splitters { get; private set; }
 
+		// FIXME: This just seems really wrong
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public MouseButtons MouseButtonState {

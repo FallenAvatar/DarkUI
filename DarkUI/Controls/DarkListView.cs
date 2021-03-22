@@ -384,7 +384,7 @@ namespace DarkUI.Controls {
 			if( SelectedIndices.Count == 0 )
 				return;
 
-			var itemTop = -1;
+			int itemTop;
 
 			if( !MultiSelect )
 				itemTop = SelectedIndices[0] * ItemHeight;
