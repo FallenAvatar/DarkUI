@@ -1,8 +1,8 @@
-﻿using DarkUI.Collections;
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.Linq;
+
+using DarkUI.Collections;
 
 namespace DarkUI.Controls {
 	public class DarkTreeNode {
@@ -70,9 +70,9 @@ namespace DarkUI.Controls {
 				_expanded = value;
 
 				if( _expanded ) {
-					NodeExpanded?.Invoke(this, EventArgs.Empty);
+					NodeExpanded?.Invoke( this, EventArgs.Empty );
 				} else {
-					NodeCollapsed?.Invoke(this, EventArgs.Empty);
+					NodeCollapsed?.Invoke( this, EventArgs.Empty );
 				}
 			}
 		}
@@ -129,7 +129,7 @@ namespace DarkUI.Controls {
 				var path = Text;
 
 				while( parent != null ) {
-					path = string.Format("{0}{1}{2}", parent.Text, "\\", path);
+					path = string.Format( "{0}{1}{2}", parent.Text, "\\", path );
 					parent = parent.ParentNode;
 				}
 
@@ -143,7 +143,7 @@ namespace DarkUI.Controls {
 
 		public int VisibleIndex { get; set; }
 
-		public bool IsNodeAncestor(DarkTreeNode node) {
+		public bool IsNodeAncestor( DarkTreeNode node ) {
 			var parent = ParentNode;
 			while( parent != null ) {
 				if( parent == node )
@@ -163,7 +163,7 @@ namespace DarkUI.Controls {
 			_nodes = new ObservableList<DarkTreeNode>();
 		}
 
-		public DarkTreeNode(string text)
+		public DarkTreeNode( string text )
 			: this() {
 			Text = text;
 		}
@@ -174,9 +174,9 @@ namespace DarkUI.Controls {
 
 		public void Remove() {
 			if( ParentNode != null )
-				ParentNode.Nodes?.Remove(this);
+				ParentNode.Nodes?.Remove( this );
 			else
-				ParentTree?.Nodes?.Remove(this);
+				ParentTree?.Nodes?.Remove( this );
 		}
 
 		public void EnsureVisible() {
@@ -195,31 +195,31 @@ namespace DarkUI.Controls {
 		private void OnTextChanged() {
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null ) {
 				if( ParentNode != null )
-					ParentNode.Nodes.Sort(ParentTree.TreeViewNodeSorter);
+					ParentNode.Nodes.Sort( ParentTree.TreeViewNodeSorter );
 				else
-					ParentTree.Nodes.Sort(ParentTree.TreeViewNodeSorter);
+					ParentTree.Nodes.Sort( ParentTree.TreeViewNodeSorter );
 			}
 
-			TextChanged?.Invoke(this, EventArgs.Empty);
+			TextChanged?.Invoke( this, EventArgs.Empty );
 		}
 
-		private void Nodes_ItemsAdded(object? sender, ObservableListModified<DarkTreeNode> e) {
+		private void Nodes_ItemsAdded( object? sender, ObservableListModified<DarkTreeNode> e ) {
 			foreach( var node in e.Items ) {
 				node.ParentNode = this;
 				node.ParentTree = ParentTree;
 			}
 
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null )
-				Nodes.Sort(ParentTree.TreeViewNodeSorter);
+				Nodes.Sort( ParentTree.TreeViewNodeSorter );
 
-			ItemsAdded?.Invoke(this, e);
+			ItemsAdded?.Invoke( this, e );
 		}
 
-		private void Nodes_ItemsRemoved(object? sender, ObservableListModified<DarkTreeNode> e) {
+		private void Nodes_ItemsRemoved( object? sender, ObservableListModified<DarkTreeNode> e ) {
 			if( Nodes.Count == 0 )
 				Expanded = false;
 
-			ItemsRemoved?.Invoke(this, e);
+			ItemsRemoved?.Invoke( this, e );
 		}
 
 		#endregion

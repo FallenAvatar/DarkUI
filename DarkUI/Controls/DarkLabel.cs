@@ -1,9 +1,9 @@
-﻿using DarkUI.Config;
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Config;
 
 namespace DarkUI.Controls {
 	public class DarkLabel : Label {
@@ -16,9 +16,9 @@ namespace DarkUI.Controls {
 
 		#region Property Region
 
-		[Category("Layout")]
-		[Description("Enables automatic height sizing based on the contents of the label.")]
-		[DefaultValue(false)]
+		[Category( "Layout" )]
+		[Description( "Enables automatic height sizing based on the contents of the label." )]
+		[DefaultValue( false )]
 		public bool AutoUpdateHeight {
 			get { return _autoUpdateHeight; }
 			set {
@@ -59,8 +59,8 @@ namespace DarkUI.Controls {
 
 			try {
 				_isGrowing = true;
-				var sz = new Size(Width, int.MaxValue);
-				sz = TextRenderer.MeasureText(Text, Font, sz, TextFormatFlags.WordBreak);
+				var sz = new Size( Width, int.MaxValue );
+				sz = TextRenderer.MeasureText( Text, Font, sz, TextFormatFlags.WordBreak );
 				Height = sz.Height + Padding.Vertical;
 			} finally {
 				_isGrowing = false;
@@ -71,18 +71,18 @@ namespace DarkUI.Controls {
 
 		#region Event Handler Region
 
-		protected override void OnTextChanged(EventArgs e) {
-			base.OnTextChanged(e);
+		protected override void OnTextChanged( EventArgs e ) {
+			base.OnTextChanged( e );
 			ResizeLabel();
 		}
 
-		protected override void OnFontChanged(EventArgs e) {
-			base.OnFontChanged(e);
+		protected override void OnFontChanged( EventArgs e ) {
+			base.OnFontChanged( e );
 			ResizeLabel();
 		}
 
-		protected override void OnSizeChanged(EventArgs e) {
-			base.OnSizeChanged(e);
+		protected override void OnSizeChanged( EventArgs e ) {
+			base.OnSizeChanged( e );
 			ResizeLabel();
 		}
 

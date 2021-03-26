@@ -6,7 +6,7 @@ namespace DarkUI.Win32 {
 	/// Defined in winuser.h from Windows SDK v6.1
 	/// Documentation pulled from MSDN.
 	/// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "<Pending>")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage( "Design", "CA1069:Enums values should not be duplicated", Justification = "<Pending>" )]
 	internal enum WM : uint {
 		/// <summary>
 		/// The WM_NULL message performs no operation. An application sends the WM_NULL message if it wants to post a message that the recipient window will ignore.

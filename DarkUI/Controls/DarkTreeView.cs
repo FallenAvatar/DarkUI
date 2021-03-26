@@ -1,10 +1,4 @@
-﻿using DarkUI.Collections;
-using DarkUI.Config;
-using DarkUI.Extensions;
-using DarkUI.Forms;
-using DarkUI.Icons;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -12,6 +6,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
+using DarkUI.Collections;
+using DarkUI.Config;
+using DarkUI.Extensions;
+using DarkUI.Forms;
+using DarkUI.Icons;
 
 namespace DarkUI.Controls {
 	public class DarkTreeView : DarkScrollView {
@@ -56,8 +56,8 @@ namespace DarkUI.Controls {
 
 		#region Property Region
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public ObservableList<DarkTreeNode> Nodes {
 			get { return _nodes; }
 			set {
@@ -66,7 +66,7 @@ namespace DarkUI.Controls {
 					_nodes.ItemsRemoved -= Nodes_ItemsRemoved;
 
 					foreach( var node in _nodes )
-						UnhookNodeEvents(node);
+						UnhookNodeEvents( node );
 				}
 
 				_nodes = value;
@@ -75,21 +75,21 @@ namespace DarkUI.Controls {
 				_nodes.ItemsRemoved += Nodes_ItemsRemoved;
 
 				foreach( var node in _nodes )
-					HookNodeEvents(node);
+					HookNodeEvents( node );
 
 				UpdateNodes();
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public ObservableCollection<DarkTreeNode> SelectedNodes {
 			get { return _selectedNodes; }
 		}
 
-		[Category("Appearance")]
-		[Description("Determines the height of tree nodes.")]
-		[DefaultValue(20)]
+		[Category( "Appearance" )]
+		[Description( "Determines the height of tree nodes." )]
+		[DefaultValue( 20 )]
 		public int ItemHeight {
 			get { return _itemHeight; }
 			set {
@@ -99,9 +99,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Appearance")]
-		[Description("Determines the amount of horizontal space given by parent node.")]
-		[DefaultValue(20)]
+		[Category( "Appearance" )]
+		[Description( "Determines the amount of horizontal space given by parent node." )]
+		[DefaultValue( 20 )]
 		public int Indent {
 			get { return _indent; }
 			set {
@@ -110,27 +110,27 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Behavior")]
-		[Description("Determines whether multiple tree nodes can be selected at once.")]
-		[DefaultValue(false)]
+		[Category( "Behavior" )]
+		[Description( "Determines whether multiple tree nodes can be selected at once." )]
+		[DefaultValue( false )]
 		public bool MultiSelect { get; set; }
 
-		[Category("Behavior")]
-		[Description("Determines whether nodes can be moved within this tree view.")]
-		[DefaultValue(false)]
+		[Category( "Behavior" )]
+		[Description( "Determines whether nodes can be moved within this tree view." )]
+		[DefaultValue( false )]
 		public bool AllowMoveNodes { get; set; }
 
-		[Category("Appearance")]
-		[Description("Determines whether icons are rendered with the tree nodes.")]
-		[DefaultValue(false)]
+		[Category( "Appearance" )]
+		[Description( "Determines whether icons are rendered with the tree nodes." )]
+		[DefaultValue( false )]
 		public bool ShowIcons { get; set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public int VisibleNodeCount { get; private set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public IComparer<DarkTreeNode>? TreeViewNodeSorter { get; set; }
 
 		#endregion
@@ -152,7 +152,7 @@ namespace DarkUI.Controls {
 
 		#region Dispose Region
 
-		protected override void Dispose(bool disposing) {
+		protected override void Dispose( bool disposing ) {
 			if( !_disposed ) {
 				DisposeIcons();
 
@@ -174,77 +174,77 @@ namespace DarkUI.Controls {
 				_disposed = true;
 			}
 
-			base.Dispose(disposing);
+			base.Dispose( disposing );
 		}
 
 		#endregion
 
 		#region Event Handler Region
 
-		private void Nodes_ItemsAdded(object? sender, ObservableListModified<DarkTreeNode> e) {
+		private void Nodes_ItemsAdded( object? sender, ObservableListModified<DarkTreeNode> e ) {
 			foreach( var node in e.Items ) {
 				node.ParentTree = this;
 				node.IsRoot = true;
 
-				HookNodeEvents(node);
+				HookNodeEvents( node );
 			}
 
 			if( TreeViewNodeSorter != null )
-				Nodes.Sort(TreeViewNodeSorter);
+				Nodes.Sort( TreeViewNodeSorter );
 
 			UpdateNodes();
 		}
 
-		private void Nodes_ItemsRemoved(object? sender, ObservableListModified<DarkTreeNode> e) {
+		private void Nodes_ItemsRemoved( object? sender, ObservableListModified<DarkTreeNode> e ) {
 			foreach( var node in e.Items ) {
 				node.ParentTree = this;
 				node.IsRoot = true;
 
-				HookNodeEvents(node);
+				HookNodeEvents( node );
 			}
 
 			UpdateNodes();
 		}
 
-		private void ChildNodes_ItemsAdded(object? sender, ObservableListModified<DarkTreeNode> e) {
+		private void ChildNodes_ItemsAdded( object? sender, ObservableListModified<DarkTreeNode> e ) {
 			foreach( var node in e.Items )
-				HookNodeEvents(node);
+				HookNodeEvents( node );
 
 			UpdateNodes();
 		}
 
-		private void ChildNodes_ItemsRemoved(object? sender, ObservableListModified<DarkTreeNode> e) {
+		private void ChildNodes_ItemsRemoved( object? sender, ObservableListModified<DarkTreeNode> e ) {
 			foreach( var node in e.Items ) {
-				if( SelectedNodes.Contains(node) )
-					_ = SelectedNodes.Remove(node);
+				if( SelectedNodes.Contains( node ) )
+					_ = SelectedNodes.Remove( node );
 
-				UnhookNodeEvents(node);
+				UnhookNodeEvents( node );
 			}
 
 			UpdateNodes();
 		}
 
-		private void SelectedNodes_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
-			SelectedNodesChanged?.Invoke(this, EventArgs.Empty);
+		private void SelectedNodes_CollectionChanged( object? sender, NotifyCollectionChangedEventArgs e ) {
+			SelectedNodesChanged?.Invoke( this, EventArgs.Empty );
 		}
 
-		private void Nodes_TextChanged(object? sender, EventArgs e) {
+		private void Nodes_TextChanged( object? sender, EventArgs e ) {
 			UpdateNodes();
 		}
 
-		private void Nodes_NodeExpanded(object? sender, EventArgs e) {
+		private void Nodes_NodeExpanded( object? sender, EventArgs e ) {
 			UpdateNodes();
 
-			AfterNodeExpand?.Invoke(this, EventArgs.Empty);
+			AfterNodeExpand?.Invoke( this, EventArgs.Empty );
 		}
 
-		private void Nodes_NodeCollapsed(object? sender, EventArgs e) {
+		private void Nodes_NodeCollapsed( object? sender, EventArgs e ) {
 			UpdateNodes();
 
-			AfterNodeCollapse?.Invoke(this, EventArgs.Empty);
+			AfterNodeCollapse?.Invoke( this, EventArgs.Empty );
 		}
 
-		protected override void OnMouseMove(MouseEventArgs e) {
+		protected override void OnMouseMove( MouseEventArgs e ) {
 			if( _provisionalDragging ) {
 				if( OffsetMousePosition != _dragPos ) {
 					StartDrag();
@@ -255,8 +255,8 @@ namespace DarkUI.Controls {
 
 			if( IsDragging ) {
 				if( _dropNode != null ) {
-					var rect = GetNodeFullRowArea(_dropNode);
-					if( !rect.Contains(OffsetMousePosition) ) {
+					var rect = GetNodeFullRowArea( _dropNode );
+					if( !rect.Contains( OffsetMousePosition ) ) {
 						_dropNode = null;
 						Invalidate();
 					}
@@ -269,25 +269,25 @@ namespace DarkUI.Controls {
 				HandleDrag();
 			}
 
-			base.OnMouseMove(e);
+			base.OnMouseMove( e );
 		}
 
-		protected override void OnMouseWheel(MouseEventArgs e) {
+		protected override void OnMouseWheel( MouseEventArgs e ) {
 			CheckHover();
 
-			base.OnMouseWheel(e);
+			base.OnMouseWheel( e );
 		}
 
-		protected override void OnMouseDown(MouseEventArgs e) {
+		protected override void OnMouseDown( MouseEventArgs e ) {
 			if( e.Button == MouseButtons.Left || e.Button == MouseButtons.Right ) {
 				foreach( var node in Nodes )
-					CheckNodeClick(node, OffsetMousePosition, e.Button);
+					CheckNodeClick( node, OffsetMousePosition, e.Button );
 			}
 
-			base.OnMouseDown(e);
+			base.OnMouseDown( e );
 		}
 
-		protected override void OnMouseUp(MouseEventArgs e) {
+		protected override void OnMouseUp( MouseEventArgs e ) {
 			if( IsDragging ) {
 				HandleDrop();
 			}
@@ -297,36 +297,36 @@ namespace DarkUI.Controls {
 				if( _provisionalNode != null ) {
 					var pos = _dragPos;
 					if( OffsetMousePosition == pos )
-						SelectNode(_provisionalNode);
+						SelectNode( _provisionalNode );
 				}
 
 				_provisionalDragging = false;
 			}
 
-			base.OnMouseUp(e);
+			base.OnMouseUp( e );
 		}
 
-		protected override void OnMouseDoubleClick(MouseEventArgs e) {
+		protected override void OnMouseDoubleClick( MouseEventArgs e ) {
 			if( ModifierKeys == Keys.Control )
 				return;
 
 			if( e.Button == MouseButtons.Left ) {
 				foreach( var node in Nodes )
-					CheckNodeDoubleClick(node, OffsetMousePosition);
+					CheckNodeDoubleClick( node, OffsetMousePosition );
 			}
 
-			base.OnMouseDoubleClick(e);
+			base.OnMouseDoubleClick( e );
 		}
 
-		protected override void OnMouseLeave(EventArgs e) {
-			base.OnMouseLeave(e);
+		protected override void OnMouseLeave( EventArgs e ) {
+			base.OnMouseLeave( e );
 
 			foreach( var node in Nodes )
-				NodeMouseLeave(node);
+				NodeMouseLeave( node );
 		}
 
-		protected override void OnKeyDown(KeyEventArgs e) {
-			base.OnKeyDown(e);
+		protected override void OnKeyDown( KeyEventArgs e ) {
+			base.OnKeyDown( e );
 
 			if( IsDragging )
 				return;
@@ -339,7 +339,7 @@ namespace DarkUI.Controls {
 
 			if( _anchoredNodeEnd == null ) {
 				if( Nodes.Count > 0 )
-					SelectNode(Nodes[0]);
+					SelectNode( Nodes[0] );
 				return;
 			}
 
@@ -347,24 +347,24 @@ namespace DarkUI.Controls {
 				if( MultiSelect && ModifierKeys == Keys.Shift ) {
 					if( e.KeyCode == Keys.Up ) {
 						if( _anchoredNodeEnd.PrevVisibleNode != null ) {
-							SelectAnchoredRange(_anchoredNodeEnd.PrevVisibleNode);
+							SelectAnchoredRange( _anchoredNodeEnd.PrevVisibleNode );
 							EnsureVisible();
 						}
 					} else if( e.KeyCode == Keys.Down ) {
 						if( _anchoredNodeEnd.NextVisibleNode != null ) {
-							SelectAnchoredRange(_anchoredNodeEnd.NextVisibleNode);
+							SelectAnchoredRange( _anchoredNodeEnd.NextVisibleNode );
 							EnsureVisible();
 						}
 					}
 				} else {
 					if( e.KeyCode == Keys.Up ) {
 						if( _anchoredNodeEnd.PrevVisibleNode != null ) {
-							SelectNode(_anchoredNodeEnd.PrevVisibleNode);
+							SelectNode( _anchoredNodeEnd.PrevVisibleNode );
 							EnsureVisible();
 						}
 					} else if( e.KeyCode == Keys.Down ) {
 						if( _anchoredNodeEnd.NextVisibleNode != null ) {
-							SelectNode(_anchoredNodeEnd.NextVisibleNode);
+							SelectNode( _anchoredNodeEnd.NextVisibleNode );
 							EnsureVisible();
 						}
 					}
@@ -377,7 +377,7 @@ namespace DarkUI.Controls {
 						_anchoredNodeEnd.Expanded = false;
 					} else {
 						if( _anchoredNodeEnd.ParentNode != null ) {
-							SelectNode(_anchoredNodeEnd.ParentNode);
+							SelectNode( _anchoredNodeEnd.ParentNode );
 							EnsureVisible();
 						}
 					}
@@ -386,7 +386,7 @@ namespace DarkUI.Controls {
 						_anchoredNodeEnd.Expanded = true;
 					} else {
 						if( _anchoredNodeEnd.Nodes?.Count > 0 ) {
-							SelectNode(_anchoredNodeEnd.Nodes[0]);
+							SelectNode( _anchoredNodeEnd.Nodes[0] );
 							EnsureVisible();
 						}
 					}
@@ -394,7 +394,7 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		private void DragTimer_Tick(object? sender, EventArgs e) {
+		private void DragTimer_Tick( object? sender, EventArgs e ) {
 			if( !IsDragging ) {
 				StopDrag();
 				return;
@@ -405,7 +405,7 @@ namespace DarkUI.Controls {
 				return;
 			}
 
-			var pos = PointToClient(MousePosition);
+			var pos = PointToClient( MousePosition );
 
 			if( _vScrollBar.Visible ) {
 				// Scroll up
@@ -456,7 +456,7 @@ namespace DarkUI.Controls {
 
 		#region Method Region
 
-		private void HookNodeEvents(DarkTreeNode node) {
+		private void HookNodeEvents( DarkTreeNode node ) {
 			if( node.Nodes != null ) {
 				node.Nodes.ItemsAdded += ChildNodes_ItemsAdded;
 				node.Nodes.ItemsRemoved += ChildNodes_ItemsRemoved;
@@ -467,10 +467,10 @@ namespace DarkUI.Controls {
 			node.NodeCollapsed += Nodes_NodeCollapsed;
 
 			foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-				HookNodeEvents(childNode);
+				HookNodeEvents( childNode );
 		}
 
-		private void UnhookNodeEvents(DarkTreeNode node) {
+		private void UnhookNodeEvents( DarkTreeNode node ) {
 			if( node.Nodes != null ) {
 				node.Nodes.ItemsAdded -= ChildNodes_ItemsAdded;
 				node.Nodes.ItemsRemoved -= ChildNodes_ItemsRemoved;
@@ -481,14 +481,14 @@ namespace DarkUI.Controls {
 			node.NodeCollapsed -= Nodes_NodeCollapsed;
 
 			foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-				UnhookNodeEvents(childNode);
+				UnhookNodeEvents( childNode );
 		}
 
 		private void UpdateNodes() {
 			if( IsDragging )
 				return;
 
-			ContentSize = new Size(0, 0);
+			ContentSize = new Size( 0, 0 );
 
 			if( Nodes.Count == 0 )
 				return;
@@ -500,19 +500,19 @@ namespace DarkUI.Controls {
 
 			for( var i = 0; i <= Nodes.Count - 1; i++ ) {
 				var node = Nodes[i];
-				UpdateNode(node, ref prevNode, 0, ref yOffset, ref isOdd, ref index);
+				UpdateNode( node, ref prevNode, 0, ref yOffset, ref isOdd, ref index );
 			}
 
-			ContentSize = new Size(ContentSize.Width, yOffset);
+			ContentSize = new Size( ContentSize.Width, yOffset );
 
 			VisibleNodeCount = index;
 
 			Invalidate();
 		}
 
-		private void UpdateNode(DarkTreeNode node, ref DarkTreeNode? prevNode, int indent, ref int yOffset,
-								ref bool isOdd, ref int index) {
-			UpdateNodeBounds(node, yOffset, indent);
+		private void UpdateNode( DarkTreeNode node, ref DarkTreeNode? prevNode, int indent, ref int yOffset,
+								ref bool isOdd, ref int index ) {
+			UpdateNodeBounds( node, yOffset, indent );
 
 			yOffset += ItemHeight;
 
@@ -531,41 +531,41 @@ namespace DarkUI.Controls {
 
 			if( node.Expanded ) {
 				foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-					UpdateNode(childNode, ref prevNode, indent + Indent, ref yOffset, ref isOdd, ref index);
+					UpdateNode( childNode, ref prevNode, indent + Indent, ref yOffset, ref isOdd, ref index );
 			}
 		}
 
-		private void UpdateNodeBounds(DarkTreeNode node, int yOffset, int indent) {
+		private void UpdateNodeBounds( DarkTreeNode node, int yOffset, int indent ) {
 			var expandTop = yOffset + (ItemHeight / 2) - (_expandAreaSize / 2);
-			node.ExpandArea = new Rectangle(indent + 3, expandTop, _expandAreaSize, _expandAreaSize);
+			node.ExpandArea = new Rectangle( indent + 3, expandTop, _expandAreaSize, _expandAreaSize );
 
 			var iconTop = yOffset + (ItemHeight / 2) - (_iconSize / 2);
 
 			if( ShowIcons )
-				node.IconArea = new Rectangle(node.ExpandArea.Right + 2, iconTop, _iconSize, _iconSize);
+				node.IconArea = new Rectangle( node.ExpandArea.Right + 2, iconTop, _iconSize, _iconSize );
 			else
-				node.IconArea = new Rectangle(node.ExpandArea.Right, iconTop, 0, 0);
+				node.IconArea = new Rectangle( node.ExpandArea.Right, iconTop, 0, 0 );
 
 			using( var g = CreateGraphics() ) {
-				var textSize = (int)(g.MeasureString(node.Text, Font).Width);
-				node.TextArea = new Rectangle(node.IconArea.Right + 2, yOffset, textSize + 1, ItemHeight);
+				var textSize = (int)(g.MeasureString( node.Text, Font ).Width);
+				node.TextArea = new Rectangle( node.IconArea.Right + 2, yOffset, textSize + 1, ItemHeight );
 			}
 
-			node.FullArea = new Rectangle(indent, yOffset, (node.TextArea.Right - indent), ItemHeight);
+			node.FullArea = new Rectangle( indent, yOffset, (node.TextArea.Right - indent), ItemHeight );
 
 			if( ContentSize.Width < node.TextArea.Right + 2 )
-				ContentSize = new Size(node.TextArea.Right + 2, ContentSize.Height);
+				ContentSize = new Size( node.TextArea.Right + 2, ContentSize.Height );
 		}
 
 		private void LoadIcons() {
 			DisposeIcons();
 
-			_nodeClosed = TreeViewIcons.node_closed_empty.SetColor(ThemeProvider.Theme.Colors.LightText);
-			_nodeClosedHover = TreeViewIcons.node_closed_empty.SetColor(ThemeProvider.Theme.Colors.BlueHighlight);
-			_nodeClosedHoverSelected = TreeViewIcons.node_closed_full.SetColor(ThemeProvider.Theme.Colors.LightText);
-			_nodeOpen = TreeViewIcons.node_open.SetColor(ThemeProvider.Theme.Colors.LightText);
-			_nodeOpenHover = TreeViewIcons.node_open.SetColor(ThemeProvider.Theme.Colors.BlueHighlight);
-			_nodeOpenHoverSelected = TreeViewIcons.node_open_empty.SetColor(ThemeProvider.Theme.Colors.LightText);
+			_nodeClosed = TreeViewIcons.node_closed_empty.SetColor( ThemeProvider.Theme.Colors.LightText );
+			_nodeClosedHover = TreeViewIcons.node_closed_empty.SetColor( ThemeProvider.Theme.Colors.BlueHighlight );
+			_nodeClosedHoverSelected = TreeViewIcons.node_closed_full.SetColor( ThemeProvider.Theme.Colors.LightText );
+			_nodeOpen = TreeViewIcons.node_open.SetColor( ThemeProvider.Theme.Colors.LightText );
+			_nodeOpenHover = TreeViewIcons.node_open.SetColor( ThemeProvider.Theme.Colors.BlueHighlight );
+			_nodeOpenHoverSelected = TreeViewIcons.node_open_empty.SetColor( ThemeProvider.Theme.Colors.LightText );
 		}
 
 		private void DisposeIcons() {
@@ -589,7 +589,7 @@ namespace DarkUI.Controls {
 		}
 
 		private void CheckHover() {
-			if( !ClientRectangle.Contains(PointToClient(MousePosition)) ) {
+			if( !ClientRectangle.Contains( PointToClient( MousePosition ) ) ) {
 				if( IsDragging ) {
 					if( _dropNode != null ) {
 						_dropNode = null;
@@ -601,23 +601,23 @@ namespace DarkUI.Controls {
 			}
 
 			foreach( var node in Nodes )
-				CheckNodeHover(node, OffsetMousePosition);
+				CheckNodeHover( node, OffsetMousePosition );
 		}
 
-		private void NodeMouseLeave(DarkTreeNode node) {
+		private void NodeMouseLeave( DarkTreeNode node ) {
 			node.ExpandAreaHot = false;
 
 			foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-				NodeMouseLeave(childNode);
+				NodeMouseLeave( childNode );
 
 			Invalidate();
 		}
 
-		private void CheckNodeHover(DarkTreeNode node, Point location) {
+		private void CheckNodeHover( DarkTreeNode node, Point location ) {
 			if( IsDragging ) {
-				var rect = GetNodeFullRowArea(node);
-				if( rect.Contains(OffsetMousePosition) ) {
-					var newDropNode = _dragNodes?.Contains(node) ?? false ? null : node;
+				var rect = GetNodeFullRowArea( node );
+				if( rect.Contains( OffsetMousePosition ) ) {
+					var newDropNode = _dragNodes?.Contains( node ) ?? false ? null : node;
 
 					if( _dropNode != newDropNode ) {
 						_dropNode = newDropNode;
@@ -625,7 +625,7 @@ namespace DarkUI.Controls {
 					}
 				}
 			} else {
-				var hot = node.ExpandArea.Contains(location);
+				var hot = node.ExpandArea.Contains( location );
 				if( node.ExpandAreaHot != hot ) {
 					node.ExpandAreaHot = hot;
 					Invalidate();
@@ -633,24 +633,24 @@ namespace DarkUI.Controls {
 			}
 
 			foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-				CheckNodeHover(childNode, location);
+				CheckNodeHover( childNode, location );
 		}
 
-		private void CheckNodeClick(DarkTreeNode node, Point location, MouseButtons button) {
-			var rect = GetNodeFullRowArea(node);
-			if( rect.Contains(location) ) {
-				if( node.ExpandArea.Contains(location) ) {
+		private void CheckNodeClick( DarkTreeNode node, Point location, MouseButtons button ) {
+			var rect = GetNodeFullRowArea( node );
+			if( rect.Contains( location ) ) {
+				if( node.ExpandArea.Contains( location ) ) {
 					if( button == MouseButtons.Left )
 						node.Expanded = !node.Expanded;
 				} else {
 					if( button == MouseButtons.Left ) {
 						if( MultiSelect && ModifierKeys == Keys.Shift ) {
-							SelectAnchoredRange(node);
+							SelectAnchoredRange( node );
 						} else if( MultiSelect && ModifierKeys == Keys.Control ) {
-							ToggleNode(node);
+							ToggleNode( node );
 						} else {
-							if( !SelectedNodes.Contains(node) )
-								SelectNode(node);
+							if( !SelectedNodes.Contains( node ) )
+								SelectNode( node );
 
 							_dragPos = OffsetMousePosition;
 							_provisionalDragging = true;
@@ -665,8 +665,8 @@ namespace DarkUI.Controls {
 						if( MultiSelect && ModifierKeys == Keys.Control )
 							return;
 
-						if( !SelectedNodes.Contains(node) )
-							SelectNode(node);
+						if( !SelectedNodes.Contains( node ) )
+							SelectNode( node );
 
 						return;
 					}
@@ -675,14 +675,14 @@ namespace DarkUI.Controls {
 
 			if( node.Expanded ) {
 				foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-					CheckNodeClick(childNode, location, button);
+					CheckNodeClick( childNode, location, button );
 			}
 		}
 
-		private void CheckNodeDoubleClick(DarkTreeNode node, Point location) {
-			var rect = GetNodeFullRowArea(node);
-			if( rect.Contains(location) ) {
-				if( !node.ExpandArea.Contains(location) )
+		private void CheckNodeDoubleClick( DarkTreeNode node, Point location ) {
+			var rect = GetNodeFullRowArea( node );
+			if( rect.Contains( location ) ) {
+				if( !node.ExpandArea.Contains( location ) )
 					node.Expanded = !node.Expanded;
 
 				return;
@@ -690,13 +690,13 @@ namespace DarkUI.Controls {
 
 			if( node.Expanded ) {
 				foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-					CheckNodeDoubleClick(childNode, location);
+					CheckNodeDoubleClick( childNode, location );
 			}
 		}
 
-		public void SelectNode(DarkTreeNode node) {
+		public void SelectNode( DarkTreeNode node ) {
 			_selectedNodes.Clear();
-			_selectedNodes.Add(node);
+			_selectedNodes.Add( node );
 
 			_anchoredNodeStart = node;
 			_anchoredNodeEnd = node;
@@ -704,38 +704,38 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		public void SelectNodes(DarkTreeNode startNode, DarkTreeNode endNode) {
+		public void SelectNodes( DarkTreeNode startNode, DarkTreeNode endNode ) {
 			var nodes = new List<DarkTreeNode>();
 
 			if( startNode == endNode )
-				nodes.Add(startNode);
+				nodes.Add( startNode );
 
 			if( startNode.VisibleIndex < endNode.VisibleIndex ) {
 				var node = startNode;
-				nodes.Add(node);
+				nodes.Add( node );
 				while( node != endNode && node != null ) {
 					node = node.NextVisibleNode;
 					if( node != null )
-						nodes.Add(node);
+						nodes.Add( node );
 				}
 			} else if( startNode.VisibleIndex > endNode.VisibleIndex ) {
 				var node = startNode;
-				nodes.Add(node);
+				nodes.Add( node );
 				while( node != endNode && node != null ) {
 					node = node.PrevVisibleNode;
 					if( node != null )
-						nodes.Add(node);
+						nodes.Add( node );
 				}
 			}
 
-			SelectNodes(nodes, false);
+			SelectNodes( nodes, false );
 		}
 
-		public void SelectNodes(List<DarkTreeNode> nodes, bool updateAnchors = true) {
+		public void SelectNodes( List<DarkTreeNode> nodes, bool updateAnchors = true ) {
 			_selectedNodes.Clear();
 
 			foreach( var node in nodes )
-				_selectedNodes.Add(node);
+				_selectedNodes.Add( node );
 
 			if( updateAnchors && _selectedNodes.Count > 0 ) {
 				_anchoredNodeStart = _selectedNodes[^1];
@@ -745,15 +745,15 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		private void SelectAnchoredRange(DarkTreeNode node) {
+		private void SelectAnchoredRange( DarkTreeNode node ) {
 			_anchoredNodeEnd = node;
 			if( _anchoredNodeStart != null )
-				SelectNodes(_anchoredNodeStart, _anchoredNodeEnd);
+				SelectNodes( _anchoredNodeStart, _anchoredNodeEnd );
 		}
 
-		public void ToggleNode(DarkTreeNode node) {
-			if( _selectedNodes.Contains(node) ) {
-				_ = _selectedNodes.Remove(node);
+		public void ToggleNode( DarkTreeNode node ) {
+			if( _selectedNodes.Contains( node ) ) {
+				_ = _selectedNodes.Remove( node );
 
 				// If we just removed both the anchor start AND end then reset them
 				if( _anchoredNodeStart == node && _anchoredNodeEnd == node ) {
@@ -786,7 +786,7 @@ namespace DarkUI.Controls {
 						_anchoredNodeEnd = _anchoredNodeStart;
 				}
 			} else {
-				_selectedNodes.Add(node);
+				_selectedNodes.Add( node );
 
 				_anchoredNodeStart = node;
 				_anchoredNodeEnd = node;
@@ -795,12 +795,12 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		public Rectangle GetNodeFullRowArea(DarkTreeNode node) {
+		public Rectangle GetNodeFullRowArea( DarkTreeNode node ) {
 			if( node.ParentNode != null && !node.ParentNode.Expanded )
-				return new Rectangle(-1, -1, -1, -1);
+				return new Rectangle( -1, -1, -1, -1 );
 
-			var width = Math.Max(ContentSize.Width, Viewport.Width);
-			var rect = new Rectangle(0, node.FullArea.Top, width, ItemHeight);
+			var width = Math.Max( ContentSize.Width, Viewport.Width );
+			var rect = new Rectangle( 0, node.FullArea.Top, width, ItemHeight );
 			return rect;
 		}
 
@@ -821,32 +821,32 @@ namespace DarkUI.Controls {
 			var itemBottom = itemTop + ItemHeight;
 
 			if( itemTop < Viewport.Top )
-				VScrollTo(itemTop);
+				VScrollTo( itemTop );
 
 			if( itemBottom > Viewport.Bottom )
-				VScrollTo((itemBottom - Viewport.Height));
+				VScrollTo( (itemBottom - Viewport.Height) );
 		}
 
 		public void Sort() {
 			if( TreeViewNodeSorter == null )
 				return;
 
-			Nodes.Sort(TreeViewNodeSorter);
+			Nodes.Sort( TreeViewNodeSorter );
 
 			foreach( var node in Nodes )
-				SortChildNodes(node);
+				SortChildNodes( node );
 		}
 
-		private void SortChildNodes(DarkTreeNode node) {
-			node.Nodes?.Sort(TreeViewNodeSorter);
+		private void SortChildNodes( DarkTreeNode node ) {
+			node.Nodes?.Sort( TreeViewNodeSorter );
 
 			foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() )
-				SortChildNodes(childNode);
+				SortChildNodes( childNode );
 		}
 
-		public DarkTreeNode? FindNode(string path) {
+		public DarkTreeNode? FindNode( string path ) {
 			foreach( var node in Nodes ) {
-				var compNode = FindNode(node, path);
+				var compNode = FindNode( node, path );
 				if( compNode != null )
 					return compNode;
 			}
@@ -854,7 +854,7 @@ namespace DarkUI.Controls {
 			return null;
 		}
 
-		private DarkTreeNode? FindNode(DarkTreeNode parentNode, string path, bool recursive = true) {
+		private DarkTreeNode? FindNode( DarkTreeNode parentNode, string path, bool recursive = true ) {
 			if( parentNode.FullPath == path )
 				return parentNode;
 
@@ -863,7 +863,7 @@ namespace DarkUI.Controls {
 					return node;
 
 				if( recursive ) {
-					var compNode = FindNode(node, path);
+					var compNode = FindNode( node, path );
 					if( compNode != null )
 						return compNode;
 				}
@@ -885,15 +885,15 @@ namespace DarkUI.Controls {
 			// Create initial list of nodes to drag
 			_dragNodes = new List<DarkTreeNode>();
 			foreach( var node in SelectedNodes )
-				_dragNodes.Add(node);
+				_dragNodes.Add( node );
 
 			// Clear out any nodes with a parent that is being dragged
 			foreach( var node in _dragNodes.ToList() ) {
 				if( node.ParentNode == null )
 					continue;
 
-				if( _dragNodes.Contains(node.ParentNode) )
-					_ = _dragNodes.Remove(node);
+				if( _dragNodes.Contains( node.ParentNode ) )
+					_ = _dragNodes.Remove( node );
 			}
 
 			_provisionalDragging = false;
@@ -916,10 +916,10 @@ namespace DarkUI.Controls {
 				return;
 			}
 
-			if( ForceDropToParent(dropNode) )
+			if( ForceDropToParent( dropNode ) )
 				dropNode = dropNode.ParentNode;
 
-			if( _dragNodes != null && !CanMoveNodes(_dragNodes, dropNode) ) {
+			if( _dragNodes != null && !CanMoveNodes( _dragNodes, dropNode ) ) {
 				if( Cursor != Cursors.No )
 					Cursor = Cursors.No;
 
@@ -941,32 +941,32 @@ namespace DarkUI.Controls {
 				return;
 			}
 
-			if( ForceDropToParent(dropNode) )
+			if( ForceDropToParent( dropNode ) )
 				dropNode = dropNode.ParentNode;
 
-			if( _dragNodes != null && CanMoveNodes(_dragNodes, dropNode, true) ) {
+			if( _dragNodes != null && CanMoveNodes( _dragNodes, dropNode, true ) ) {
 				var cachedSelectedNodes = SelectedNodes.ToList();
 
-				MoveNodes(_dragNodes, dropNode);
+				MoveNodes( _dragNodes, dropNode );
 
 				foreach( var node in _dragNodes ) {
 					if( node.ParentNode == null )
-						Nodes.Remove(node);
+						Nodes.Remove( node );
 					else
-						node.ParentNode.Nodes?.Remove(node);
+						node.ParentNode.Nodes?.Remove( node );
 
-					dropNode!.Nodes?.Add(node);
+					dropNode!.Nodes?.Add( node );
 				}
 
 				if( TreeViewNodeSorter != null )
-					dropNode!.Nodes?.Sort(TreeViewNodeSorter);
+					dropNode!.Nodes?.Sort( TreeViewNodeSorter );
 
 				dropNode!.Expanded = true;
 
-				NodesMoved(_dragNodes);
+				NodesMoved( _dragNodes );
 
 				foreach( var node in cachedSelectedNodes )
-					_selectedNodes.Add(node);
+					_selectedNodes.Add( node );
 			}
 
 			StopDrag();
@@ -984,25 +984,25 @@ namespace DarkUI.Controls {
 			base.StopDrag();
 		}
 
-		protected virtual bool ForceDropToParent(DarkTreeNode node) {
+		protected virtual bool ForceDropToParent( DarkTreeNode node ) {
 			return false;
 		}
 
-		protected virtual bool CanMoveNodes(List<DarkTreeNode> dragNodes, DarkTreeNode? dropNode, bool isMoving = false) {
+		protected virtual bool CanMoveNodes( List<DarkTreeNode> dragNodes, DarkTreeNode? dropNode, bool isMoving = false ) {
 			if( dropNode == null )
 				return false;
 
 			foreach( var node in dragNodes ) {
 				if( node == dropNode ) {
 					if( isMoving )
-						_ = DarkMessageBox.ShowError($"Cannot move {node.Text}. The destination folder is the same as the source folder.", Application.ProductName);
+						_ = DarkMessageBox.ShowError( $"Cannot move {node.Text}. The destination folder is the same as the source folder.", Application.ProductName );
 
 					return false;
 				}
 
 				if( node.ParentNode != null && node.ParentNode == dropNode ) {
 					if( isMoving )
-						_ = DarkMessageBox.ShowError($"Cannot move {node.Text}. The destination folder is the same as the source folder.", Application.ProductName);
+						_ = DarkMessageBox.ShowError( $"Cannot move {node.Text}. The destination folder is the same as the source folder.", Application.ProductName );
 
 					return false;
 				}
@@ -1011,7 +1011,7 @@ namespace DarkUI.Controls {
 				while( parentNode != null ) {
 					if( node == parentNode ) {
 						if( isMoving )
-							_ = DarkMessageBox.ShowError($"Cannot move {node.Text}. The destination folder is a subfolder of the source folder.", Application.ProductName);
+							_ = DarkMessageBox.ShowError( $"Cannot move {node.Text}. The destination folder is a subfolder of the source folder.", Application.ProductName );
 
 						return false;
 					}
@@ -1023,102 +1023,102 @@ namespace DarkUI.Controls {
 			return true;
 		}
 
-		protected virtual void MoveNodes(List<DarkTreeNode> dragNodes, DarkTreeNode? dropNode) { }
+		protected virtual void MoveNodes( List<DarkTreeNode> dragNodes, DarkTreeNode? dropNode ) { }
 
-		protected virtual void NodesMoved(List<DarkTreeNode> nodesMoved) { }
+		protected virtual void NodesMoved( List<DarkTreeNode> nodesMoved ) { }
 
 		#endregion
 
 		#region Paint Region
 
-		protected override void PaintContent(Graphics g) {
+		protected override void PaintContent( Graphics g ) {
 			// Fill body
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground) ) {
-				g.FillRectangle(b, ClientRectangle);
+			using( var b = new SolidBrush( ThemeProvider.Theme.Colors.GreyBackground ) ) {
+				g.FillRectangle( b, ClientRectangle );
 			}
 
 			foreach( var node in Nodes ) {
-				DrawNode(node, g);
+				DrawNode( node, g );
 			}
 		}
 
-		private void DrawNode(DarkTreeNode node, Graphics g) {
-			var rect = GetNodeFullRowArea(node);
+		private void DrawNode( DarkTreeNode node, Graphics g ) {
+			var rect = GetNodeFullRowArea( node );
 
 			// 1. Draw background
 			var bgColor = node.Odd ? ThemeProvider.Theme.Colors.HeaderBackground : ThemeProvider.Theme.Colors.GreyBackground;
 
-			if( SelectedNodes.Count > 0 && SelectedNodes.Contains(node) )
+			if( SelectedNodes.Count > 0 && SelectedNodes.Contains( node ) )
 				bgColor = Focused ? ThemeProvider.Theme.Colors.BlueSelection : ThemeProvider.Theme.Colors.GreySelection;
 
 			if( IsDragging && _dropNode == node )
 				bgColor = Focused ? ThemeProvider.Theme.Colors.BlueSelection : ThemeProvider.Theme.Colors.GreySelection;
 
-			using( var b = new SolidBrush(bgColor) ) {
-				g.FillRectangle(b, rect);
+			using( var b = new SolidBrush( bgColor ) ) {
+				g.FillRectangle( b, rect );
 			}
 
 			// 2. Draw plus/minus icon
 			if( node.Nodes?.Count > 0 ) {
-				var pos = new Point(node.ExpandArea.Location.X - 1, node.ExpandArea.Location.Y - 1);
+				var pos = new Point( node.ExpandArea.Location.X - 1, node.ExpandArea.Location.Y - 1 );
 
 				var icon = _nodeOpen;
 
 				if( node.Expanded && !node.ExpandAreaHot )
 					icon = _nodeOpen;
-				else if( node.Expanded && node.ExpandAreaHot && !SelectedNodes.Contains(node) )
+				else if( node.Expanded && node.ExpandAreaHot && !SelectedNodes.Contains( node ) )
 					icon = _nodeOpenHover;
-				else if( node.Expanded && node.ExpandAreaHot && SelectedNodes.Contains(node) )
+				else if( node.Expanded && node.ExpandAreaHot && SelectedNodes.Contains( node ) )
 					icon = _nodeOpenHoverSelected;
 				else if( !node.Expanded && !node.ExpandAreaHot )
 					icon = _nodeClosed;
-				else if( !node.Expanded && node.ExpandAreaHot && !SelectedNodes.Contains(node) )
+				else if( !node.Expanded && node.ExpandAreaHot && !SelectedNodes.Contains( node ) )
 					icon = _nodeClosedHover;
-				else if( !node.Expanded && node.ExpandAreaHot && SelectedNodes.Contains(node) )
+				else if( !node.Expanded && node.ExpandAreaHot && SelectedNodes.Contains( node ) )
 					icon = _nodeClosedHoverSelected;
 
 				if( icon != null )
-					g.DrawImageUnscaled(icon, pos);
+					g.DrawImageUnscaled( icon, pos );
 			}
 
 			// 3. Draw icon
 			if( ShowIcons && node.Icon != null ) {
 				if( node.Expanded && node.ExpandedIcon != null )
-					g.DrawImageUnscaled(node.ExpandedIcon, node.IconArea.Location);
+					g.DrawImageUnscaled( node.ExpandedIcon, node.IconArea.Location );
 				else
-					g.DrawImageUnscaled(node.Icon, node.IconArea.Location);
+					g.DrawImageUnscaled( node.Icon, node.IconArea.Location );
 			}
 
 			// 4. Draw text
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.LightText) ) {
+			using( var b = new SolidBrush( ThemeProvider.Theme.Colors.LightText ) ) {
 				var stringFormat = new StringFormat {
 					Alignment = StringAlignment.Near,
 					LineAlignment = StringAlignment.Center
 				};
 
-				g.DrawString(node.Text, Font, b, node.TextArea, stringFormat);
+				g.DrawString( node.Text, Font, b, node.TextArea, stringFormat );
 			}
 
 			// 5. Draw child nodes
-			DrawChildNodes(node, g);
+			DrawChildNodes( node, g );
 		}
 
 		/// <summary>
 		/// Recursively paints only the nodes and child nodes within the viewport.
 		/// </summary>
-		private void DrawChildNodes(DarkTreeNode node, Graphics g) {
+		private void DrawChildNodes( DarkTreeNode node, Graphics g ) {
 			if( node.Expanded ) {
 				foreach( var childNode in node.Nodes ?? Enumerable.Empty<DarkTreeNode>() ) {
 
 					if( childNode.Expanded )
-						DrawChildNodes(childNode, g);
+						DrawChildNodes( childNode, g );
 
 					bool isInTopView = Viewport.Top <= childNode.FullArea.Y;
 					bool isWithin = childNode.FullArea.Y < Viewport.Top + Viewport.Height;
 					bool isPastBottomView = childNode.FullArea.Y > Viewport.Top + Viewport.Height;
 
 					if( isInTopView && isWithin )
-						DrawNode(childNode, g);
+						DrawNode( childNode, g );
 
 					if( isPastBottomView )
 						break;

@@ -1,13 +1,11 @@
-﻿using DarkUI.Config;
-
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
+
+using DarkUI.Config;
 
 namespace DarkUI.Controls {
 	public class DarkDropdownList : Control {
@@ -40,25 +38,25 @@ namespace DarkUI.Controls {
 
 		#region Property Region
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public ObservableCollection<DarkDropdownItem> Items {
 			get { return _items; }
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDropdownItem? SelectedItem {
 			get { return _selectedItem; }
 			set {
 				_selectedItem = value;
-				SelectedItemChanged?.Invoke(this, new EventArgs());
+				SelectedItemChanged?.Invoke( this, new EventArgs() );
 			}
 		}
 
-		[Category("Appearance")]
-		[Description("Determines whether a border is drawn around the control.")]
-		[DefaultValue(true)]
+		[Category( "Appearance" )]
+		[Description( "Determines whether a border is drawn around the control." )]
+		[DefaultValue( true )]
 		public bool ShowBorder {
 			get { return _showBorder; }
 			set {
@@ -68,18 +66,18 @@ namespace DarkUI.Controls {
 		}
 
 		protected override Size DefaultSize {
-			get { return new Size(100, 26); }
+			get { return new Size( 100, 26 ); }
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkControlState ControlState {
 			get { return _controlState; }
 		}
 
-		[Category("Appearance")]
-		[Description("Determines the height of the individual list view items.")]
-		[DefaultValue(22)]
+		[Category( "Appearance" )]
+		[Description( "Determines the height of the individual list view items." )]
+		[DefaultValue( 22 )]
 		public int ItemHeight {
 			get { return _itemHeight; }
 			set {
@@ -88,9 +86,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Appearance")]
-		[Description("Determines the maximum height of the dropdown panel.")]
-		[DefaultValue(130)]
+		[Category( "Appearance" )]
+		[Description( "Determines the maximum height of the dropdown panel." )]
+		[DefaultValue( 130 )]
 		public int MaxHeight {
 			get { return _maxHeight; }
 			set {
@@ -99,9 +97,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Behavior")]
-		[Description("Determines what location the dropdown list appears.")]
-		[DefaultValue(ToolStripDropDownDirection.Default)]
+		[Category( "Behavior" )]
+		[Description( "Determines what location the dropdown list appears." )]
+		[DefaultValue( ToolStripDropDownDirection.Default )]
 		public ToolStripDropDownDirection DropdownDirection {
 			get { return _dropdownDirection; }
 			set { _dropdownDirection = value; }
@@ -112,11 +110,11 @@ namespace DarkUI.Controls {
 		#region Constructor Region
 
 		public DarkDropdownList() {
-			SetStyle(ControlStyles.OptimizedDoubleBuffer |
+			SetStyle( ControlStyles.OptimizedDoubleBuffer |
 					 ControlStyles.ResizeRedraw |
 					 ControlStyles.UserPaint |
 					 ControlStyles.Selectable |
-					 ControlStyles.UserMouse, true);
+					 ControlStyles.UserMouse, true );
 
 			_menu.AutoSize = false;
 			_menu.Closed += Menu_Closed;
@@ -124,14 +122,14 @@ namespace DarkUI.Controls {
 			Items.CollectionChanged += Items_CollectionChanged;
 			SelectedItemChanged += DarkDropdownList_SelectedItemChanged;
 
-			SetControlState(DarkControlState.Normal);
+			SetControlState( DarkControlState.Normal );
 		}
 
 		#endregion
 
 		#region Method Region
 
-		private ToolStripMenuItem? GetMenuItem(DarkDropdownItem item) {
+		private ToolStripMenuItem? GetMenuItem( DarkDropdownItem item ) {
 			foreach( ToolStripMenuItem menuItem in _menu.Items ) {
 				if( (DarkDropdownItem)menuItem.Tag == item )
 					return menuItem;
@@ -140,7 +138,7 @@ namespace DarkUI.Controls {
 			return null;
 		}
 
-		private void SetControlState(DarkControlState controlState) {
+		private void SetControlState( DarkControlState controlState ) {
 			if( _menuOpen )
 				return;
 
@@ -154,19 +152,19 @@ namespace DarkUI.Controls {
 			if( _menu.Visible )
 				return;
 
-			SetControlState(DarkControlState.Pressed);
+			SetControlState( DarkControlState.Pressed );
 
 			_menuOpen = true;
 
-			var pos = new Point(0, ClientRectangle.Bottom);
+			var pos = new Point( 0, ClientRectangle.Bottom );
 
 			if( _dropdownDirection == ToolStripDropDownDirection.AboveLeft || _dropdownDirection == ToolStripDropDownDirection.AboveRight )
 				pos.Y = 0;
 
-			_menu.Show(this, pos, _dropdownDirection);
+			_menu.Show( this, pos, _dropdownDirection );
 
 			if( SelectedItem != null ) {
-				var selectedItem = GetMenuItem(SelectedItem);
+				var selectedItem = GetMenuItem( SelectedItem );
 				selectedItem?.Select();
 			}
 		}
@@ -190,19 +188,19 @@ namespace DarkUI.Controls {
 
 			// Force the size
 			foreach( ToolStripMenuItem item in _menu.Items )
-				item.Size = new Size(width - 1, _itemHeight);
+				item.Size = new Size( width - 1, _itemHeight );
 
-			_menu.Size = new Size(width, height);
+			_menu.Size = new Size( width, height );
 		}
 
 		#endregion
 
 		#region Event Handler Region
 
-		private void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+		private void Items_CollectionChanged( object? sender, NotifyCollectionChangedEventArgs e ) {
 			if( e?.Action == NotifyCollectionChangedAction.Add && e?.NewItems != null ) {
 				foreach( DarkDropdownItem item in e.NewItems ) {
-					var menuItem = new ToolStripMenuItem(item.Text) {
+					var menuItem = new ToolStripMenuItem( item.Text ) {
 						Image = item.Icon,
 						AutoSize = false,
 						Height = _itemHeight,
@@ -211,7 +209,7 @@ namespace DarkUI.Controls {
 						TextAlign = ContentAlignment.MiddleLeft
 					};
 
-					_ = _menu.Items.Add(menuItem);
+					_ = _menu.Items.Add( menuItem );
 					menuItem.Click += Item_Select;
 
 					if( SelectedItem == null )
@@ -223,7 +221,7 @@ namespace DarkUI.Controls {
 				foreach( DarkDropdownItem item in e.OldItems ) {
 					foreach( ToolStripMenuItem menuItem in _menu.Items ) {
 						if( (DarkDropdownItem)menuItem.Tag == item )
-							_menu.Items.Remove(menuItem);
+							_menu.Items.Remove( menuItem );
 					}
 				}
 			}
@@ -236,7 +234,7 @@ namespace DarkUI.Controls {
 			ResizeMenu();
 		}
 
-		private void Item_Select(object? sender, EventArgs e) {
+		private void Item_Select( object? sender, EventArgs e ) {
 			if( sender is not ToolStripMenuItem menuItem )
 				return;
 
@@ -245,151 +243,151 @@ namespace DarkUI.Controls {
 				SelectedItem = dropdownItem;
 		}
 
-		private void DarkDropdownList_SelectedItemChanged(object? sender, EventArgs e) {
+		private void DarkDropdownList_SelectedItemChanged( object? sender, EventArgs e ) {
 			foreach( ToolStripMenuItem item in _menu.Items ) {
 				if( (DarkDropdownItem)item.Tag == SelectedItem ) {
 					item.BackColor = ThemeProvider.Theme.Colors.DarkBlueBackground;
-					item.Font = new Font(Font, FontStyle.Bold);
+					item.Font = new Font( Font, FontStyle.Bold );
 				} else {
 					item.BackColor = ThemeProvider.Theme.Colors.GreyBackground;
-					item.Font = new Font(Font, FontStyle.Regular);
+					item.Font = new Font( Font, FontStyle.Regular );
 				}
 			}
 
 			Invalidate();
 		}
 
-		protected override void OnResize(EventArgs e) {
-			base.OnResize(e);
+		protected override void OnResize( EventArgs e ) {
+			base.OnResize( e );
 
 			ResizeMenu();
 		}
 
-		protected override void OnMouseMove(MouseEventArgs e) {
-			base.OnMouseMove(e);
+		protected override void OnMouseMove( MouseEventArgs e ) {
+			base.OnMouseMove( e );
 
 			if( e.Button == MouseButtons.Left ) {
-				if( ClientRectangle.Contains(e.Location) )
-					SetControlState(DarkControlState.Pressed);
+				if( ClientRectangle.Contains( e.Location ) )
+					SetControlState( DarkControlState.Pressed );
 				else
-					SetControlState(DarkControlState.Hover);
+					SetControlState( DarkControlState.Hover );
 			} else {
-				SetControlState(DarkControlState.Hover);
+				SetControlState( DarkControlState.Hover );
 			}
 		}
 
-		protected override void OnMouseDown(MouseEventArgs e) {
-			base.OnMouseDown(e);
+		protected override void OnMouseDown( MouseEventArgs e ) {
+			base.OnMouseDown( e );
 
 			ShowMenu();
 		}
 
-		protected override void OnMouseUp(MouseEventArgs e) {
-			base.OnMouseUp(e);
+		protected override void OnMouseUp( MouseEventArgs e ) {
+			base.OnMouseUp( e );
 
-			SetControlState(DarkControlState.Normal);
+			SetControlState( DarkControlState.Normal );
 		}
 
-		protected override void OnMouseLeave(EventArgs e) {
-			base.OnMouseLeave(e);
+		protected override void OnMouseLeave( EventArgs e ) {
+			base.OnMouseLeave( e );
 
-			SetControlState(DarkControlState.Normal);
+			SetControlState( DarkControlState.Normal );
 		}
 
-		protected override void OnMouseCaptureChanged(EventArgs e) {
-			base.OnMouseCaptureChanged(e);
+		protected override void OnMouseCaptureChanged( EventArgs e ) {
+			base.OnMouseCaptureChanged( e );
 
 			var location = Cursor.Position;
 
-			if( !ClientRectangle.Contains(location) )
-				SetControlState(DarkControlState.Normal);
+			if( !ClientRectangle.Contains( location ) )
+				SetControlState( DarkControlState.Normal );
 		}
 
-		protected override void OnGotFocus(EventArgs e) {
-			base.OnGotFocus(e);
+		protected override void OnGotFocus( EventArgs e ) {
+			base.OnGotFocus( e );
 
 			Invalidate();
 		}
 
-		protected override void OnLostFocus(EventArgs e) {
-			base.OnLostFocus(e);
+		protected override void OnLostFocus( EventArgs e ) {
+			base.OnLostFocus( e );
 
 			var location = Cursor.Position;
 
-			if( !ClientRectangle.Contains(location) )
-				SetControlState(DarkControlState.Normal);
+			if( !ClientRectangle.Contains( location ) )
+				SetControlState( DarkControlState.Normal );
 			else
-				SetControlState(DarkControlState.Hover);
+				SetControlState( DarkControlState.Hover );
 		}
 
-		protected override void OnKeyDown(KeyEventArgs e) {
-			base.OnKeyDown(e);
+		protected override void OnKeyDown( KeyEventArgs e ) {
+			base.OnKeyDown( e );
 
 			if( e.KeyCode == Keys.Space )
 				ShowMenu();
 		}
 
-		private void Menu_Closed(object? sender, ToolStripDropDownClosedEventArgs e) {
+		private void Menu_Closed( object? sender, ToolStripDropDownClosedEventArgs e ) {
 			_menuOpen = false;
 
-			if( !ClientRectangle.Contains(MousePosition) )
-				SetControlState(DarkControlState.Normal);
+			if( !ClientRectangle.Contains( MousePosition ) )
+				SetControlState( DarkControlState.Normal );
 			else
-				SetControlState(DarkControlState.Hover);
+				SetControlState( DarkControlState.Hover );
 		}
 
 		#endregion
 
 		#region Render Region
 
-		protected override void OnPaint(PaintEventArgs e) {
+		protected override void OnPaint( PaintEventArgs e ) {
 			var g = e.Graphics;
 
 			// Draw background
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground) ) {
-				g.FillRectangle(b, ClientRectangle);
+			using( var b = new SolidBrush( ThemeProvider.Theme.Colors.MediumBackground ) ) {
+				g.FillRectangle( b, ClientRectangle );
 			}
 
 			// Draw normal state
 			if( ControlState == DarkControlState.Normal ) {
 				if( ShowBorder ) {
-					using var p = new Pen(ThemeProvider.Theme.Colors.LightBorder, 1);
-					var modRect = new Rectangle(ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
-					g.DrawRectangle(p, modRect);
+					using var p = new Pen( ThemeProvider.Theme.Colors.LightBorder, 1 );
+					var modRect = new Rectangle( ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1, ClientRectangle.Height - 1 );
+					g.DrawRectangle( p, modRect );
 				}
 			}
 
 			// Draw hover state
 			if( ControlState == DarkControlState.Hover ) {
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.DarkBorder) ) {
-					g.FillRectangle(b, ClientRectangle);
+				using( var b = new SolidBrush( ThemeProvider.Theme.Colors.DarkBorder ) ) {
+					g.FillRectangle( b, ClientRectangle );
 				}
 
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.DarkBackground) ) {
-					var arrowRect = new Rectangle(ClientRectangle.Right - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Top, DropdownIcons.small_arrow.Width + 8, ClientRectangle.Height);
-					g.FillRectangle(b, arrowRect);
+				using( var b = new SolidBrush( ThemeProvider.Theme.Colors.DarkBackground ) ) {
+					var arrowRect = new Rectangle( ClientRectangle.Right - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Top, DropdownIcons.small_arrow.Width + 8, ClientRectangle.Height );
+					g.FillRectangle( b, arrowRect );
 				}
 
-				using var p = new Pen(ThemeProvider.Theme.Colors.BlueSelection, 1);
-				var modRect = new Rectangle(ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1 - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Height - 1);
-				g.DrawRectangle(p, modRect);
+				using var p = new Pen( ThemeProvider.Theme.Colors.BlueSelection, 1 );
+				var modRect = new Rectangle( ClientRectangle.Left, ClientRectangle.Top, ClientRectangle.Width - 1 - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Height - 1 );
+				g.DrawRectangle( p, modRect );
 			}
 
 			// Draw pressed state
 			if( ControlState == DarkControlState.Pressed ) {
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.DarkBorder) ) {
-					g.FillRectangle(b, ClientRectangle);
+				using( var b = new SolidBrush( ThemeProvider.Theme.Colors.DarkBorder ) ) {
+					g.FillRectangle( b, ClientRectangle );
 				}
 
-				using( var b = new SolidBrush(ThemeProvider.Theme.Colors.BlueSelection) ) {
-					var arrowRect = new Rectangle(ClientRectangle.Right - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Top, DropdownIcons.small_arrow.Width + 8, ClientRectangle.Height);
-					g.FillRectangle(b, arrowRect);
+				using( var b = new SolidBrush( ThemeProvider.Theme.Colors.BlueSelection ) ) {
+					var arrowRect = new Rectangle( ClientRectangle.Right - DropdownIcons.small_arrow.Width - 8, ClientRectangle.Top, DropdownIcons.small_arrow.Width + 8, ClientRectangle.Height );
+					g.FillRectangle( b, arrowRect );
 				}
 			}
 
 			// Draw dropdown arrow
 			using( var img = DropdownIcons.small_arrow ) {
-				g.DrawImageUnscaled(img, ClientRectangle.Right - img.Width - 4, ClientRectangle.Top + (ClientRectangle.Height / 2) - (img.Height / 2));
+				g.DrawImageUnscaled( img, ClientRectangle.Right - img.Width - 4, ClientRectangle.Top + (ClientRectangle.Height / 2) - (img.Height / 2) );
 			}
 
 			// Draw selected item
@@ -398,24 +396,24 @@ namespace DarkUI.Controls {
 				var hasIcon = SelectedItem.Icon != null;
 
 				if( hasIcon ) {
-					g.DrawImageUnscaled(SelectedItem.Icon!, new Point(ClientRectangle.Left + 5, ClientRectangle.Top + (ClientRectangle.Height / 2) - (_iconSize / 2)));
+					g.DrawImageUnscaled( SelectedItem.Icon!, new Point( ClientRectangle.Left + 5, ClientRectangle.Top + (ClientRectangle.Height / 2) - (_iconSize / 2) ) );
 				}
 
 				// Draw Text
-				using var b = new SolidBrush(ThemeProvider.Theme.Colors.LightText);
+				using var b = new SolidBrush( ThemeProvider.Theme.Colors.LightText );
 				var stringFormat = new StringFormat {
 					Alignment = StringAlignment.Near,
 					LineAlignment = StringAlignment.Center
 				};
 
-				var rect = new Rectangle(ClientRectangle.Left + 2, ClientRectangle.Top, ClientRectangle.Width - 16, ClientRectangle.Height);
+				var rect = new Rectangle( ClientRectangle.Left + 2, ClientRectangle.Top, ClientRectangle.Width - 16, ClientRectangle.Height );
 
 				if( hasIcon ) {
 					rect.X += _iconSize + 7;
 					rect.Width -= _iconSize + 7;
 				}
 
-				g.DrawString(SelectedItem.Text, Font, b, rect, stringFormat);
+				g.DrawString( SelectedItem.Text, Font, b, rect, stringFormat );
 			}
 		}
 

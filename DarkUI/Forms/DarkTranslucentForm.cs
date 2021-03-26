@@ -13,10 +13,10 @@ namespace DarkUI.Forms {
 
 		#region Constructor Region
 
-		public DarkTranslucentForm(Color backColor, double opacity = 0.6) {
+		public DarkTranslucentForm( Color backColor, double opacity = 0.6 ) {
 			StartPosition = FormStartPosition.Manual;
 			FormBorderStyle = FormBorderStyle.None;
-			Size = new Size(1, 1);
+			Size = new Size( 1, 1 );
 			ShowInTaskbar = false;
 			AllowTransparency = true;
 			Opacity = opacity;

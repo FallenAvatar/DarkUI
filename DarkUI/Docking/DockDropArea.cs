@@ -20,7 +20,7 @@ namespace DarkUI.Docking {
 
 		#region Constructor Region
 
-		internal DockDropArea(DarkDockPanel dockPanel, DarkDockRegion region) {
+		internal DockDropArea( DarkDockPanel dockPanel, DarkDockRegion region ) {
 			DockPanel = dockPanel;
 			DockRegion = region;
 			InsertType = DockInsertType.None;
@@ -28,7 +28,7 @@ namespace DarkUI.Docking {
 			BuildAreas();
 		}
 
-		internal DockDropArea(DarkDockPanel dockPanel, DarkDockGroup group, DockInsertType insertType) {
+		internal DockDropArea( DarkDockPanel dockPanel, DarkDockGroup group, DockInsertType insertType ) {
 			DockPanel = dockPanel;
 			DockGroup = group;
 			InsertType = insertType;
@@ -52,8 +52,8 @@ namespace DarkUI.Docking {
 			case DarkDockArea.Left:
 
 				var leftRect = new Rectangle {
-					X = DockPanel.PointToScreen(Point.Empty).X,
-					Y = DockPanel.PointToScreen(Point.Empty).Y,
+					X = DockPanel.PointToScreen( Point.Empty ).X,
+					Y = DockPanel.PointToScreen( Point.Empty ).Y,
 					Width = 50,
 					Height = DockPanel.Height
 				};
@@ -66,8 +66,8 @@ namespace DarkUI.Docking {
 			case DarkDockArea.Right:
 
 				var rightRect = new Rectangle {
-					X = DockPanel.PointToScreen(Point.Empty).X + DockPanel.Width - 50,
-					Y = DockPanel.PointToScreen(Point.Empty).Y,
+					X = DockPanel.PointToScreen( Point.Empty ).X + DockPanel.Width - 50,
+					Y = DockPanel.PointToScreen( Point.Empty ).Y,
 					Width = 50,
 					Height = DockPanel.Height
 				};
@@ -79,7 +79,7 @@ namespace DarkUI.Docking {
 
 			case DarkDockArea.Bottom:
 
-				var x = DockPanel.PointToScreen(Point.Empty).X;
+				var x = DockPanel.PointToScreen( Point.Empty ).X;
 				var width = DockPanel.Width;
 
 				if( DockPanel.Regions[DarkDockArea.Left].Visible ) {
@@ -93,7 +93,7 @@ namespace DarkUI.Docking {
 
 				var bottomRect = new Rectangle {
 					X = x,
-					Y = DockPanel.PointToScreen(Point.Empty).Y + DockPanel.Height - 50,
+					Y = DockPanel.PointToScreen( Point.Empty ).Y + DockPanel.Height - 50,
 					Width = width,
 					Height = 50
 				};
@@ -109,8 +109,8 @@ namespace DarkUI.Docking {
 			switch( InsertType ) {
 			case DockInsertType.None:
 				var dropRect = new Rectangle {
-					X = DockGroup?.PointToScreen(Point.Empty).X ?? 0,
-					Y = DockGroup?.PointToScreen(Point.Empty).Y ?? 0,
+					X = DockGroup?.PointToScreen( Point.Empty ).X ?? 0,
+					Y = DockGroup?.PointToScreen( Point.Empty ).Y ?? 0,
 					Width = DockGroup?.Width ?? 0,
 					Height = DockGroup?.Height ?? 0
 				};
@@ -136,8 +136,8 @@ namespace DarkUI.Docking {
 				}
 
 				var beforeDropRect = new Rectangle {
-					X = DockGroup?.PointToScreen(Point.Empty).X ?? 0,
-					Y = DockGroup?.PointToScreen(Point.Empty).Y ?? 0,
+					X = DockGroup?.PointToScreen( Point.Empty ).X ?? 0,
+					Y = DockGroup?.PointToScreen( Point.Empty ).Y ?? 0,
 					Width = beforeDropWidth,
 					Height = beforeDropHeight
 				};
@@ -148,8 +148,8 @@ namespace DarkUI.Docking {
 				break;
 
 			case DockInsertType.After:
-				var afterDropX = DockGroup?.PointToScreen(Point.Empty).X ?? 0;
-				var afterDropY = DockGroup?.PointToScreen(Point.Empty).Y ?? 0;
+				var afterDropX = DockGroup?.PointToScreen( Point.Empty ).X ?? 0;
+				var afterDropY = DockGroup?.PointToScreen( Point.Empty ).Y ?? 0;
 				var afterDropWidth = DockGroup?.Width ?? 0;
 				var afterDropHeight = DockGroup?.Height ?? 0;
 
@@ -157,12 +157,12 @@ namespace DarkUI.Docking {
 				case DarkDockArea.Left:
 				case DarkDockArea.Right:
 					afterDropHeight = DockGroup.Height / 4;
-					afterDropY = DockGroup.PointToScreen(Point.Empty).Y + DockGroup.Height - afterDropHeight;
+					afterDropY = DockGroup.PointToScreen( Point.Empty ).Y + DockGroup.Height - afterDropHeight;
 					break;
 
 				case DarkDockArea.Bottom:
 					afterDropWidth = DockGroup.Width / 4;
-					afterDropX = DockGroup.PointToScreen(Point.Empty).X + DockGroup.Width - afterDropWidth;
+					afterDropX = DockGroup.PointToScreen( Point.Empty ).X + DockGroup.Width - afterDropWidth;
 					break;
 				}
 

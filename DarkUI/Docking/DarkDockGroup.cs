@@ -1,14 +1,14 @@
-﻿using DarkUI.Config;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+using DarkUI.Config;
+
 namespace DarkUI.Docking {
-	[ToolboxItem(false)]
+	[ToolboxItem( false )]
 	public class DarkDockGroup : Panel {
 		#region Field Region
 
@@ -40,10 +40,10 @@ namespace DarkUI.Docking {
 
 		#region Constructor Region
 
-		public DarkDockGroup(DarkDockPanel dockPanel, DarkDockRegion dockRegion, int order) {
-			SetStyle(ControlStyles.OptimizedDoubleBuffer |
+		public DarkDockGroup( DarkDockPanel dockPanel, DarkDockRegion dockRegion, int order ) {
+			SetStyle( ControlStyles.OptimizedDoubleBuffer |
 					 ControlStyles.ResizeRedraw |
-					 ControlStyles.UserPaint, true);
+					 ControlStyles.UserPaint, true );
 
 			DockPanel = dockPanel;
 			DockRegion = dockRegion;
@@ -51,7 +51,7 @@ namespace DarkUI.Docking {
 
 			Order = order;
 
-			_tabArea = new DarkDockTabArea(DockArea);
+			_tabArea = new DarkDockTabArea( DockArea );
 
 			DockPanel.ActiveContentChanged += DockPanel_ActiveContentChanged;
 		}
@@ -60,7 +60,7 @@ namespace DarkUI.Docking {
 
 		#region Method Region
 
-		public void AddContent(DarkDockContent dockContent) {
+		public void AddContent( DarkDockContent dockContent ) {
 			dockContent.DockGroup = this;
 			dockContent.Dock = DockStyle.Fill;
 
@@ -76,12 +76,12 @@ namespace DarkUI.Docking {
 				dockContent.Order = order;
 			}
 
-			_contents.Add(dockContent);
-			Controls.Add(dockContent);
+			_contents.Add( dockContent );
+			Controls.Add( dockContent );
 
 			dockContent.DockTextChanged += DockContent_DockTextChanged;
 
-			_tabs.Add(dockContent, new DarkDockTab(dockContent));
+			_tabs.Add( dockContent, new DarkDockTab( dockContent ) );
 
 			if( VisibleContent == null ) {
 				dockContent.Visible = true;
@@ -90,23 +90,23 @@ namespace DarkUI.Docking {
 				dockContent.Visible = false;
 			}
 
-			var menuItem = new ToolStripMenuItem(dockContent.DockText) {
+			var menuItem = new ToolStripMenuItem( dockContent.DockText ) {
 				Tag = dockContent,
 				Image = dockContent.Icon
 			};
 			menuItem.Click += TabMenuItem_Select;
-			_tabArea.AddMenuItem(menuItem);
+			_tabArea.AddMenuItem( menuItem );
 
 			UpdateTabArea();
 		}
 
-		public void RemoveContent(DarkDockContent dockContent) {
+		public void RemoveContent( DarkDockContent dockContent ) {
 			dockContent.DockGroup = null;
 
 			var order = dockContent.Order;
 
-			_ = _contents.Remove(dockContent);
-			Controls.Remove(dockContent);
+			_ = _contents.Remove( dockContent );
+			Controls.Remove( dockContent );
 
 			foreach( var otherContent in _contents ?? Enumerable.Empty<DarkDockContent>() ) {
 				if( otherContent.Order > order )
@@ -115,8 +115,8 @@ namespace DarkUI.Docking {
 
 			dockContent.DockTextChanged -= DockContent_DockTextChanged;
 
-			if( _tabs.ContainsKey(dockContent) )
-				_ = _tabs.Remove(dockContent);
+			if( _tabs.ContainsKey( dockContent ) )
+				_ = _tabs.Remove( dockContent );
 
 			if( VisibleContent == dockContent ) {
 				VisibleContent = null;
@@ -128,18 +128,18 @@ namespace DarkUI.Docking {
 				}
 			}
 
-			var menuItem = _tabArea.GetMenuItem(dockContent);
+			var menuItem = _tabArea.GetMenuItem( dockContent );
 
 			if( menuItem != null ) {
 				menuItem.Click -= TabMenuItem_Select;
-				_tabArea.RemoveMenuItem(menuItem);
+				_tabArea.RemoveMenuItem( menuItem );
 			}
 
 			UpdateTabArea();
 		}
 
 		public List<DarkDockContent> GetContents() {
-			return _contents.OrderBy(c => c.Order).ToList();
+			return _contents.OrderBy( c => c.Order ).ToList();
 		}
 
 		private void UpdateTabArea() {
@@ -153,25 +153,25 @@ namespace DarkUI.Docking {
 			switch( DockArea ) {
 			case DarkDockArea.Document:
 				size = _tabArea.Visible ? ThemeProvider.Theme.Sizes.DocumentTabAreaSize : 0;
-				Padding = new Padding(0, size, 0, 0);
-				_tabArea.ClientRectangle = new Rectangle(Padding.Left, 0, ClientRectangle.Width - Padding.Horizontal, size);
+				Padding = new Padding( 0, size, 0, 0 );
+				_tabArea.ClientRectangle = new Rectangle( Padding.Left, 0, ClientRectangle.Width - Padding.Horizontal, size );
 				break;
 			case DarkDockArea.Left:
 			case DarkDockArea.Right:
 				size = _tabArea.Visible ? ThemeProvider.Theme.Sizes.ToolWindowTabAreaSize : 0;
-				Padding = new Padding(0, 0, 0, size);
-				_tabArea.ClientRectangle = new Rectangle(Padding.Left, ClientRectangle.Bottom - size, ClientRectangle.Width - Padding.Horizontal, size);
+				Padding = new Padding( 0, 0, 0, size );
+				_tabArea.ClientRectangle = new Rectangle( Padding.Left, ClientRectangle.Bottom - size, ClientRectangle.Width - Padding.Horizontal, size );
 				break;
 			case DarkDockArea.Bottom:
 				size = _tabArea.Visible ? ThemeProvider.Theme.Sizes.ToolWindowTabAreaSize : 0;
-				Padding = new Padding(1, 0, 0, size);
-				_tabArea.ClientRectangle = new Rectangle(Padding.Left, ClientRectangle.Bottom - size, ClientRectangle.Width - Padding.Horizontal, size);
+				Padding = new Padding( 1, 0, 0, size );
+				_tabArea.ClientRectangle = new Rectangle( Padding.Left, ClientRectangle.Bottom - size, ClientRectangle.Width - Padding.Horizontal, size );
 				break;
 			}
 
 			if( DockArea == DarkDockArea.Document ) {
 				var dropdownSize = ThemeProvider.Theme.Sizes.DocumentTabAreaSize;
-				_tabArea.DropdownRectangle = new Rectangle(_tabArea.ClientRectangle.Right - dropdownSize, 0, dropdownSize, dropdownSize);
+				_tabArea.DropdownRectangle = new Rectangle( _tabArea.ClientRectangle.Right - dropdownSize, 0, dropdownSize, dropdownSize );
 			}
 
 			BuildTabs();
@@ -190,7 +190,7 @@ namespace DarkUI.Docking {
 			// Calculate areas of all tabs
 			var totalSize = 0;
 
-			var orderedContent = _contents.OrderBy(c => c.Order);
+			var orderedContent = _contents.OrderBy( c => c.Order );
 
 			foreach( var content in orderedContent ) {
 				int width;
@@ -198,7 +198,7 @@ namespace DarkUI.Docking {
 				var tab = _tabs[content];
 
 				using( var g = CreateGraphics() ) {
-					width = tab.CalculateWidth(g, Font);
+					width = tab.CalculateWidth( g, Font );
 				}
 
 				// Add additional width for document tab items
@@ -217,7 +217,7 @@ namespace DarkUI.Docking {
 				var y = DockArea == DarkDockArea.Document ? 0 : ClientRectangle.Height - ThemeProvider.Theme.Sizes.ToolWindowTabAreaSize;
 				var height = DockArea == DarkDockArea.Document ? ThemeProvider.Theme.Sizes.DocumentTabAreaSize : ThemeProvider.Theme.Sizes.ToolWindowTabAreaSize;
 
-				var tabRect = new Rectangle(_tabArea.ClientRectangle.Left + totalSize, y, width, height);
+				var tabRect = new Rectangle( _tabArea.ClientRectangle.Left + totalSize, y, width, height );
 				tab.ClientRectangle = tabRect;
 
 				totalSize += width;
@@ -231,14 +231,14 @@ namespace DarkUI.Docking {
 					// No matter what, we want to slice off the 1 pixel separator from the final tab.
 					var lastTab = _tabs[orderedContent.Last()];
 					var tabRect = lastTab.ClientRectangle;
-					lastTab.ClientRectangle = new Rectangle(tabRect.Left, tabRect.Top, tabRect.Width - 1, tabRect.Height);
+					lastTab.ClientRectangle = new Rectangle( tabRect.Left, tabRect.Top, tabRect.Width - 1, tabRect.Height );
 					lastTab.ShowSeparator = false;
 
 					var differenceMadeUp = 1;
 
 					// Loop through and progressively resize the larger tabs until the total size fits within the tab area.
 					while( differenceMadeUp < difference ) {
-						var largest = _tabs.Values.OrderByDescending(tab => tab.ClientRectangle.Width)
+						var largest = _tabs.Values.OrderByDescending( tab => tab.ClientRectangle.Width )
 																	 .First()
 																	 .ClientRectangle.Width;
 
@@ -251,7 +251,7 @@ namespace DarkUI.Docking {
 
 							if( tab.ClientRectangle.Width >= largest ) {
 								var rect = tab.ClientRectangle;
-								tab.ClientRectangle = new Rectangle(rect.Left, rect.Top, rect.Width - 1, rect.Height);
+								tab.ClientRectangle = new Rectangle( rect.Left, rect.Top, rect.Width - 1, rect.Height );
 								differenceMadeUp += 1;
 							}
 						}
@@ -263,7 +263,7 @@ namespace DarkUI.Docking {
 						var tab = _tabs[content];
 
 						var rect = tab.ClientRectangle;
-						tab.ClientRectangle = new Rectangle(_tabArea.ClientRectangle.Left + xOffset, rect.Top, rect.Width, rect.Height);
+						tab.ClientRectangle = new Rectangle( _tabArea.ClientRectangle.Left + xOffset, rect.Top, rect.Width, rect.Height );
 
 						xOffset += rect.Width;
 					}
@@ -274,9 +274,9 @@ namespace DarkUI.Docking {
 			if( DockArea == DarkDockArea.Document ) {
 				foreach( var content in orderedContent ) {
 					var tab = _tabs[content];
-					var closeRect = new Rectangle(tab.ClientRectangle.Right - 7 - closeButtonSize - 1,
+					var closeRect = new Rectangle( tab.ClientRectangle.Right - 7 - closeButtonSize - 1,
 												  tab.ClientRectangle.Top + (tab.ClientRectangle.Height / 2) - (closeButtonSize / 2) - 1,
-												  closeButtonSize, closeButtonSize);
+												  closeButtonSize, closeButtonSize );
 					tab.CloseButtonRectangle = closeRect;
 				}
 			}
@@ -303,26 +303,26 @@ namespace DarkUI.Docking {
 				return;
 
 			var width = ClientRectangle.Width - Padding.Horizontal - _tabArea.DropdownRectangle.Width;
-			var offsetArea = new Rectangle(Padding.Left, 0, width, 0);
+			var offsetArea = new Rectangle( Padding.Left, 0, width, 0 );
 
 			var tab = _tabs[VisibleContent];
 
 			if( tab.ClientRectangle.IsEmpty )
 				return;
 
-			if( RectangleToTabArea(tab.ClientRectangle).Left < offsetArea.Left )
+			if( RectangleToTabArea( tab.ClientRectangle ).Left < offsetArea.Left )
 				_tabArea.Offset = tab.ClientRectangle.Left;
-			else if( RectangleToTabArea(tab.ClientRectangle).Right > offsetArea.Right )
+			else if( RectangleToTabArea( tab.ClientRectangle ).Right > offsetArea.Right )
 				_tabArea.Offset = tab.ClientRectangle.Right - width;
 
 			if( _tabArea.TotalTabSize < offsetArea.Width )
 				_tabArea.Offset = 0;
 
 			if( _tabArea.TotalTabSize > offsetArea.Width ) {
-				var orderedContent = _contents.OrderBy(x => x.Order);
+				var orderedContent = _contents.OrderBy( x => x.Order );
 				var lastTab = _tabs[orderedContent.Last()];
 				if( lastTab != null ) {
-					if( RectangleToTabArea(lastTab.ClientRectangle).Right < offsetArea.Right )
+					if( RectangleToTabArea( lastTab.ClientRectangle ).Right < offsetArea.Right )
 						_tabArea.Offset = lastTab.ClientRectangle.Right - width;
 				}
 			}
@@ -330,8 +330,8 @@ namespace DarkUI.Docking {
 			Invalidate();
 		}
 
-		public void SetVisibleContent(DarkDockContent content) {
-			if( !_contents.Contains(content) )
+		public void SetVisibleContent( DarkDockContent content ) {
+			if( !_contents.Contains( content ) )
 				return;
 
 			if( VisibleContent != content ) {
@@ -347,32 +347,32 @@ namespace DarkUI.Docking {
 			}
 		}
 
-		private Point PointToTabArea(Point point) {
-			return new Point(point.X - _tabArea.Offset, point.Y);
+		private Point PointToTabArea( Point point ) {
+			return new Point( point.X - _tabArea.Offset, point.Y );
 		}
 
-		private Rectangle RectangleToTabArea(Rectangle rectangle) {
-			return new Rectangle(PointToTabArea(rectangle.Location), rectangle.Size);
+		private Rectangle RectangleToTabArea( Rectangle rectangle ) {
+			return new Rectangle( PointToTabArea( rectangle.Location ), rectangle.Size );
 		}
 
 		#endregion
 
 		#region Event Handler Region
 
-		protected override void OnResize(EventArgs eventargs) {
-			base.OnResize(eventargs);
+		protected override void OnResize( EventArgs eventargs ) {
+			base.OnResize( eventargs );
 
 			UpdateTabArea();
 		}
 
-		protected override void OnMouseMove(MouseEventArgs e) {
-			base.OnMouseMove(e);
+		protected override void OnMouseMove( MouseEventArgs e ) {
+			base.OnMouseMove( e );
 
 			if( _dragTab != null ) {
 				var offsetX = e.Location.X + _tabArea.Offset;
 				if( offsetX < _dragTab.ClientRectangle.Left ) {
 					if( _dragTab.DockContent.Order > 0 ) {
-						var otherTabs = _tabs.Values.Where(t => t.DockContent.Order == _dragTab.DockContent.Order - 1).ToList();
+						var otherTabs = _tabs.Values.Where( t => t.DockContent.Order == _dragTab.DockContent.Order - 1 ).ToList();
 						if( otherTabs.Count == 0 )
 							return;
 
@@ -396,7 +396,7 @@ namespace DarkUI.Docking {
 					var maxOrder = _contents.Count;
 
 					if( _dragTab.DockContent.Order < maxOrder ) {
-						var otherTabs = _tabs.Values.Where(t => t.DockContent.Order == _dragTab.DockContent.Order + 1).ToList();
+						var otherTabs = _tabs.Values.Where( t => t.DockContent.Order == _dragTab.DockContent.Order + 1 ).ToList();
 						if( otherTabs.Count == 0 )
 							return;
 
@@ -421,7 +421,7 @@ namespace DarkUI.Docking {
 				return;
 			}
 
-			if( _tabArea.DropdownRectangle.Contains(e.Location) ) {
+			if( _tabArea.DropdownRectangle.Contains( e.Location ) ) {
 				_tabArea.DropdownHot = true;
 
 				foreach( var tab in _tabs.Values )
@@ -434,16 +434,16 @@ namespace DarkUI.Docking {
 			_tabArea.DropdownHot = false;
 
 			foreach( var tab in _tabs.Values ) {
-				var rect = RectangleToTabArea(tab.ClientRectangle);
-				var hot = rect.Contains(e.Location);
+				var rect = RectangleToTabArea( tab.ClientRectangle );
+				var hot = rect.Contains( e.Location );
 
 				if( tab.Hot != hot ) {
 					tab.Hot = hot;
 					Invalidate();
 				}
 
-				var closeRect = RectangleToTabArea(tab.CloseButtonRectangle);
-				var closeHot = closeRect.Contains(e.Location);
+				var closeRect = RectangleToTabArea( tab.CloseButtonRectangle );
+				var closeHot = closeRect.Contains( e.Location );
 
 				if( tab.CloseButtonHot != closeHot ) {
 					tab.CloseButtonHot = closeHot;
@@ -452,24 +452,24 @@ namespace DarkUI.Docking {
 			}
 		}
 
-		protected override void OnMouseDown(MouseEventArgs e) {
-			base.OnMouseDown(e);
+		protected override void OnMouseDown( MouseEventArgs e ) {
+			base.OnMouseDown( e );
 
-			if( _tabArea.DropdownRectangle.Contains(e.Location) ) {
+			if( _tabArea.DropdownRectangle.Contains( e.Location ) ) {
 				_tabArea.DropdownHot = true;
 				return;
 			}
 
 			foreach( var tab in _tabs.Values ) {
-				var rect = RectangleToTabArea(tab.ClientRectangle);
-				if( rect.Contains(e.Location) ) {
+				var rect = RectangleToTabArea( tab.ClientRectangle );
+				if( rect.Contains( e.Location ) ) {
 					if( e.Button == MouseButtons.Middle ) {
 						tab.DockContent.Close();
 						return;
 					}
 
-					var closeRect = RectangleToTabArea(tab.CloseButtonRectangle);
-					if( closeRect.Contains(e.Location) ) {
+					var closeRect = RectangleToTabArea( tab.CloseButtonRectangle );
+					if( closeRect.Contains( e.Location ) ) {
 						_tabArea.ClickedCloseButton = tab;
 						return;
 					} else {
@@ -487,14 +487,14 @@ namespace DarkUI.Docking {
 				DockPanel.ActiveContent = VisibleContent;
 		}
 
-		protected override void OnMouseUp(MouseEventArgs e) {
-			base.OnMouseUp(e);
+		protected override void OnMouseUp( MouseEventArgs e ) {
+			base.OnMouseUp( e );
 
 			_dragTab = null;
 
-			if( _tabArea.DropdownRectangle.Contains(e.Location) ) {
+			if( _tabArea.DropdownRectangle.Contains( e.Location ) ) {
 				if( _tabArea.DropdownHot )
-					_tabArea.ShowMenu(this, new Point(_tabArea.DropdownRectangle.Left, _tabArea.DropdownRectangle.Bottom - 2));
+					_tabArea.ShowMenu( this, new Point( _tabArea.DropdownRectangle.Left, _tabArea.DropdownRectangle.Bottom - 2 ) );
 
 				return;
 			}
@@ -502,13 +502,13 @@ namespace DarkUI.Docking {
 			if( _tabArea.ClickedCloseButton == null )
 				return;
 
-			var closeRect = RectangleToTabArea(_tabArea.ClickedCloseButton.CloseButtonRectangle);
-			if( closeRect.Contains(e.Location) )
+			var closeRect = RectangleToTabArea( _tabArea.ClickedCloseButton.CloseButtonRectangle );
+			if( closeRect.Contains( e.Location ) )
 				_tabArea.ClickedCloseButton.DockContent.Close();
 		}
 
-		protected override void OnMouseLeave(EventArgs e) {
-			base.OnMouseLeave(e);
+		protected override void OnMouseLeave( EventArgs e ) {
+			base.OnMouseLeave( e );
 
 			foreach( var tab in _tabs.Values )
 				tab.Hot = false;
@@ -516,7 +516,7 @@ namespace DarkUI.Docking {
 			Invalidate();
 		}
 
-		private void TabMenuItem_Select(object? sender, EventArgs e) {
+		private void TabMenuItem_Select( object? sender, EventArgs e ) {
 			if( sender is not ToolStripMenuItem menuItem )
 				return;
 
@@ -526,8 +526,8 @@ namespace DarkUI.Docking {
 			DockPanel.ActiveContent = content;
 		}
 
-		private void DockPanel_ActiveContentChanged(object? sender, DockContentEventArgs e) {
-			if( !_contents.Contains(e.Content) )
+		private void DockPanel_ActiveContentChanged( object? sender, DockContentEventArgs e ) {
+			if( !_contents.Contains( e.Content ) )
 				return;
 
 			if( e.Content == VisibleContent ) {
@@ -546,7 +546,7 @@ namespace DarkUI.Docking {
 			Invalidate();
 		}
 
-		private void DockContent_DockTextChanged(object? sender, EventArgs e) {
+		private void DockContent_DockTextChanged( object? sender, EventArgs e ) {
 			BuildTabs();
 		}
 
@@ -561,47 +561,47 @@ namespace DarkUI.Docking {
 				content.Invalidate();
 		}
 
-		protected override void OnPaint(PaintEventArgs e) {
+		protected override void OnPaint( PaintEventArgs e ) {
 			var g = e.Graphics;
 
-			using var b0 = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground);
-			g.FillRectangle(b0, ClientRectangle);
+			using var b0 = new SolidBrush( ThemeProvider.Theme.Colors.GreyBackground );
+			g.FillRectangle( b0, ClientRectangle );
 
 			if( !_tabArea.Visible )
 				return;
 
-			using( var b1 = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground) ) {
-				g.FillRectangle(b1, _tabArea.ClientRectangle);
+			using( var b1 = new SolidBrush( ThemeProvider.Theme.Colors.MediumBackground ) ) {
+				g.FillRectangle( b1, _tabArea.ClientRectangle );
 			}
 
 			foreach( var tab in _tabs.Values ) {
 				if( DockArea == DarkDockArea.Document )
-					PaintDocumentTab(g, tab);
+					PaintDocumentTab( g, tab );
 				else
-					PaintToolWindowTab(g, tab);
+					PaintToolWindowTab( g, tab );
 			}
 
 			if( DockArea == DarkDockArea.Document ) {
 				// Color divider
 				var isActiveGroup = DockPanel.ActiveGroup == this;
 				var divColor = isActiveGroup ? ThemeProvider.Theme.Colors.BlueSelection : ThemeProvider.Theme.Colors.GreySelection;
-				using var b2 = new SolidBrush(divColor);
-				var divRect = new Rectangle(_tabArea.ClientRectangle.Left, _tabArea.ClientRectangle.Bottom - 2, _tabArea.ClientRectangle.Width, 2);
-				g.FillRectangle(b2, divRect);
+				using var b2 = new SolidBrush( divColor );
+				var divRect = new Rectangle( _tabArea.ClientRectangle.Left, _tabArea.ClientRectangle.Bottom - 2, _tabArea.ClientRectangle.Width, 2 );
+				g.FillRectangle( b2, divRect );
 
 				// Content dropdown list
-				var dropdownRect = new Rectangle(_tabArea.DropdownRectangle.Left, _tabArea.DropdownRectangle.Top, _tabArea.DropdownRectangle.Width, _tabArea.DropdownRectangle.Height - 2);
+				var dropdownRect = new Rectangle( _tabArea.DropdownRectangle.Left, _tabArea.DropdownRectangle.Top, _tabArea.DropdownRectangle.Width, _tabArea.DropdownRectangle.Height - 2 );
 
-				using var b3 = new SolidBrush(ThemeProvider.Theme.Colors.MediumBackground);
-				g.FillRectangle(b3, dropdownRect);
+				using var b3 = new SolidBrush( ThemeProvider.Theme.Colors.MediumBackground );
+				g.FillRectangle( b3, dropdownRect );
 
 				using var img = DockIcons.arrow;
-				g.DrawImageUnscaled(img, dropdownRect.Left + (dropdownRect.Width / 2) - (img.Width / 2), dropdownRect.Top + (dropdownRect.Height / 2) - (img.Height / 2) + 1);
+				g.DrawImageUnscaled( img, dropdownRect.Left + (dropdownRect.Width / 2) - (img.Width / 2), dropdownRect.Top + (dropdownRect.Height / 2) - (img.Height / 2) + 1 );
 			}
 		}
 
-		private void PaintDocumentTab(Graphics g, DarkDockTab tab) {
-			var tabRect = RectangleToTabArea(tab.ClientRectangle);
+		private void PaintDocumentTab( Graphics g, DarkDockTab tab ) {
+			var tabRect = RectangleToTabArea( tab.ClientRectangle );
 
 			var isVisibleTab = VisibleContent == tab.DockContent;
 			var isActiveGroup = DockPanel.ActiveGroup == this;
@@ -614,20 +614,20 @@ namespace DarkUI.Docking {
 			if( tab.Hot && !isVisibleTab )
 				bgColor = ThemeProvider.Theme.Colors.MediumBackground;
 
-			using var b = new SolidBrush(bgColor);
-			g.FillRectangle(b, tabRect);
+			using var b = new SolidBrush( bgColor );
+			g.FillRectangle( b, tabRect );
 
 			// Draw separators
 			if( tab.ShowSeparator ) {
-				using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
-				g.DrawLine(p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom);
+				using var p = new Pen( ThemeProvider.Theme.Colors.DarkBorder );
+				g.DrawLine( p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom );
 			}
 
 			var xOffset = 0;
 
 			// Draw icon
 			if( tab.DockContent.Icon != null ) {
-				g.DrawImageUnscaled(tab.DockContent.Icon, tabRect.Left + 5, tabRect.Top + 4);
+				g.DrawImageUnscaled( tab.DockContent.Icon, tabRect.Left + 5, tabRect.Top + 4 );
 				xOffset += tab.DockContent.Icon.Width + 2;
 			}
 
@@ -640,9 +640,9 @@ namespace DarkUI.Docking {
 
 			// Draw text
 			var textColor = isVisibleTab ? ThemeProvider.Theme.Colors.LightText : ThemeProvider.Theme.Colors.DisabledText;
-			using var b2 = new SolidBrush(textColor);
-			var textRect = new Rectangle(tabRect.Left + 5 + xOffset, tabRect.Top, tabRect.Width - tab.CloseButtonRectangle.Width - 7 - 5 - xOffset, tabRect.Height);
-			g.DrawString(tab.DockContent.DockText, Font, b2, textRect, tabTextFormat);
+			using var b2 = new SolidBrush( textColor );
+			var textRect = new Rectangle( tabRect.Left + 5 + xOffset, tabRect.Top, tabRect.Width - tab.CloseButtonRectangle.Width - 7 - 5 - xOffset, tabRect.Height );
+			g.DrawString( tab.DockContent.DockText, Font, b2, textRect, tabTextFormat );
 
 			// Close button
 			var img = tab.CloseButtonHot ? DockIcons.inactive_close_selected : DockIcons.inactive_close;
@@ -654,11 +654,11 @@ namespace DarkUI.Docking {
 					img = tab.CloseButtonHot ? DockIcons.close_selected : DockIcons.active_inactive_close;
 			}
 
-			var closeRect = RectangleToTabArea(tab.CloseButtonRectangle);
-			g.DrawImageUnscaled(img, closeRect.Left, closeRect.Top);
+			var closeRect = RectangleToTabArea( tab.CloseButtonRectangle );
+			g.DrawImageUnscaled( img, closeRect.Left, closeRect.Top );
 		}
 
-		private void PaintToolWindowTab(Graphics g, DarkDockTab tab) {
+		private void PaintToolWindowTab( Graphics g, DarkDockTab tab ) {
 			var tabRect = tab.ClientRectangle;
 
 			var isVisibleTab = VisibleContent == tab.DockContent;
@@ -668,13 +668,13 @@ namespace DarkUI.Docking {
 			if( tab.Hot && !isVisibleTab )
 				bgColor = ThemeProvider.Theme.Colors.MediumBackground;
 
-			using var b1 = new SolidBrush(bgColor);
-			g.FillRectangle(b1, tabRect);
+			using var b1 = new SolidBrush( bgColor );
+			g.FillRectangle( b1, tabRect );
 
 			// Draw separators
 			if( tab.ShowSeparator ) {
-				using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
-				g.DrawLine(p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom);
+				using var p = new Pen( ThemeProvider.Theme.Colors.DarkBorder );
+				g.DrawLine( p, tabRect.Right - 1, tabRect.Top, tabRect.Right - 1, tabRect.Bottom );
 			}
 
 			var tabTextFormat = new StringFormat {
@@ -685,12 +685,12 @@ namespace DarkUI.Docking {
 			};
 
 			var textColor = isVisibleTab ? ThemeProvider.Theme.Colors.BlueHighlight : ThemeProvider.Theme.Colors.DisabledText;
-			using var b2 = new SolidBrush(textColor);
-			var textRect = new Rectangle(tabRect.Left + 5, tabRect.Top, tabRect.Width - 5, tabRect.Height);
-			g.DrawString(tab.DockContent.DockText, Font, b2, textRect, tabTextFormat);
+			using var b2 = new SolidBrush( textColor );
+			var textRect = new Rectangle( tabRect.Left + 5, tabRect.Top, tabRect.Width - 5, tabRect.Height );
+			g.DrawString( tab.DockContent.DockText, Font, b2, textRect, tabTextFormat );
 		}
 
-		protected override void OnPaintBackground(PaintEventArgs e) {
+		protected override void OnPaintBackground( PaintEventArgs e ) {
 			// Absorb event
 		}
 

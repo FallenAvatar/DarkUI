@@ -1,8 +1,8 @@
-﻿using DarkUI.Controls;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+
+using DarkUI.Controls;
 
 namespace DarkUI.Forms {
 	public partial class DarkDialog : DarkForm {
@@ -28,8 +28,8 @@ namespace DarkUI.Forms {
 
 		#region Property Region
 
-		[Description("Determines the type of the dialog window.")]
-		[DefaultValue(DarkDialogButton.Ok)]
+		[Description( "Determines the type of the dialog window." )]
+		[DefaultValue( DarkDialogButton.Ok )]
 		public DarkDialogButton DialogButtons {
 			get { return _dialogButtons; }
 			set {
@@ -41,19 +41,19 @@ namespace DarkUI.Forms {
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public int TotalButtonSize { get; private set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public new IButtonControl AcceptButton {
 			get { return base.AcceptButton; }
 			private set { base.AcceptButton = value; }
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public new IButtonControl CancelButton {
 			get { return base.CancelButton; }
 			private set { base.CancelButton = value; }
@@ -79,8 +79,8 @@ namespace DarkUI.Forms {
 
 		#region Event Handler Region
 
-		protected override void OnLoad(System.EventArgs e) {
-			base.OnLoad(e);
+		protected override void OnLoad( System.EventArgs e ) {
+			base.OnLoad( e );
 
 			SetButtons();
 		}
@@ -95,43 +95,43 @@ namespace DarkUI.Forms {
 
 			switch( _dialogButtons ) {
 			case DarkDialogButton.Ok:
-				ShowButton(btnOk, true);
+				ShowButton( btnOk, true );
 				AcceptButton = btnOk;
 				break;
 			case DarkDialogButton.Close:
-				ShowButton(btnClose, true);
+				ShowButton( btnClose, true );
 				AcceptButton = btnClose;
 				CancelButton = btnClose;
 				break;
 			case DarkDialogButton.OkCancel:
-				ShowButton(btnOk);
-				ShowButton(btnCancel, true);
+				ShowButton( btnOk );
+				ShowButton( btnCancel, true );
 				AcceptButton = btnOk;
 				CancelButton = btnCancel;
 				break;
 			case DarkDialogButton.AbortRetryIgnore:
-				ShowButton(btnAbort);
-				ShowButton(btnRetry);
-				ShowButton(btnIgnore, true);
+				ShowButton( btnAbort );
+				ShowButton( btnRetry );
+				ShowButton( btnIgnore, true );
 				AcceptButton = btnAbort;
 				CancelButton = btnIgnore;
 				break;
 			case DarkDialogButton.RetryCancel:
-				ShowButton(btnRetry);
-				ShowButton(btnCancel, true);
+				ShowButton( btnRetry );
+				ShowButton( btnCancel, true );
 				AcceptButton = btnRetry;
 				CancelButton = btnCancel;
 				break;
 			case DarkDialogButton.YesNo:
-				ShowButton(btnYes);
-				ShowButton(btnNo, true);
+				ShowButton( btnYes );
+				ShowButton( btnNo, true );
 				AcceptButton = btnYes;
 				CancelButton = btnNo;
 				break;
 			case DarkDialogButton.YesNoCancel:
-				ShowButton(btnYes);
-				ShowButton(btnNo);
-				ShowButton(btnCancel, true);
+				ShowButton( btnYes );
+				ShowButton( btnNo );
+				ShowButton( btnCancel, true );
 				AcceptButton = btnYes;
 				CancelButton = btnCancel;
 				break;
@@ -140,11 +140,11 @@ namespace DarkUI.Forms {
 			SetFlowSize();
 		}
 
-		private static void ShowButton(DarkButton button, bool isLast = false) {
+		private static void ShowButton( DarkButton button, bool isLast = false ) {
 			button.SendToBack();
 
 			if( !isLast )
-				button.Margin = new Padding(0, 0, 10, 0);
+				button.Margin = new Padding( 0, 0, 10, 0 );
 
 			button.Visible = true;
 		}

@@ -9,9 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace DarkUI {
-	using System;
-
-
 	/// <summary>
 	///   A strongly-typed resource class, for looking up localized strings, etc.
 	/// </summary>
@@ -19,7 +16,7 @@ namespace DarkUI {
 	// class via a tool like ResGen or Visual Studio.
 	// To add or remove a member, edit your .ResX file then rerun ResGen
 	// with the /str option, or rebuild your VS project.
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute( "System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0" )]
 	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 	internal class ScrollIcons {
@@ -28,18 +25,18 @@ namespace DarkUI {
 
 		private static global::System.Globalization.CultureInfo resourceCulture;
 
-		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute( "Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode" )]
 		internal ScrollIcons() {
 		}
 
 		/// <summary>
 		///   Returns the cached ResourceManager instance used by this class.
 		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		[global::System.ComponentModel.EditorBrowsableAttribute( global::System.ComponentModel.EditorBrowsableState.Advanced )]
 		internal static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if( object.ReferenceEquals(resourceMan, null) ) {
-					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DarkUI.Icons.ScrollIcons", typeof(ScrollIcons).Assembly);
+				if( object.ReferenceEquals( resourceMan, null ) ) {
+					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager( "DarkUI.Icons.ScrollIcons", typeof( ScrollIcons ).Assembly );
 					resourceMan = temp;
 				}
 				return resourceMan;
@@ -50,7 +47,7 @@ namespace DarkUI {
 		///   Overrides the current thread's CurrentUICulture property for all
 		///   resource lookups using this strongly typed resource class.
 		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		[global::System.ComponentModel.EditorBrowsableAttribute( global::System.ComponentModel.EditorBrowsableState.Advanced )]
 		internal static global::System.Globalization.CultureInfo Culture {
 			get {
 				return resourceCulture;
@@ -65,7 +62,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -75,7 +72,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_clicked {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_clicked", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_clicked", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -85,7 +82,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_disabled {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_disabled", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_disabled", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -95,7 +92,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_hot {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_hot", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_hot", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -105,7 +102,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_small_clicked {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_small_clicked", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_small_clicked", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -115,7 +112,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_small_hot {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_small_hot", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_small_hot", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -125,7 +122,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_small_standard {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_small_standard", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_small_standard", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -135,7 +132,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap scrollbar_arrow_standard {
 			get {
-				object obj = ResourceManager.GetObject("scrollbar_arrow_standard", resourceCulture);
+				object obj = ResourceManager.GetObject( "scrollbar_arrow_standard", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}

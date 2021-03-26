@@ -1,8 +1,8 @@
-﻿using DarkUI.Docking;
-
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Docking;
 
 namespace DarkUI.Win32 {
 	public class DockResizeFilter : IMessageFilter {
@@ -19,7 +19,7 @@ namespace DarkUI.Win32 {
 
 		#region Constructor Region
 
-		public DockResizeFilter(DarkDockPanel dockPanel) {
+		public DockResizeFilter( DarkDockPanel dockPanel ) {
 			_dockPanel = dockPanel;
 
 			_dragTimer = new Timer {
@@ -32,7 +32,7 @@ namespace DarkUI.Win32 {
 
 		#region IMessageFilter Region
 
-		public bool PreFilterMessage(ref Message m) {
+		public bool PreFilterMessage( ref Message m ) {
 			// We only care about mouse events
 			if( !(m.Msg == (int)WM.MOUSEMOVE ||
 				  m.Msg == (int)WM.LBUTTONDOWN || m.Msg == (int)WM.LBUTTONUP || m.Msg == (int)WM.LBUTTONDBLCLK ||
@@ -60,14 +60,14 @@ namespace DarkUI.Win32 {
 				return false;
 
 			// Try and create a control from the message handle.
-			var control = Control.FromHandle(m.HWnd);
+			var control = Control.FromHandle( m.HWnd );
 
 			// Exit out if we didn't manage to create a control.
 			if( control == null )
 				return false;
 
 			// Exit out if the control is not the dock panel or a child control.
-			if( !(control == _dockPanel || _dockPanel.Contains(control)) )
+			if( !(control == _dockPanel || _dockPanel.Contains( control )) )
 				return false;
 
 			// Update the mouse cursor
@@ -77,7 +77,7 @@ namespace DarkUI.Win32 {
 			if( m.Msg == (int)WM.LBUTTONDOWN ) {
 				var hotSplitter = HotSplitter();
 				if( hotSplitter != null ) {
-					StartDrag(hotSplitter);
+					StartDrag( hotSplitter );
 					return true;
 				}
 			}
@@ -97,21 +97,21 @@ namespace DarkUI.Win32 {
 
 		#region Event Handler Region
 
-		private void DragTimer_Tick(object? sender, EventArgs e) {
+		private void DragTimer_Tick( object? sender, EventArgs e ) {
 			if( _dockPanel.MouseButtonState != MouseButtons.Left ) {
 				StopDrag();
 				return;
 			}
 
-			var difference = new Point(_initialContact.X - Cursor.Position.X, _initialContact.Y - Cursor.Position.Y);
-			_activeSplitter?.UpdateOverlay(difference);
+			var difference = new Point( _initialContact.X - Cursor.Position.X, _initialContact.Y - Cursor.Position.Y );
+			_activeSplitter?.UpdateOverlay( difference );
 		}
 
 		#endregion
 
 		#region Method Region
 
-		private void StartDrag(DarkDockSplitter splitter) {
+		private void StartDrag( DarkDockSplitter splitter ) {
 			_activeSplitter = splitter;
 			Cursor.Current = _activeSplitter.ResizeCursor;
 
@@ -126,15 +126,15 @@ namespace DarkUI.Win32 {
 			_dragTimer.Stop();
 			_activeSplitter?.HideOverlay();
 
-			var difference = new Point(_initialContact.X - Cursor.Position.X, _initialContact.Y - Cursor.Position.Y);
-			_activeSplitter?.Move(difference);
+			var difference = new Point( _initialContact.X - Cursor.Position.X, _initialContact.Y - Cursor.Position.Y );
+			_activeSplitter?.Move( difference );
 
 			_isDragging = false;
 		}
 
 		private DarkDockSplitter? HotSplitter() {
 			foreach( var splitter in _dockPanel.Splitters ) {
-				if( splitter.Bounds.Contains(Cursor.Position) )
+				if( splitter.Bounds.Contains( Cursor.Position ) )
 					return splitter;
 			}
 

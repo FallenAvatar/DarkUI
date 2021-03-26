@@ -1,10 +1,10 @@
-﻿using DarkUI.Config;
-using DarkUI.Docking;
-using DarkUI.Forms;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Config;
+using DarkUI.Docking;
+using DarkUI.Forms;
 
 namespace DarkUI.Win32 {
 	public class DockContentDragFilter : IMessageFilter {
@@ -28,17 +28,17 @@ namespace DarkUI.Win32 {
 
 		#region Constructor Region
 
-		public DockContentDragFilter(DarkDockPanel dockPanel) {
+		public DockContentDragFilter( DarkDockPanel dockPanel ) {
 			_dockPanel = dockPanel;
 
-			_highlightForm = new DarkTranslucentForm(ThemeProvider.Theme.Colors.BlueSelection);
+			_highlightForm = new DarkTranslucentForm( ThemeProvider.Theme.Colors.BlueSelection );
 		}
 
 		#endregion
 
 		#region IMessageFilter Region
 
-		public bool PreFilterMessage(ref Message m) {
+		public bool PreFilterMessage( ref Message m ) {
 			// Exit out early if we're not dragging any content
 			if( !_isDragging || _dragContent == null )
 				return false;
@@ -58,20 +58,20 @@ namespace DarkUI.Win32 {
 			// Drop content
 			if( m.Msg == (int)WM.LBUTTONUP ) {
 				if( _targetRegion != null ) {
-					_dockPanel.RemoveContent(_dragContent);
+					_dockPanel.RemoveContent( _dragContent );
 					_dragContent.DockArea = _targetRegion.DockArea;
-					_dockPanel.AddContent(_dragContent);
+					_dockPanel.AddContent( _dragContent );
 				} else if( _targetGroup != null ) {
-					_dockPanel.RemoveContent(_dragContent);
+					_dockPanel.RemoveContent( _dragContent );
 
 					switch( _insertType ) {
 					case DockInsertType.None:
-						_dockPanel.AddContent(_dragContent, _targetGroup);
+						_dockPanel.AddContent( _dragContent, _targetGroup );
 						break;
 
 					case DockInsertType.Before:
 					case DockInsertType.After:
-						_dockPanel.InsertContent(_dragContent, _targetGroup, _insertType);
+						_dockPanel.InsertContent( _dragContent, _targetGroup, _insertType );
 						break;
 					}
 				}
@@ -87,7 +87,7 @@ namespace DarkUI.Win32 {
 
 		#region Method Region
 
-		public void StartDrag(DarkDockContent content) {
+		public void StartDrag( DarkDockContent content ) {
 			_regionDropAreas = new Dictionary<DarkDockRegion, DockDropArea>();
 			_groupDropAreas = new Dictionary<DarkDockGroup, DockDropCollection>();
 
@@ -99,14 +99,14 @@ namespace DarkUI.Win32 {
 				// If the region is visible then build drop areas for the groups.
 				if( region.Visible ) {
 					foreach( var group in region.Groups ) {
-						var collection = new DockDropCollection(_dockPanel, group);
-						_groupDropAreas.Add(group, collection);
+						var collection = new DockDropCollection( _dockPanel, group );
+						_groupDropAreas.Add( group, collection );
 					}
 				}
 				// If the region is NOT visible then build the drop area for the region itself.
 				else {
-					var area = new DockDropArea(_dockPanel, region);
-					_regionDropAreas.Add(region, area);
+					var area = new DockDropArea( _dockPanel, region );
+					_regionDropAreas.Add( region, area );
 				}
 			}
 
@@ -122,13 +122,13 @@ namespace DarkUI.Win32 {
 			_isDragging = false;
 		}
 
-		private void UpdateHighlightForm(Rectangle rect) {
+		private void UpdateHighlightForm( Rectangle rect ) {
 			Cursor.Current = Cursors.SizeAll;
 
 			_highlightForm.SuspendLayout();
 
-			_highlightForm.Size = new Size(rect.Width, rect.Height);
-			_highlightForm.Location = new Point(rect.X, rect.Y);
+			_highlightForm.Size = new Size( rect.Width, rect.Height );
+			_highlightForm.Location = new Point( rect.X, rect.Y );
 
 			_highlightForm.ResumeLayout();
 
@@ -151,10 +151,10 @@ namespace DarkUI.Win32 {
 
 			// Check all region drop areas
 			foreach( var area in _regionDropAreas.Values ) {
-				if( area.DropArea.Contains(location) ) {
+				if( area.DropArea.Contains( location ) ) {
 					_insertType = DockInsertType.None;
 					_targetRegion = area.DockRegion;
-					UpdateHighlightForm(area.HighlightArea);
+					UpdateHighlightForm( area.HighlightArea );
 					return;
 				}
 			}
@@ -190,19 +190,19 @@ namespace DarkUI.Win32 {
 					}
 
 					if( !skipBefore ) {
-						if( collection.InsertBeforeArea.DropArea.Contains(location) ) {
+						if( collection.InsertBeforeArea.DropArea.Contains( location ) ) {
 							_insertType = DockInsertType.Before;
 							_targetGroup = collection.InsertBeforeArea.DockGroup;
-							UpdateHighlightForm(collection.InsertBeforeArea.HighlightArea);
+							UpdateHighlightForm( collection.InsertBeforeArea.HighlightArea );
 							return;
 						}
 					}
 
 					if( !skipAfter ) {
-						if( collection.InsertAfterArea.DropArea.Contains(location) ) {
+						if( collection.InsertAfterArea.DropArea.Contains( location ) ) {
 							_insertType = DockInsertType.After;
 							_targetGroup = collection.InsertAfterArea.DockGroup;
-							UpdateHighlightForm(collection.InsertAfterArea.HighlightArea);
+							UpdateHighlightForm( collection.InsertAfterArea.HighlightArea );
 							return;
 						}
 					}
@@ -210,10 +210,10 @@ namespace DarkUI.Win32 {
 
 				// Don't allow content to be dragged on to itself
 				if( !sameGroup ) {
-					if( collection.DropArea.DropArea.Contains(location) ) {
+					if( collection.DropArea.DropArea.Contains( location ) ) {
 						_insertType = DockInsertType.None;
 						_targetGroup = collection.DropArea.DockGroup;
-						UpdateHighlightForm(collection.DropArea.HighlightArea);
+						UpdateHighlightForm( collection.DropArea.HighlightArea );
 						return;
 					}
 				}

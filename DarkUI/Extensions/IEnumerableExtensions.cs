@@ -3,22 +3,22 @@ using System.Linq;
 
 namespace DarkUI.Extensions {
 	internal static class IEnumerableExtensions {
-		internal static bool IsLast<T>(this IEnumerable<T> items, T item) {
+		internal static bool IsLast<T>( this IEnumerable<T> items, T item ) {
 			var last = items.LastOrDefault();
 			if( last == null )
 				return false;
-			return item?.Equals(last) ?? false;
+			return item?.Equals( last ) ?? false;
 		}
 
-		internal static bool IsFirst<T>(this IEnumerable<T> items, T item) {
+		internal static bool IsFirst<T>( this IEnumerable<T> items, T item ) {
 			var first = items.FirstOrDefault();
 			if( first == null )
 				return false;
-			return item?.Equals(first) ?? false;
+			return item?.Equals( first ) ?? false;
 		}
 
-		internal static bool IsFirstOrLast<T>(this IEnumerable<T> items, T item) {
-			return items.IsFirst(item) || items.IsLast(item);
+		internal static bool IsFirstOrLast<T>( this IEnumerable<T> items, T item ) {
+			return items.IsFirst( item ) || items.IsLast( item );
 		}
 	}
 }

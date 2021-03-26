@@ -1,9 +1,9 @@
-﻿using DarkUI.Config;
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Config;
 
 namespace DarkUI.Controls {
 	public abstract class DarkScrollBase : Control {
@@ -36,38 +36,38 @@ namespace DarkUI.Controls {
 		#region Property Region
 
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public Rectangle Viewport {
 			get { return _viewport; }
 			private set {
 				_viewport = value;
 
-				ViewportChanged?.Invoke(this, EventArgs.Empty);
+				ViewportChanged?.Invoke( this, EventArgs.Empty );
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public Size ContentSize {
 			get { return _contentSize; }
 			set {
 				_contentSize = value;
 				UpdateScrollBars();
 
-				ContentSizeChanged?.Invoke(this, EventArgs.Empty);
+				ContentSizeChanged?.Invoke( this, EventArgs.Empty );
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public Point OffsetMousePosition {
 			get { return _offsetMousePosition; }
 		}
 
-		[Category("Behavior")]
-		[Description("Determines the maximum scroll change when dragging.")]
-		[DefaultValue(0)]
+		[Category( "Behavior" )]
+		[Description( "Determines the maximum scroll change when dragging." )]
+		[DefaultValue( 0 )]
 		public int MaxDragChange {
 			get { return _maxDragChange; }
 			set {
@@ -76,13 +76,13 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public bool IsDragging { get; private set; }
 
-		[Category("Behavior")]
-		[Description("Determines whether scrollbars will remain visible when disabled.")]
-		[DefaultValue(true)]
+		[Category( "Behavior" )]
+		[Description( "Determines whether scrollbars will remain visible when disabled." )]
+		[DefaultValue( true )]
 		public bool HideScrollBars {
 			get { return _hideScrollBars; }
 			set {
@@ -96,14 +96,14 @@ namespace DarkUI.Controls {
 		#region Constructor Region
 
 		protected DarkScrollBase() {
-			SetStyle(ControlStyles.Selectable |
-					 ControlStyles.UserMouse, true);
+			SetStyle( ControlStyles.Selectable |
+					 ControlStyles.UserMouse, true );
 
 			_vScrollBar = new DarkScrollBar { ScrollOrientation = DarkScrollOrientation.Vertical };
 			_hScrollBar = new DarkScrollBar { ScrollOrientation = DarkScrollOrientation.Horizontal };
 
-			Controls.Add(_vScrollBar);
-			Controls.Add(_hScrollBar);
+			Controls.Add( _vScrollBar );
+			Controls.Add( _hScrollBar );
 
 			_vScrollBar.ValueChanged += delegate { UpdateViewport(); };
 			_hScrollBar.ValueChanged += delegate { UpdateViewport(); };
@@ -130,11 +130,11 @@ namespace DarkUI.Controls {
 
 			var scrollSize = ThemeProvider.Theme.Sizes.ScrollBarSize;
 
-			_vScrollBar.Location = new Point(ClientSize.Width - scrollSize, 0);
-			_vScrollBar.Size = new Size(scrollSize, ClientSize.Height);
+			_vScrollBar.Location = new Point( ClientSize.Width - scrollSize, 0 );
+			_vScrollBar.Size = new Size( scrollSize, ClientSize.Height );
 
-			_hScrollBar.Location = new Point(0, ClientSize.Height - scrollSize);
-			_hScrollBar.Size = new Size(ClientSize.Width, scrollSize);
+			_hScrollBar.Location = new Point( 0, ClientSize.Height - scrollSize );
+			_hScrollBar.Size = new Size( ClientSize.Width, scrollSize );
 
 			if( DesignMode )
 				return;
@@ -172,7 +172,7 @@ namespace DarkUI.Controls {
 		private void SetVisibleSize() {
 			var scrollSize = ThemeProvider.Theme.Sizes.ScrollBarSize;
 
-			_visibleSize = new Size(ClientSize.Width, ClientSize.Height);
+			_visibleSize = new Size( ClientSize.Width, ClientSize.Height );
 
 			if( _vScrollBar.Visible )
 				_visibleSize.Width -= scrollSize;
@@ -197,25 +197,25 @@ namespace DarkUI.Controls {
 				width -= _vScrollBar.Width;
 			}
 
-			Viewport = new Rectangle(left, top, width, height);
+			Viewport = new Rectangle( left, top, width, height );
 
-			var pos = PointToClient(MousePosition);
-			_offsetMousePosition = new Point(pos.X + Viewport.Left, pos.Y + Viewport.Top);
+			var pos = PointToClient( MousePosition );
+			_offsetMousePosition = new Point( pos.X + Viewport.Left, pos.Y + Viewport.Top );
 
 			Invalidate();
 		}
 
-		public void ScrollTo(Point point) {
-			HScrollTo(point.X);
-			VScrollTo(point.Y);
+		public void ScrollTo( Point point ) {
+			HScrollTo( point.X );
+			VScrollTo( point.Y );
 		}
 
-		public void VScrollTo(int value) {
+		public void VScrollTo( int value ) {
 			if( _vScrollBar.Visible )
 				_vScrollBar.Value = value;
 		}
 
-		public void HScrollTo(int value) {
+		public void HScrollTo( int value ) {
 			if( _hScrollBar.Visible )
 				_hScrollBar.Value = value;
 		}
@@ -230,12 +230,12 @@ namespace DarkUI.Controls {
 			_dragTimer.Stop();
 		}
 
-		public Point PointToView(Point point) {
-			return new Point(point.X - Viewport.Left, point.Y - Viewport.Top);
+		public Point PointToView( Point point ) {
+			return new Point( point.X - Viewport.Left, point.Y - Viewport.Top );
 		}
 
-		public Rectangle RectangleToView(Rectangle rect) {
-			return new Rectangle(new Point(rect.Left - Viewport.Left, rect.Top - Viewport.Top), rect.Size);
+		public Rectangle RectangleToView( Rectangle rect ) {
+			return new Rectangle( new Point( rect.Left - Viewport.Left, rect.Top - Viewport.Top ), rect.Size );
 		}
 
 		#endregion
@@ -248,39 +248,39 @@ namespace DarkUI.Controls {
 			UpdateScrollBars();
 		}
 
-		protected override void OnGotFocus(EventArgs e) {
-			base.OnGotFocus(e);
+		protected override void OnGotFocus( EventArgs e ) {
+			base.OnGotFocus( e );
 
 			Invalidate();
 		}
 
-		protected override void OnLostFocus(EventArgs e) {
-			base.OnLostFocus(e);
+		protected override void OnLostFocus( EventArgs e ) {
+			base.OnLostFocus( e );
 
 			Invalidate();
 		}
 
-		protected override void OnResize(EventArgs e) {
-			base.OnResize(e);
+		protected override void OnResize( EventArgs e ) {
+			base.OnResize( e );
 
 			UpdateScrollBars();
 		}
 
-		protected override void OnMouseMove(MouseEventArgs e) {
-			base.OnMouseMove(e);
+		protected override void OnMouseMove( MouseEventArgs e ) {
+			base.OnMouseMove( e );
 
-			_offsetMousePosition = new Point(e.X + Viewport.Left, e.Y + Viewport.Top);
+			_offsetMousePosition = new Point( e.X + Viewport.Left, e.Y + Viewport.Top );
 		}
 
-		protected override void OnMouseDown(MouseEventArgs e) {
-			base.OnMouseDown(e);
+		protected override void OnMouseDown( MouseEventArgs e ) {
+			base.OnMouseDown( e );
 
 			if( e.Button == MouseButtons.Right )
 				Select();
 		}
 
-		protected override void OnMouseWheel(MouseEventArgs e) {
-			base.OnMouseWheel(e);
+		protected override void OnMouseWheel( MouseEventArgs e ) {
+			base.OnMouseWheel( e );
 
 			var horizontal = false;
 
@@ -292,19 +292,19 @@ namespace DarkUI.Controls {
 
 			if( !horizontal ) {
 				if( e.Delta > 0 )
-					_vScrollBar.ScrollByPhysical(3);
+					_vScrollBar.ScrollByPhysical( 3 );
 				else if( e.Delta < 0 )
-					_vScrollBar.ScrollByPhysical(-3);
+					_vScrollBar.ScrollByPhysical( -3 );
 			} else {
 				if( e.Delta > 0 )
-					_hScrollBar.ScrollByPhysical(3);
+					_hScrollBar.ScrollByPhysical( 3 );
 				else if( e.Delta < 0 )
-					_hScrollBar.ScrollByPhysical(-3);
+					_hScrollBar.ScrollByPhysical( -3 );
 			}
 		}
 
-		protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e) {
-			base.OnPreviewKeyDown(e);
+		protected override void OnPreviewKeyDown( PreviewKeyDownEventArgs e ) {
+			base.OnPreviewKeyDown( e );
 
 			// Allows arrow keys to trigger OnKeyPress
 			switch( e.KeyCode ) {
@@ -317,8 +317,8 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		private void DragTimer_Tick(object? sender, EventArgs e) {
-			var pos = PointToClient(MousePosition);
+		private void DragTimer_Tick( object? sender, EventArgs e ) {
+			var pos = PointToClient( MousePosition );
 
 			var right = ClientRectangle.Right;
 			var bottom = ClientRectangle.Bottom;

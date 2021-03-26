@@ -1,14 +1,14 @@
-﻿using DarkUI.Config;
+﻿using System.ComponentModel;
 
-using System.ComponentModel;
+using DarkUI.Config;
 
 namespace DarkUI.Docking {
-	[ToolboxItem(false)]
+	[ToolboxItem( false )]
 	public class DarkDocument : DarkDockContent {
 		#region Property Region
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public new DarkDockArea DefaultDockArea {
 			get { return base.DefaultDockArea; }
 		}

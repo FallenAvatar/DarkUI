@@ -1,5 +1,4 @@
-﻿using DarkUI.Config;
-
+﻿
 using System;
 using System.Drawing;
 
@@ -24,7 +23,7 @@ namespace DarkUI.Controls {
 			set {
 				_text = value;
 
-				TextChanged?.Invoke(this, new EventArgs());
+				TextChanged?.Invoke( this, new EventArgs() );
 			}
 		}
 
@@ -47,7 +46,7 @@ namespace DarkUI.Controls {
 			FontStyle = FontStyle.Regular;
 		}
 
-		public DarkListItem(string text)
+		public DarkListItem( string text )
 			: this() {
 			Text = text;
 		}

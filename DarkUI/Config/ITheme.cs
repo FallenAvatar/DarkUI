@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace DarkUI.Config {
+﻿namespace DarkUI.Config {
 	public interface ITheme {
 		Sizes Sizes { get; }
 

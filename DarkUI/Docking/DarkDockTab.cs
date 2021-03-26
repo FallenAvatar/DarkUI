@@ -20,7 +20,7 @@ namespace DarkUI.Docking {
 
 		#region Constructor Region
 
-		public DarkDockTab(DarkDockContent content) {
+		public DarkDockTab( DarkDockContent content ) {
 			DockContent = content;
 		}
 
@@ -28,8 +28,8 @@ namespace DarkUI.Docking {
 
 		#region Method Region
 
-		public int CalculateWidth(Graphics g, Font font) {
-			var width = (int)g.MeasureString(DockContent.DockText, font).Width;
+		public int CalculateWidth( Graphics g, Font font ) {
+			var width = (int)g.MeasureString( DockContent.DockText, font ).Width;
 			width += 10;
 
 			return width;

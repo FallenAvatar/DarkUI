@@ -1,8 +1,8 @@
-﻿using DarkUI.Controls;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Controls;
 
 namespace DarkUI.Docking {
 	internal class DarkDockTabArea {
@@ -37,7 +37,7 @@ namespace DarkUI.Docking {
 
 		#region Constructor Region
 
-		public DarkDockTabArea(DarkDockArea dockArea) {
+		public DarkDockTabArea( DarkDockArea dockArea ) {
 			DockArea = dockArea;
 		}
 
@@ -45,21 +45,21 @@ namespace DarkUI.Docking {
 
 		#region Method Region
 
-		public void ShowMenu(Control control, Point location) {
-			_tabMenu.Show(control, location);
+		public void ShowMenu( Control control, Point location ) {
+			_tabMenu.Show( control, location );
 		}
 
-		public void AddMenuItem(ToolStripMenuItem menuItem) {
-			_menuItems.Add(menuItem);
+		public void AddMenuItem( ToolStripMenuItem menuItem ) {
+			_menuItems.Add( menuItem );
 			RebuildMenu();
 		}
 
-		public void RemoveMenuItem(ToolStripMenuItem menuItem) {
-			_ = _menuItems.Remove(menuItem);
+		public void RemoveMenuItem( ToolStripMenuItem menuItem ) {
+			_ = _menuItems.Remove( menuItem );
 			RebuildMenu();
 		}
 
-		public ToolStripMenuItem? GetMenuItem(DarkDockContent content) {
+		public ToolStripMenuItem? GetMenuItem( DarkDockContent content ) {
 			foreach( ToolStripMenuItem item in _menuItems ) {
 				if( item.Tag is not DarkDockContent menuContent )
 					continue;
@@ -81,13 +81,13 @@ namespace DarkUI.Docking {
 				foreach( var item in _menuItems ) {
 					var content = (DarkDockContent)item.Tag;
 					if( content.Order == index )
-						orderedItems.Add(item);
+						orderedItems.Add( item );
 				}
 				index++;
 			}
 
 			foreach( var item in orderedItems )
-				_ = _tabMenu.Items.Add(item);
+				_ = _tabMenu.Items.Add( item );
 		}
 
 		#endregion

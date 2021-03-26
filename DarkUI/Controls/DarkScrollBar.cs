@@ -1,10 +1,9 @@
-﻿using DarkUI.Config;
-using DarkUI.Icons;
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Config;
 
 namespace DarkUI.Controls {
 	public class DarkScrollBar : Control {
@@ -49,9 +48,9 @@ namespace DarkUI.Controls {
 
 		#region Property Region
 
-		[Category("Behavior")]
-		[Description("The orientation type of the scrollbar.")]
-		[DefaultValue(DarkScrollOrientation.Vertical)]
+		[Category( "Behavior" )]
+		[Description( "The orientation type of the scrollbar." )]
+		[DefaultValue( DarkScrollOrientation.Vertical )]
 		public DarkScrollOrientation ScrollOrientation {
 			get { return _scrollOrientation; }
 			set {
@@ -60,9 +59,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Behavior")]
-		[Description("The value that the scroll thumb position represents.")]
-		[DefaultValue(0)]
+		[Category( "Behavior" )]
+		[Description( "The value that the scroll thumb position represents." )]
+		[DefaultValue( 0 )]
 		public int Value {
 			get { return _value; }
 			set {
@@ -78,15 +77,15 @@ namespace DarkUI.Controls {
 
 				_value = value;
 
-				UpdateThumb(true);
+				UpdateThumb( true );
 
-				ValueChanged?.Invoke(this, new ScrollValueEventArgs(Value));
+				ValueChanged?.Invoke( this, new ScrollValueEventArgs( Value ) );
 			}
 		}
 
-		[Category("Behavior")]
-		[Description("The lower limit value of the scrollable range.")]
-		[DefaultValue(0)]
+		[Category( "Behavior" )]
+		[Description( "The lower limit value of the scrollable range." )]
+		[DefaultValue( 0 )]
 		public int Minimum {
 			get { return _minimum; }
 			set {
@@ -95,9 +94,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Behavior")]
-		[Description("The upper limit value of the scrollable range.")]
-		[DefaultValue(100)]
+		[Category( "Behavior" )]
+		[Description( "The upper limit value of the scrollable range." )]
+		[DefaultValue( 100 )]
 		public int Maximum {
 			get { return _maximum; }
 			set {
@@ -106,9 +105,9 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		[Category("Behavior")]
-		[Description("The view size for the scrollable area.")]
-		[DefaultValue(0)]
+		[Category( "Behavior" )]
+		[Description( "The view size for the scrollable area." )]
+		[DefaultValue( 0 )]
 		public int ViewSize {
 			get { return _viewSize; }
 			set {
@@ -132,11 +131,11 @@ namespace DarkUI.Controls {
 		#region Constructor Region
 
 		public DarkScrollBar() {
-			SetStyle(ControlStyles.OptimizedDoubleBuffer |
+			SetStyle( ControlStyles.OptimizedDoubleBuffer |
 					 ControlStyles.ResizeRedraw |
-					 ControlStyles.UserPaint, true);
+					 ControlStyles.UserPaint, true );
 
-			SetStyle(ControlStyles.Selectable, false);
+			SetStyle( ControlStyles.Selectable, false );
 
 			_scrollTimer = new Timer {
 				Interval = 1
@@ -148,16 +147,16 @@ namespace DarkUI.Controls {
 
 		#region Event Handler Region
 
-		protected override void OnResize(EventArgs e) {
-			base.OnResize(e);
+		protected override void OnResize( EventArgs e ) {
+			base.OnResize( e );
 
 			UpdateScrollBar();
 		}
 
-		protected override void OnMouseDown(MouseEventArgs e) {
-			base.OnMouseDown(e);
+		protected override void OnMouseDown( MouseEventArgs e ) {
+			base.OnMouseDown( e );
 
-			if( _thumbArea.Contains(e.Location) && e.Button == MouseButtons.Left ) {
+			if( _thumbArea.Contains( e.Location ) && e.Button == MouseButtons.Left ) {
 				_isScrolling = true;
 				_initialContact = e.Location;
 
@@ -170,7 +169,7 @@ namespace DarkUI.Controls {
 				return;
 			}
 
-			if( _upArrowArea.Contains(e.Location) && e.Button == MouseButtons.Left ) {
+			if( _upArrowArea.Contains( e.Location ) && e.Button == MouseButtons.Left ) {
 				_upArrowClicked = true;
 				_scrollTimer.Enabled = true;
 
@@ -178,7 +177,7 @@ namespace DarkUI.Controls {
 				return;
 			}
 
-			if( _downArrowArea.Contains(e.Location) && e.Button == MouseButtons.Left ) {
+			if( _downArrowArea.Contains( e.Location ) && e.Button == MouseButtons.Left ) {
 				_downArrowClicked = true;
 				_scrollTimer.Enabled = true;
 
@@ -186,15 +185,15 @@ namespace DarkUI.Controls {
 				return;
 			}
 
-			if( _trackArea.Contains(e.Location) && e.Button == MouseButtons.Left ) {
+			if( _trackArea.Contains( e.Location ) && e.Button == MouseButtons.Left ) {
 				// Step 1. Check if our input is at least aligned with the thumb
 				if( _scrollOrientation == DarkScrollOrientation.Vertical ) {
-					var modRect = new Rectangle(_thumbArea.Left, _trackArea.Top, _thumbArea.Width, _trackArea.Height);
-					if( !modRect.Contains(e.Location) )
+					var modRect = new Rectangle( _thumbArea.Left, _trackArea.Top, _thumbArea.Width, _trackArea.Height );
+					if( !modRect.Contains( e.Location ) )
 						return;
 				} else if( _scrollOrientation == DarkScrollOrientation.Horizontal ) {
-					var modRect = new Rectangle(_trackArea.Left, _thumbArea.Top, _trackArea.Width, _thumbArea.Height);
-					if( !modRect.Contains(e.Location) )
+					var modRect = new Rectangle( _trackArea.Left, _thumbArea.Top, _trackArea.Width, _thumbArea.Height );
+					if( !modRect.Contains( e.Location ) )
 						return;
 				}
 
@@ -203,12 +202,12 @@ namespace DarkUI.Controls {
 					var loc = e.Location.Y;
 					loc -= _upArrowArea.Bottom - 1;
 					loc -= _thumbArea.Height / 2;
-					ScrollToPhysical(loc);
+					ScrollToPhysical( loc );
 				} else {
 					var loc = e.Location.X;
 					loc -= _upArrowArea.Right - 1;
 					loc -= _thumbArea.Width / 2;
-					ScrollToPhysical(loc);
+					ScrollToPhysical( loc );
 				}
 
 				// Step 3. Initiate a thumb drag.
@@ -226,8 +225,8 @@ namespace DarkUI.Controls {
 			}
 		}
 
-		protected override void OnMouseUp(MouseEventArgs e) {
-			base.OnMouseUp(e);
+		protected override void OnMouseUp( MouseEventArgs e ) {
+			base.OnMouseUp( e );
 
 			_isScrolling = false;
 
@@ -238,23 +237,23 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		protected override void OnMouseMove(MouseEventArgs e) {
-			base.OnMouseMove(e);
+		protected override void OnMouseMove( MouseEventArgs e ) {
+			base.OnMouseMove( e );
 
 			if( !_isScrolling ) {
-				var thumbHot = _thumbArea.Contains(e.Location);
+				var thumbHot = _thumbArea.Contains( e.Location );
 				if( _thumbHot != thumbHot ) {
 					_thumbHot = thumbHot;
 					Invalidate();
 				}
 
-				var upArrowHot = _upArrowArea.Contains(e.Location);
+				var upArrowHot = _upArrowArea.Contains( e.Location );
 				if( _upArrowHot != upArrowHot ) {
 					_upArrowHot = upArrowHot;
 					Invalidate();
 				}
 
-				var downArrowHot = _downArrowArea.Contains(e.Location);
+				var downArrowHot = _downArrowArea.Contains( e.Location );
 				if( _downArrowHot != downArrowHot ) {
 					_downArrowHot = downArrowHot;
 					Invalidate();
@@ -263,30 +262,30 @@ namespace DarkUI.Controls {
 
 			if( _isScrolling ) {
 				if( e.Button != MouseButtons.Left ) {
-					OnMouseUp(e);
+					OnMouseUp( e );
 					return;
 				}
 
-				var difference = new Point(e.Location.X - _initialContact.X, e.Location.Y - _initialContact.Y);
+				var difference = new Point( e.Location.X - _initialContact.X, e.Location.Y - _initialContact.Y );
 
 				if( _scrollOrientation == DarkScrollOrientation.Vertical ) {
 					var thumbPos = (_initialValue - _trackArea.Top);
 					var newPosition = thumbPos + difference.Y;
 
-					ScrollToPhysical(newPosition);
+					ScrollToPhysical( newPosition );
 				} else if( _scrollOrientation == DarkScrollOrientation.Horizontal ) {
 					var thumbPos = (_initialValue - _trackArea.Left);
 					var newPosition = thumbPos + difference.X;
 
-					ScrollToPhysical(newPosition);
+					ScrollToPhysical( newPosition );
 				}
 
 				UpdateScrollBar();
 			}
 		}
 
-		protected override void OnMouseLeave(EventArgs e) {
-			base.OnMouseLeave(e);
+		protected override void OnMouseLeave( EventArgs e ) {
+			base.OnMouseLeave( e );
 
 			_thumbHot = false;
 			_upArrowHot = false;
@@ -295,27 +294,27 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		private void ScrollTimerTick(object? sender, EventArgs e) {
+		private void ScrollTimerTick( object? sender, EventArgs e ) {
 			if( !_upArrowClicked && !_downArrowClicked ) {
 				_scrollTimer.Enabled = false;
 				return;
 			}
 
 			if( _upArrowClicked )
-				ScrollBy(-1);
+				ScrollBy( -1 );
 			else if( _downArrowClicked )
-				ScrollBy(1);
+				ScrollBy( 1 );
 		}
 
 		#endregion
 
 		#region Method Region
 
-		public void ScrollTo(int position) {
+		public void ScrollTo( int position ) {
 			Value = position;
 		}
 
-		public void ScrollToPhysical(int positionInPixels) {
+		public void ScrollToPhysical( int positionInPixels ) {
 			var isVert = _scrollOrientation == DarkScrollOrientation.Vertical;
 
 			var trackAreaSize = isVert ? _trackArea.Height - _thumbArea.Height : _trackArea.Width - _thumbArea.Width;
@@ -327,19 +326,19 @@ namespace DarkUI.Controls {
 			Value = newValue;
 		}
 
-		public void ScrollBy(int offset) {
+		public void ScrollBy( int offset ) {
 			var newValue = Value + offset;
-			ScrollTo(newValue);
+			ScrollTo( newValue );
 		}
 
-		public void ScrollByPhysical(int offsetInPixels) {
+		public void ScrollByPhysical( int offsetInPixels ) {
 			var isVert = _scrollOrientation == DarkScrollOrientation.Vertical;
 
 			var thumbPos = isVert ? (_thumbArea.Top - _trackArea.Top) : (_thumbArea.Left - _trackArea.Left);
 
 			var newPosition = thumbPos - offsetInPixels;
 
-			ScrollToPhysical(newPosition);
+			ScrollToPhysical( newPosition );
 		}
 
 		public void UpdateScrollBar() {
@@ -347,18 +346,18 @@ namespace DarkUI.Controls {
 
 			// Arrow buttons
 			if( _scrollOrientation == DarkScrollOrientation.Vertical ) {
-				_upArrowArea = new Rectangle(area.Left, area.Top, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize);
-				_downArrowArea = new Rectangle(area.Left, area.Bottom - ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize);
+				_upArrowArea = new Rectangle( area.Left, area.Top, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize );
+				_downArrowArea = new Rectangle( area.Left, area.Bottom - ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize );
 			} else if( _scrollOrientation == DarkScrollOrientation.Horizontal ) {
-				_upArrowArea = new Rectangle(area.Left, area.Top, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize);
-				_downArrowArea = new Rectangle(area.Right - ThemeProvider.Theme.Sizes.ArrowButtonSize, area.Top, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize);
+				_upArrowArea = new Rectangle( area.Left, area.Top, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize );
+				_downArrowArea = new Rectangle( area.Right - ThemeProvider.Theme.Sizes.ArrowButtonSize, area.Top, ThemeProvider.Theme.Sizes.ArrowButtonSize, ThemeProvider.Theme.Sizes.ArrowButtonSize );
 			}
 
 			// Track
 			if( _scrollOrientation == DarkScrollOrientation.Vertical ) {
-				_trackArea = new Rectangle(area.Left, area.Top + ThemeProvider.Theme.Sizes.ArrowButtonSize, area.Width, area.Height - (ThemeProvider.Theme.Sizes.ArrowButtonSize * 2));
+				_trackArea = new Rectangle( area.Left, area.Top + ThemeProvider.Theme.Sizes.ArrowButtonSize, area.Width, area.Height - (ThemeProvider.Theme.Sizes.ArrowButtonSize * 2) );
 			} else if( _scrollOrientation == DarkScrollOrientation.Horizontal ) {
-				_trackArea = new Rectangle(area.Left + ThemeProvider.Theme.Sizes.ArrowButtonSize, area.Top, area.Width - (ThemeProvider.Theme.Sizes.ArrowButtonSize * 2), area.Height);
+				_trackArea = new Rectangle( area.Left + ThemeProvider.Theme.Sizes.ArrowButtonSize, area.Top, area.Width - (ThemeProvider.Theme.Sizes.ArrowButtonSize * 2), area.Height );
 			}
 
 			// Thumb
@@ -367,7 +366,7 @@ namespace DarkUI.Controls {
 			Invalidate();
 		}
 
-		private void UpdateThumb(bool forceRefresh = false) {
+		private void UpdateThumb( bool forceRefresh = false ) {
 			if( ViewSize >= Maximum )
 				return;
 
@@ -391,7 +390,7 @@ namespace DarkUI.Controls {
 				var trackAreaSize = _trackArea.Height - thumbSize;
 				var thumbPosition = (int)(trackAreaSize * positionRatio);
 
-				_thumbArea = new Rectangle(_trackArea.Left + 3, _trackArea.Top + thumbPosition, ThemeProvider.Theme.Sizes.ScrollBarSize - 6, thumbSize);
+				_thumbArea = new Rectangle( _trackArea.Left + 3, _trackArea.Top + thumbPosition, ThemeProvider.Theme.Sizes.ScrollBarSize - 6, thumbSize );
 			} else if( _scrollOrientation == DarkScrollOrientation.Horizontal ) {
 				var thumbSize = (int)(_trackArea.Width * _viewContentRatio);
 
@@ -401,7 +400,7 @@ namespace DarkUI.Controls {
 				var trackAreaSize = _trackArea.Width - thumbSize;
 				var thumbPosition = (int)(trackAreaSize * positionRatio);
 
-				_thumbArea = new Rectangle(_trackArea.Left + thumbPosition, _trackArea.Top + 3, thumbSize, ThemeProvider.Theme.Sizes.ScrollBarSize - 6);
+				_thumbArea = new Rectangle( _trackArea.Left + thumbPosition, _trackArea.Top + 3, thumbSize, ThemeProvider.Theme.Sizes.ScrollBarSize - 6 );
 			}
 
 			if( forceRefresh ) {
@@ -414,12 +413,12 @@ namespace DarkUI.Controls {
 
 		#region Paint Region
 
-		protected override void OnPaint(PaintEventArgs e) {
+		protected override void OnPaint( PaintEventArgs e ) {
 			var g = e.Graphics;
 
 			// DEBUG: Scrollbar bg
-			using( var b = new SolidBrush(ThemeProvider.Theme.Colors.GreyBackground) ) {
-				g.FillRectangle(b, ClientRectangle);
+			using( var b = new SolidBrush( ThemeProvider.Theme.Colors.GreyBackground ) ) {
+				g.FillRectangle( b, ClientRectangle );
 			}/**/
 
 			// DEBUG: Arrow backgrounds
@@ -439,13 +438,13 @@ namespace DarkUI.Controls {
 				upIcon = ScrollIcons.scrollbar_arrow_disabled;
 
 			if( _scrollOrientation == DarkScrollOrientation.Vertical )
-				upIcon.RotateFlip(RotateFlipType.RotateNoneFlipY);
+				upIcon.RotateFlip( RotateFlipType.RotateNoneFlipY );
 			else if( _scrollOrientation == DarkScrollOrientation.Horizontal )
-				upIcon.RotateFlip(RotateFlipType.Rotate90FlipNone);
+				upIcon.RotateFlip( RotateFlipType.Rotate90FlipNone );
 
-			g.DrawImageUnscaled(upIcon,
+			g.DrawImageUnscaled( upIcon,
 								_upArrowArea.Left + (_upArrowArea.Width / 2) - (upIcon.Width / 2),
-								_upArrowArea.Top + (_upArrowArea.Height / 2) - (upIcon.Height / 2));
+								_upArrowArea.Top + (_upArrowArea.Height / 2) - (upIcon.Height / 2) );
 
 			// Down arrow
 			var downIcon = _downArrowHot ? ScrollIcons.scrollbar_arrow_hot : ScrollIcons.scrollbar_arrow_standard;
@@ -457,11 +456,11 @@ namespace DarkUI.Controls {
 				downIcon = ScrollIcons.scrollbar_arrow_disabled;
 
 			if( _scrollOrientation == DarkScrollOrientation.Horizontal )
-				downIcon.RotateFlip(RotateFlipType.Rotate270FlipNone);
+				downIcon.RotateFlip( RotateFlipType.Rotate270FlipNone );
 
-			g.DrawImageUnscaled(downIcon,
+			g.DrawImageUnscaled( downIcon,
 								_downArrowArea.Left + (_downArrowArea.Width / 2) - (downIcon.Width / 2),
-								_downArrowArea.Top + (_downArrowArea.Height / 2) - (downIcon.Height / 2));
+								_downArrowArea.Top + (_downArrowArea.Height / 2) - (downIcon.Height / 2) );
 
 			// Draw thumb
 			if( Enabled ) {
@@ -470,8 +469,8 @@ namespace DarkUI.Controls {
 				if( _isScrolling )
 					scrollColor = ThemeProvider.Theme.Colors.ActiveControl;
 
-				using var b = new SolidBrush(scrollColor);
-				g.FillRectangle(b, _thumbArea);
+				using var b = new SolidBrush( scrollColor );
+				g.FillRectangle( b, _thumbArea );
 			}
 		}
 

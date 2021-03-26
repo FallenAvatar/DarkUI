@@ -9,9 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace DarkUI.Icons {
-	using System;
-
-
 	/// <summary>
 	///   A strongly-typed resource class, for looking up localized strings, etc.
 	/// </summary>
@@ -19,7 +16,7 @@ namespace DarkUI.Icons {
 	// class via a tool like ResGen or Visual Studio.
 	// To add or remove a member, edit your .ResX file then rerun ResGen
 	// with the /str option, or rebuild your VS project.
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute( "System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0" )]
 	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 	internal class TreeViewIcons {
@@ -28,18 +25,18 @@ namespace DarkUI.Icons {
 
 		private static global::System.Globalization.CultureInfo resourceCulture;
 
-		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute( "Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode" )]
 		internal TreeViewIcons() {
 		}
 
 		/// <summary>
 		///   Returns the cached ResourceManager instance used by this class.
 		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		[global::System.ComponentModel.EditorBrowsableAttribute( global::System.ComponentModel.EditorBrowsableState.Advanced )]
 		internal static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if( object.ReferenceEquals(resourceMan, null) ) {
-					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DarkUI.Icons.TreeViewIcons", typeof(TreeViewIcons).Assembly);
+				if( object.ReferenceEquals( resourceMan, null ) ) {
+					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager( "DarkUI.Icons.TreeViewIcons", typeof( TreeViewIcons ).Assembly );
 					resourceMan = temp;
 				}
 				return resourceMan;
@@ -50,7 +47,7 @@ namespace DarkUI.Icons {
 		///   Overrides the current thread's CurrentUICulture property for all
 		///   resource lookups using this strongly typed resource class.
 		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		[global::System.ComponentModel.EditorBrowsableAttribute( global::System.ComponentModel.EditorBrowsableState.Advanced )]
 		internal static global::System.Globalization.CultureInfo Culture {
 			get {
 				return resourceCulture;
@@ -65,7 +62,7 @@ namespace DarkUI.Icons {
 		/// </summary>
 		internal static System.Drawing.Bitmap node_closed_empty {
 			get {
-				object obj = ResourceManager.GetObject("node_closed_empty", resourceCulture);
+				object obj = ResourceManager.GetObject( "node_closed_empty", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -75,7 +72,7 @@ namespace DarkUI.Icons {
 		/// </summary>
 		internal static System.Drawing.Bitmap node_closed_full {
 			get {
-				object obj = ResourceManager.GetObject("node_closed_full", resourceCulture);
+				object obj = ResourceManager.GetObject( "node_closed_full", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -85,7 +82,7 @@ namespace DarkUI.Icons {
 		/// </summary>
 		internal static System.Drawing.Bitmap node_open {
 			get {
-				object obj = ResourceManager.GetObject("node_open", resourceCulture);
+				object obj = ResourceManager.GetObject( "node_open", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -95,7 +92,7 @@ namespace DarkUI.Icons {
 		/// </summary>
 		internal static System.Drawing.Bitmap node_open_empty {
 			get {
-				object obj = ResourceManager.GetObject("node_open_empty", resourceCulture);
+				object obj = ResourceManager.GetObject( "node_open_empty", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}

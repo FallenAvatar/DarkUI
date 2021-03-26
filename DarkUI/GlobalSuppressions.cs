@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Don't Care", Scope = "namespaceanddescendants", Target = "~N:DarkUI")]
+[assembly: SuppressMessage( "Performance", "CA1822:Mark members as static", Justification = "Don't Care", Scope = "namespaceanddescendants", Target = "~N:DarkUI" )]

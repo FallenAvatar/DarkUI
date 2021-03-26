@@ -12,10 +12,10 @@
 
 		#region Constructor Region
 
-		internal DockDropCollection(DarkDockPanel dockPanel, DarkDockGroup group) {
-			DropArea = new DockDropArea(dockPanel, group, DockInsertType.None);
-			InsertBeforeArea = new DockDropArea(dockPanel, group, DockInsertType.Before);
-			InsertAfterArea = new DockDropArea(dockPanel, group, DockInsertType.After);
+		internal DockDropCollection( DarkDockPanel dockPanel, DarkDockGroup group ) {
+			DropArea = new DockDropArea( dockPanel, group, DockInsertType.None );
+			InsertBeforeArea = new DockDropArea( dockPanel, group, DockInsertType.Before );
+			InsertAfterArea = new DockDropArea( dockPanel, group, DockInsertType.After );
 		}
 
 		#endregion

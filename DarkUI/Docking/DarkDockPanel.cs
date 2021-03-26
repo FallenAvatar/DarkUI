@@ -1,11 +1,11 @@
-﻿using DarkUI.Config;
-using DarkUI.Win32;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+
+using DarkUI.Config;
+using DarkUI.Win32;
 
 namespace DarkUI.Docking {
 	public class DarkDockPanel : UserControl {
@@ -29,8 +29,8 @@ namespace DarkUI.Docking {
 
 		#region Property Region
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockContent? ActiveContent {
 			get { return _activeContent; }
 			set {
@@ -51,43 +51,43 @@ namespace DarkUI.Docking {
 					region.Redraw();
 
 				if( _activeContent != null )
-					ActiveContentChanged?.Invoke(this, new DockContentEventArgs(_activeContent));
+					ActiveContentChanged?.Invoke( this, new DockContentEventArgs( _activeContent ) );
 
 				_switchingContent = false;
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockRegion? ActiveRegion { get; internal set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockGroup? ActiveGroup { get; internal set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockContent? ActiveDocument {
 			get {
 				return _regions[DarkDockArea.Document].ActiveDocument;
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DockContentDragFilter DockContentDragFilter { get; private set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DockResizeFilter DockResizeFilter { get; private set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public List<DarkDockSplitter> Splitters { get; private set; }
 
 		// FIXME: This just seems really wrong
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public MouseButtons MouseButtonState {
 			get {
 				var buttonState = MouseButtons;
@@ -95,8 +95,8 @@ namespace DarkUI.Docking {
 			}
 		}
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public Dictionary<DarkDockArea, DarkDockRegion> Regions {
 			get {
 				return _regions;
@@ -109,8 +109,8 @@ namespace DarkUI.Docking {
 
 		public DarkDockPanel() {
 			Splitters = new List<DarkDockSplitter>();
-			DockContentDragFilter = new DockContentDragFilter(this);
-			DockResizeFilter = new DockResizeFilter(this);
+			DockContentDragFilter = new DockContentDragFilter( this );
+			DockResizeFilter = new DockResizeFilter( this );
 
 			_regions = new Dictionary<DarkDockArea, DarkDockRegion>();
 			_contents = new List<DarkDockContent>();
@@ -124,16 +124,16 @@ namespace DarkUI.Docking {
 
 		#region Method Region
 
-		public void AddContent(DarkDockContent dockContent) {
-			AddContent(dockContent, null);
+		public void AddContent( DarkDockContent dockContent ) {
+			AddContent( dockContent, null );
 		}
 
-		public void AddContent(DarkDockContent dockContent, DarkDockGroup? dockGroup) {
-			if( _contents.Contains(dockContent) )
-				RemoveContent(dockContent);
+		public void AddContent( DarkDockContent dockContent, DarkDockGroup? dockGroup ) {
+			if( _contents.Contains( dockContent ) )
+				RemoveContent( dockContent );
 
 			dockContent.DockPanel = this;
-			_contents.Add(dockContent);
+			_contents.Add( dockContent );
 
 			if( dockGroup != null )
 				dockContent.DockArea = dockGroup.DockArea;
@@ -142,45 +142,45 @@ namespace DarkUI.Docking {
 				dockContent.DockArea = dockContent.DefaultDockArea;
 
 			var region = _regions[dockContent.DockArea];
-			region.AddContent(dockContent, dockGroup);
+			region.AddContent( dockContent, dockGroup );
 
-			ContentAdded?.Invoke(this, new DockContentEventArgs(dockContent));
+			ContentAdded?.Invoke( this, new DockContentEventArgs( dockContent ) );
 
 			dockContent.Select();
 		}
 
-		public void InsertContent(DarkDockContent dockContent, DarkDockGroup dockGroup, DockInsertType insertType) {
-			if( _contents.Contains(dockContent) )
-				RemoveContent(dockContent);
+		public void InsertContent( DarkDockContent dockContent, DarkDockGroup dockGroup, DockInsertType insertType ) {
+			if( _contents.Contains( dockContent ) )
+				RemoveContent( dockContent );
 
 			dockContent.DockPanel = this;
-			_contents.Add(dockContent);
+			_contents.Add( dockContent );
 
 			dockContent.DockArea = dockGroup.DockArea;
 
 			var region = _regions[dockGroup.DockArea];
-			region.InsertContent(dockContent, dockGroup, insertType);
+			region.InsertContent( dockContent, dockGroup, insertType );
 
-			ContentAdded?.Invoke(this, new DockContentEventArgs(dockContent));
+			ContentAdded?.Invoke( this, new DockContentEventArgs( dockContent ) );
 
 			dockContent.Select();
 		}
 
-		public void RemoveContent(DarkDockContent dockContent) {
-			if( !_contents.Contains(dockContent) )
+		public void RemoveContent( DarkDockContent dockContent ) {
+			if( !_contents.Contains( dockContent ) )
 				return;
 
 			dockContent.DockPanel = null;
-			_ = _contents.Remove(dockContent);
+			_ = _contents.Remove( dockContent );
 
 			var region = _regions[dockContent.DockArea];
-			region.RemoveContent(dockContent);
+			region.RemoveContent( dockContent );
 
-			ContentRemoved?.Invoke(this, new DockContentEventArgs(dockContent));
+			ContentRemoved?.Invoke( this, new DockContentEventArgs( dockContent ) );
 		}
 
-		public bool ContainsContent(DarkDockContent dockContent) {
-			return _contents.Contains(dockContent);
+		public bool ContainsContent( DarkDockContent dockContent ) {
+			return _contents.Contains( dockContent );
 		}
 
 		public List<DarkDockContent> GetDocuments() {
@@ -188,24 +188,24 @@ namespace DarkUI.Docking {
 		}
 
 		private void CreateRegions() {
-			var documentRegion = new DarkDockRegion(this, DarkDockArea.Document);
-			_regions.Add(DarkDockArea.Document, documentRegion);
+			var documentRegion = new DarkDockRegion( this, DarkDockArea.Document );
+			_regions.Add( DarkDockArea.Document, documentRegion );
 
-			var leftRegion = new DarkDockRegion(this, DarkDockArea.Left);
-			_regions.Add(DarkDockArea.Left, leftRegion);
+			var leftRegion = new DarkDockRegion( this, DarkDockArea.Left );
+			_regions.Add( DarkDockArea.Left, leftRegion );
 
-			var rightRegion = new DarkDockRegion(this, DarkDockArea.Right);
-			_regions.Add(DarkDockArea.Right, rightRegion);
+			var rightRegion = new DarkDockRegion( this, DarkDockArea.Right );
+			_regions.Add( DarkDockArea.Right, rightRegion );
 
-			var bottomRegion = new DarkDockRegion(this, DarkDockArea.Bottom);
-			_regions.Add(DarkDockArea.Bottom, bottomRegion);
+			var bottomRegion = new DarkDockRegion( this, DarkDockArea.Bottom );
+			_regions.Add( DarkDockArea.Bottom, bottomRegion );
 
 			// Add the regions in this order to force the bottom region to be positioned
 			// between the left and right regions properly.
-			Controls.Add(documentRegion);
-			Controls.Add(bottomRegion);
-			Controls.Add(leftRegion);
-			Controls.Add(rightRegion);
+			Controls.Add( documentRegion );
+			Controls.Add( bottomRegion );
+			Controls.Add( leftRegion );
+			Controls.Add( rightRegion );
 
 			// Create tab index for intuitive tabbing order
 			documentRegion.TabIndex = 0;
@@ -214,8 +214,8 @@ namespace DarkUI.Docking {
 			leftRegion.TabIndex = 3;
 		}
 
-		public void DragContent(DarkDockContent content) {
-			DockContentDragFilter.StartDrag(content);
+		public void DragContent( DarkDockContent content ) {
+			DockContentDragFilter.StartDrag( content );
 		}
 
 		#endregion
@@ -225,14 +225,14 @@ namespace DarkUI.Docking {
 		public DockPanelState GetDockPanelState() {
 			var state = new DockPanelState();
 
-			state.Regions.Add(new DockRegionState(DarkDockArea.Document));
-			state.Regions.Add(new DockRegionState(DarkDockArea.Left, _regions[DarkDockArea.Left].Size));
-			state.Regions.Add(new DockRegionState(DarkDockArea.Right, _regions[DarkDockArea.Right].Size));
-			state.Regions.Add(new DockRegionState(DarkDockArea.Bottom, _regions[DarkDockArea.Bottom].Size));
+			state.Regions.Add( new DockRegionState( DarkDockArea.Document ) );
+			state.Regions.Add( new DockRegionState( DarkDockArea.Left, _regions[DarkDockArea.Left].Size ) );
+			state.Regions.Add( new DockRegionState( DarkDockArea.Right, _regions[DarkDockArea.Right].Size ) );
+			state.Regions.Add( new DockRegionState( DarkDockArea.Bottom, _regions[DarkDockArea.Bottom].Size ) );
 
 			var _groupStates = new Dictionary<DarkDockGroup, DockGroupState>();
 
-			var orderedContent = _contents.OrderBy(c => c.Order);
+			var orderedContent = _contents.OrderBy( c => c.Order );
 			foreach( var content in orderedContent ) {
 				if( content.DockGroup == null )
 					continue;
@@ -241,15 +241,15 @@ namespace DarkUI.Docking {
 					if( region.Area == content.DockArea ) {
 						DockGroupState groupState;
 
-						if( _groupStates.ContainsKey(content.DockGroup) ) {
+						if( _groupStates.ContainsKey( content.DockGroup ) ) {
 							groupState = _groupStates[content.DockGroup];
 						} else {
 							groupState = new DockGroupState();
-							region.Groups.Add(groupState);
-							_groupStates.Add(content.DockGroup, groupState);
+							region.Groups.Add( groupState );
+							_groupStates.Add( content.DockGroup, groupState );
 						}
 
-						groupState.Contents.Add(content.SerializationKey ?? "");
+						groupState.Contents.Add( content.SerializationKey ?? "" );
 
 						groupState.VisibleContent = content.DockGroup.VisibleContent?.SerializationKey ?? "";
 					}
@@ -259,7 +259,7 @@ namespace DarkUI.Docking {
 			return state;
 		}
 
-		public void RestoreDockPanelState(DockPanelState state, Func<string, DarkDockContent?> getContentBySerializationKey) {
+		public void RestoreDockPanelState( DockPanelState state, Func<string, DarkDockContent?> getContentBySerializationKey ) {
 			foreach( var region in state.Regions ) {
 				switch( region.Area ) {
 				case DarkDockArea.Left:
@@ -278,7 +278,7 @@ namespace DarkUI.Docking {
 					DarkDockContent? visibleContent = null;
 
 					foreach( var contentKey in group.Contents ) {
-						var content = getContentBySerializationKey(contentKey);
+						var content = getContentBySerializationKey( contentKey );
 
 						if( content == null )
 							continue;
@@ -286,9 +286,9 @@ namespace DarkUI.Docking {
 						content.DockArea = region.Area;
 
 						if( previousContent == null )
-							AddContent(content);
+							AddContent( content );
 						else
-							AddContent(content, previousContent.DockGroup);
+							AddContent( content, previousContent.DockGroup );
 
 						previousContent = content;
 

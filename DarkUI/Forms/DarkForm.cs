@@ -1,8 +1,8 @@
-﻿using DarkUI.Config;
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Config;
 
 namespace DarkUI.Forms {
 	public class DarkForm : Form {
@@ -14,9 +14,9 @@ namespace DarkUI.Forms {
 
 		#region Property Region
 
-		[Category("Appearance")]
-		[Description("Determines whether a single pixel border should be rendered around the form.")]
-		[DefaultValue(false)]
+		[Category( "Appearance" )]
+		[Description( "Determines whether a single pixel border should be rendered around the form." )]
+		[DefaultValue( false )]
 		public bool FlatBorder {
 			get { return _flatBorder; }
 			set {
@@ -37,17 +37,17 @@ namespace DarkUI.Forms {
 
 		#region Paint Region
 
-		protected override void OnPaintBackground(PaintEventArgs e) {
-			base.OnPaintBackground(e);
+		protected override void OnPaintBackground( PaintEventArgs e ) {
+			base.OnPaintBackground( e );
 
 			if( !_flatBorder )
 				return;
 
 			var g = e.Graphics;
 
-			using var p = new Pen(ThemeProvider.Theme.Colors.DarkBorder);
-			var modRect = new Rectangle(ClientRectangle.Location, new Size(ClientRectangle.Width - 1, ClientRectangle.Height - 1));
-			g.DrawRectangle(p, modRect);
+			using var p = new Pen( ThemeProvider.Theme.Colors.DarkBorder );
+			var modRect = new Rectangle( ClientRectangle.Location, new Size( ClientRectangle.Width - 1, ClientRectangle.Height - 1 ) );
+			g.DrawRectangle( p, modRect );
 		}
 
 		#endregion

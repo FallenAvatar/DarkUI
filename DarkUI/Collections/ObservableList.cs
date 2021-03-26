@@ -20,7 +20,7 @@ namespace DarkUI.Collections {
 		#region Destructor Region
 
 		~ObservableList() {
-			Dispose(false);
+			Dispose( false );
 		}
 
 		#endregion
@@ -28,11 +28,11 @@ namespace DarkUI.Collections {
 		#region Dispose Region
 
 		public void Dispose() {
-			Dispose(true);
-			GC.SuppressFinalize(this);
+			Dispose( true );
+			GC.SuppressFinalize( this );
 		}
 
-		protected virtual void Dispose(bool disposing) {
+		protected virtual void Dispose( bool disposing ) {
 			if( !_disposed ) {
 				if( ItemsAdded != null )
 					ItemsAdded = null;
@@ -48,31 +48,31 @@ namespace DarkUI.Collections {
 
 		#region Method Region
 
-		public new void Add(T item) {
-			base.Add(item);
+		public new void Add( T item ) {
+			base.Add( item );
 
-			ItemsAdded?.Invoke(this, new ObservableListModified<T>(new List<T> { item }));
+			ItemsAdded?.Invoke( this, new ObservableListModified<T>( new List<T> { item } ) );
 		}
 
-		public new void AddRange(IEnumerable<T> collection) {
+		public new void AddRange( IEnumerable<T> collection ) {
 			var list = collection.ToList();
 
-			base.AddRange(list);
+			base.AddRange( list );
 
-			ItemsAdded?.Invoke(this, new ObservableListModified<T>(list));
+			ItemsAdded?.Invoke( this, new ObservableListModified<T>( list ) );
 		}
 
-		public new void Remove(T item) {
-			if( base.Remove(item) )
-				ItemsRemoved?.Invoke(this, new ObservableListModified<T>(new List<T> { item }));
+		public new void Remove( T item ) {
+			if( base.Remove( item ) )
+				ItemsRemoved?.Invoke( this, new ObservableListModified<T>( new List<T> { item } ) );
 		}
 
 		public new void Clear() {
-			ObservableListModified<T> removed = new(this.ToList<T>());
+			ObservableListModified<T> removed = new( this.ToList<T>() );
 			base.Clear();
 
 			if( removed.Items.Any() )
-				ItemsRemoved?.Invoke(this, removed);
+				ItemsRemoved?.Invoke( this, removed );
 		}
 
 		#endregion

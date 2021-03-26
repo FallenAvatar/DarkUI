@@ -9,9 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace DarkUI {
-	using System;
-
-
 	/// <summary>
 	///   A strongly-typed resource class, for looking up localized strings, etc.
 	/// </summary>
@@ -19,7 +16,7 @@ namespace DarkUI {
 	// class via a tool like ResGen or Visual Studio.
 	// To add or remove a member, edit your .ResX file then rerun ResGen
 	// with the /str option, or rebuild your VS project.
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute( "System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0" )]
 	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 	[global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 	internal class DockIcons {
@@ -28,18 +25,18 @@ namespace DarkUI {
 
 		private static global::System.Globalization.CultureInfo resourceCulture;
 
-		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+		[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute( "Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode" )]
 		internal DockIcons() {
 		}
 
 		/// <summary>
 		///   Returns the cached ResourceManager instance used by this class.
 		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		[global::System.ComponentModel.EditorBrowsableAttribute( global::System.ComponentModel.EditorBrowsableState.Advanced )]
 		internal static global::System.Resources.ResourceManager ResourceManager {
 			get {
-				if( object.ReferenceEquals(resourceMan, null) ) {
-					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DarkUI.Icons.DockIcons", typeof(DockIcons).Assembly);
+				if( object.ReferenceEquals( resourceMan, null ) ) {
+					global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager( "DarkUI.Icons.DockIcons", typeof( DockIcons ).Assembly );
 					resourceMan = temp;
 				}
 				return resourceMan;
@@ -50,7 +47,7 @@ namespace DarkUI {
 		///   Overrides the current thread's CurrentUICulture property for all
 		///   resource lookups using this strongly typed resource class.
 		/// </summary>
-		[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+		[global::System.ComponentModel.EditorBrowsableAttribute( global::System.ComponentModel.EditorBrowsableState.Advanced )]
 		internal static global::System.Globalization.CultureInfo Culture {
 			get {
 				return resourceCulture;
@@ -65,7 +62,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap active_inactive_close {
 			get {
-				object obj = ResourceManager.GetObject("active_inactive_close", resourceCulture);
+				object obj = ResourceManager.GetObject( "active_inactive_close", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -75,7 +72,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap arrow {
 			get {
-				object obj = ResourceManager.GetObject("arrow", resourceCulture);
+				object obj = ResourceManager.GetObject( "arrow", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -85,7 +82,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap close {
 			get {
-				object obj = ResourceManager.GetObject("close", resourceCulture);
+				object obj = ResourceManager.GetObject( "close", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -95,7 +92,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap close_selected {
 			get {
-				object obj = ResourceManager.GetObject("close_selected", resourceCulture);
+				object obj = ResourceManager.GetObject( "close_selected", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -105,7 +102,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap inactive_close {
 			get {
-				object obj = ResourceManager.GetObject("inactive_close", resourceCulture);
+				object obj = ResourceManager.GetObject( "inactive_close", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -115,7 +112,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap inactive_close_selected {
 			get {
-				object obj = ResourceManager.GetObject("inactive_close_selected", resourceCulture);
+				object obj = ResourceManager.GetObject( "inactive_close_selected", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -125,7 +122,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap tw_active_close {
 			get {
-				object obj = ResourceManager.GetObject("tw_active_close", resourceCulture);
+				object obj = ResourceManager.GetObject( "tw_active_close", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -135,7 +132,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap tw_active_close_selected {
 			get {
-				object obj = ResourceManager.GetObject("tw_active_close_selected", resourceCulture);
+				object obj = ResourceManager.GetObject( "tw_active_close_selected", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -145,7 +142,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap tw_close {
 			get {
-				object obj = ResourceManager.GetObject("tw_close", resourceCulture);
+				object obj = ResourceManager.GetObject( "tw_close", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}
@@ -155,7 +152,7 @@ namespace DarkUI {
 		/// </summary>
 		internal static System.Drawing.Bitmap tw_close_selected {
 			get {
-				object obj = ResourceManager.GetObject("tw_close_selected", resourceCulture);
+				object obj = ResourceManager.GetObject( "tw_close_selected", resourceCulture );
 				return ((System.Drawing.Bitmap)(obj));
 			}
 		}

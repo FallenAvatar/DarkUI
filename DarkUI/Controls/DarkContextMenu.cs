@@ -1,6 +1,6 @@
-﻿using DarkUI.Renderers;
+﻿using System.Windows.Forms;
 
-using System.Windows.Forms;
+using DarkUI.Renderers;
 
 namespace DarkUI.Controls {
 	public class DarkContextMenu : ContextMenuStrip {

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace DarkUI.Docking {
-	[ToolboxItem(false)]
+	[ToolboxItem( false )]
 	public class DarkDockContent : UserControl {
 		#region Event Handler Region
 
@@ -21,8 +21,8 @@ namespace DarkUI.Docking {
 
 		#region Property Region
 
-		[Category("Appearance")]
-		[Description("Determines the text that will appear in the content tabs and headers.")]
+		[Category( "Appearance" )]
+		[Description( "Determines the text that will appear in the content tabs and headers." )]
 		public string? DockText {
 			get { return _dockText; }
 			set {
@@ -30,14 +30,14 @@ namespace DarkUI.Docking {
 
 				_dockText = value;
 
-				DockTextChanged?.Invoke(this, EventArgs.Empty);
+				DockTextChanged?.Invoke( this, EventArgs.Empty );
 
 				Invalidate();
 			}
 		}
 
-		[Category("Appearance")]
-		[Description("Determines the icon that will appear in the content tabs and headers.")]
+		[Category( "Appearance" )]
+		[Description( "Determines the icon that will appear in the content tabs and headers." )]
 		public Image? Icon {
 			get { return _icon; }
 			set {
@@ -46,33 +46,33 @@ namespace DarkUI.Docking {
 			}
 		}
 
-		[Category("Layout")]
-		[Description("Determines the default area of the dock panel this content will be added to.")]
-		[DefaultValue(DarkDockArea.Document)]
+		[Category( "Layout" )]
+		[Description( "Determines the default area of the dock panel this content will be added to." )]
+		[DefaultValue( DarkDockArea.Document )]
 		public DarkDockArea DefaultDockArea { get; set; }
 
-		[Category("Behavior")]
-		[Description("Determines the key used by this content in the dock serialization.")]
+		[Category( "Behavior" )]
+		[Description( "Determines the key used by this content in the dock serialization." )]
 		public string? SerializationKey { get; set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockPanel? DockPanel { get; internal set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockRegion? DockRegion { get; internal set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockGroup? DockGroup { get; internal set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public DarkDockArea DockArea { get; set; }
 
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable( false )]
+		[DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
 		public int? Order { get; set; }
 
 		#endregion
@@ -89,15 +89,15 @@ namespace DarkUI.Docking {
 
 		public virtual void Close() {
 			if( DockPanel != null )
-				DockPanel.RemoveContent(this);
+				DockPanel.RemoveContent( this );
 		}
 
 		#endregion
 
 		#region Event Handler Region
 
-		protected override void OnEnter(EventArgs e) {
-			base.OnEnter(e);
+		protected override void OnEnter( EventArgs e ) {
+			base.OnEnter( e );
 
 			if( DockPanel == null )
 				return;

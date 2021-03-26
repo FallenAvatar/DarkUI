@@ -1,7 +1,7 @@
-﻿using DarkUI.Renderers;
-
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Renderers;
 
 namespace DarkUI.Controls {
 	public class DarkToolStrip : ToolStrip {
@@ -9,9 +9,9 @@ namespace DarkUI.Controls {
 
 		public DarkToolStrip() {
 			Renderer = new DarkToolStripRenderer();
-			Padding = new Padding(5, 0, 1, 0);
+			Padding = new Padding( 5, 0, 1, 0 );
 			AutoSize = false;
-			Size = new Size(1, 28);
+			Size = new Size( 1, 28 );
 		}
 
 		#endregion

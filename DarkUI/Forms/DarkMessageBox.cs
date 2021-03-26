@@ -1,9 +1,9 @@
-﻿using DarkUI.Icons;
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+
+using DarkUI.Icons;
 
 namespace DarkUI.Forms {
 	public partial class DarkMessageBox : DarkDialog {
@@ -16,8 +16,8 @@ namespace DarkUI.Forms {
 
 		#region Property Region
 
-		[Description("Determines the maximum width of the message box when it autosizes around the displayed message.")]
-		[DefaultValue(350)]
+		[Description( "Determines the maximum width of the message box when it autosizes around the displayed message." )]
+		[DefaultValue( 350 )]
 		public int MaximumWidth {
 			get { return _maximumWidth; }
 			set {
@@ -36,45 +36,45 @@ namespace DarkUI.Forms {
 			_message = "Message goes here";
 		}
 
-		public DarkMessageBox(string message, string title, DarkMessageBoxIcon icon, DarkDialogButton buttons)
+		public DarkMessageBox( string message, string title, DarkMessageBoxIcon icon, DarkDialogButton buttons )
 			: this() {
 			Text = title;
 			_message = message;
 
 			DialogButtons = buttons;
-			SetIcon(icon);
+			SetIcon( icon );
 		}
 
-		public DarkMessageBox(string message)
-			: this(message, "Title goes here", DarkMessageBoxIcon.None, DarkDialogButton.Ok) { }
+		public DarkMessageBox( string message )
+			: this( message, "Title goes here", DarkMessageBoxIcon.None, DarkDialogButton.Ok ) { }
 
-		public DarkMessageBox(string message, string title)
-			: this(message, title, DarkMessageBoxIcon.None, DarkDialogButton.Ok) { }
+		public DarkMessageBox( string message, string title )
+			: this( message, title, DarkMessageBoxIcon.None, DarkDialogButton.Ok ) { }
 
-		public DarkMessageBox(string message, string title, DarkDialogButton buttons)
-			: this(message, title, DarkMessageBoxIcon.None, buttons) { }
+		public DarkMessageBox( string message, string title, DarkDialogButton buttons )
+			: this( message, title, DarkMessageBoxIcon.None, buttons ) { }
 
-		public DarkMessageBox(string message, string title, DarkMessageBoxIcon icon)
-			: this(message, title, icon, DarkDialogButton.Ok) { }
+		public DarkMessageBox( string message, string title, DarkMessageBoxIcon icon )
+			: this( message, title, icon, DarkDialogButton.Ok ) { }
 
 		#endregion
 
 		#region Static Method Region
 
-		public static DialogResult ShowInformation(string message, string caption, DarkDialogButton buttons = DarkDialogButton.Ok) {
-			return ShowDialog(message, caption, DarkMessageBoxIcon.Information, buttons);
+		public static DialogResult ShowInformation( string message, string caption, DarkDialogButton buttons = DarkDialogButton.Ok ) {
+			return ShowDialog( message, caption, DarkMessageBoxIcon.Information, buttons );
 		}
 
-		public static DialogResult ShowWarning(string message, string caption, DarkDialogButton buttons = DarkDialogButton.Ok) {
-			return ShowDialog(message, caption, DarkMessageBoxIcon.Warning, buttons);
+		public static DialogResult ShowWarning( string message, string caption, DarkDialogButton buttons = DarkDialogButton.Ok ) {
+			return ShowDialog( message, caption, DarkMessageBoxIcon.Warning, buttons );
 		}
 
-		public static DialogResult ShowError(string message, string caption, DarkDialogButton buttons = DarkDialogButton.Ok) {
-			return ShowDialog(message, caption, DarkMessageBoxIcon.Error, buttons);
+		public static DialogResult ShowError( string message, string caption, DarkDialogButton buttons = DarkDialogButton.Ok ) {
+			return ShowDialog( message, caption, DarkMessageBoxIcon.Error, buttons );
 		}
 
-		private static DialogResult ShowDialog(string message, string caption, DarkMessageBoxIcon icon, DarkDialogButton buttons) {
-			using var dlg = new DarkMessageBox(message, caption, icon, buttons);
+		private static DialogResult ShowDialog( string message, string caption, DarkMessageBoxIcon icon, DarkDialogButton buttons ) {
+			using var dlg = new DarkMessageBox( message, caption, icon, buttons );
 			return dlg.ShowDialog();
 		}
 
@@ -82,7 +82,7 @@ namespace DarkUI.Forms {
 
 		#region Method Region
 
-		private void SetIcon(DarkMessageBoxIcon icon) {
+		private void SetIcon( DarkMessageBoxIcon icon ) {
 			switch( icon ) {
 			case DarkMessageBoxIcon.None:
 				picIcon.Visible = false;
@@ -104,14 +104,14 @@ namespace DarkUI.Forms {
 			var width = 260; var height = 124;
 
 			// Reset form back to original size
-			Size = new Size(width, height);
+			Size = new Size( width, height );
 
 			lblText.Text = string.Empty;
 			lblText.AutoSize = true;
 			lblText.Text = _message;
 
 			// Set the minimum dialog size to whichever is bigger - the original size or the buttons.
-			var minWidth = Math.Max(width, TotalButtonSize + 15);
+			var minWidth = Math.Max( width, TotalButtonSize + 15 );
 
 			// Calculate the total size of the message
 			var totalWidth = lblText.Right + 25;
@@ -138,15 +138,15 @@ namespace DarkUI.Forms {
 				width = minWidth;
 
 			// Set the new size of the dialog
-			Size = new Size(width, height);
+			Size = new Size( width, height );
 		}
 
 		#endregion
 
 		#region Event Handler Region
 
-		protected override void OnLoad(EventArgs e) {
-			base.OnLoad(e);
+		protected override void OnLoad( EventArgs e ) {
+			base.OnLoad( e );
 
 			CalculateSize();
 		}

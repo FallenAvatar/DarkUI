@@ -1,6 +1,6 @@
-﻿using DarkUI.Renderers;
+﻿using System.Windows.Forms;
 
-using System.Windows.Forms;
+using DarkUI.Renderers;
 
 namespace DarkUI.Controls {
 	public class DarkMenuStrip : MenuStrip {
@@ -8,7 +8,7 @@ namespace DarkUI.Controls {
 
 		public DarkMenuStrip() {
 			Renderer = new DarkMenuRenderer();
-			Padding = new Padding(3, 2, 0, 2);
+			Padding = new Padding( 3, 2, 0, 2 );
 		}
 
 		#endregion
