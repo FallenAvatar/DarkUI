@@ -138,7 +138,7 @@ namespace DarkUI.Controls {
 		#region Constructor Region
 
 		public DarkTreeView() {
-			_nodes = new ObservableList<DarkTreeNode>();
+			Nodes = new ObservableList<DarkTreeNode>();
 			_selectedNodes = new ObservableCollection<DarkTreeNode>();
 			_selectedNodes.CollectionChanged += SelectedNodes_CollectionChanged;
 
@@ -484,6 +484,10 @@ namespace DarkUI.Controls {
 				UnhookNodeEvents( childNode );
 		}
 
+		public void ForceRefresh() {
+			UpdateNodes();
+		}
+
 		private void UpdateNodes() {
 			if( IsDragging )
 				return;
@@ -681,11 +685,14 @@ namespace DarkUI.Controls {
 
 		private void CheckNodeDoubleClick( DarkTreeNode node, Point location ) {
 			var rect = GetNodeFullRowArea( node );
-			if( rect.Contains( location ) ) {
-				if( !node.ExpandArea.Contains( location ) )
-					node.Expanded = !node.Expanded;
-
+			if( node.ExpandArea.Contains( location ) )
 				return;
+
+			if( rect.Contains( location ) ) {
+				if( node.Nodes.Count > 0 )
+					node.Expanded = !node.Expanded;
+				else
+					node.OnDoubleClicked();
 			}
 
 			if( node.Expanded ) {
@@ -697,6 +704,7 @@ namespace DarkUI.Controls {
 		public void SelectNode( DarkTreeNode node ) {
 			_selectedNodes.Clear();
 			_selectedNodes.Add( node );
+			node.OnSelected();
 
 			_anchoredNodeStart = node;
 			_anchoredNodeEnd = node;

@@ -14,6 +14,8 @@ namespace DarkUI.Controls {
 		public event EventHandler? TextChanged;
 		public event EventHandler? NodeExpanded;
 		public event EventHandler? NodeCollapsed;
+		public event EventHandler? NodeDoubleClicked;
+		public event EventHandler? NodeSelected;
 
 		#endregion
 
@@ -80,14 +82,14 @@ namespace DarkUI.Controls {
 		public ObservableList<DarkTreeNode> Nodes {
 			get { return _nodes; }
 			set {
-				if( _nodes.Count > 0 ) {
+				if( _nodes?.Count > 0 ) {
 					_nodes.ItemsAdded -= Nodes_ItemsAdded;
 					_nodes.ItemsRemoved -= Nodes_ItemsRemoved;
 				}
 
 				_nodes = value;
 
-				if( _nodes.Count > 0 ) {
+				if( _nodes?.Count > 0 ) {
 					_nodes.ItemsAdded += Nodes_ItemsAdded;
 					_nodes.ItemsRemoved += Nodes_ItemsRemoved;
 				}
@@ -160,7 +162,7 @@ namespace DarkUI.Controls {
 		#region Constructor Region
 
 		public DarkTreeNode() {
-			_nodes = new ObservableList<DarkTreeNode>();
+			Nodes = new ObservableList<DarkTreeNode>();
 		}
 
 		public DarkTreeNode( string text )
@@ -191,6 +193,14 @@ namespace DarkUI.Controls {
 		#endregion
 
 		#region Event Handler Region
+
+		public void OnSelected() {
+			NodeSelected?.Invoke( this, EventArgs.Empty );
+		}
+
+		public void OnDoubleClicked() {
+			NodeDoubleClicked?.Invoke( this, EventArgs.Empty );
+		}
 
 		private void OnTextChanged() {
 			if( ParentTree != null && ParentTree.TreeViewNodeSorter != null ) {
